@@ -5,10 +5,16 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 
 	private Rigidbody2D charRigid2D;
-	public int Speed = 10;
+	public int Speed = 1000;
+    public int JumpSpeed = 3;
+    public int AxisSpeed = 3;
 	public int MaxNumberOfShots = 3;
 	public int NumberOfShots = 0;
 	public float ShotSpeed = 40;
+    public bool Jumped;
+    public float JumpTime = 0;
+    public float SetJumpTime = 0.1f;
+    public float JumpDelay = 0;
 
 	public GameObject Bullet;
 	public Rigidbody2D ReturnPlayerPos(){
@@ -41,11 +47,34 @@ public class Movement : MonoBehaviour {
 
 	void Move()
 	{
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
-		
-		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
+	    var movement = charRigid2D.velocity;
+        movement.x = Input.GetAxisRaw("Horizontal") * AxisSpeed;
+        movement.y = Input.GetAxisRaw("Vertical") * AxisSpeed;
+
+	    JumpDelay += Time.deltaTime;
+	    if (!Jumped && JumpDelay > 0.5f) // Har man inte hoppat och hoppat inom 0.5 sek?
+	    {
+	        if (Input.GetButton("Jump")) // Trycker man space, sätt Jumped till sant och hopp delayen till 0
+	        {
+	            Jumped = true;
+	            JumpDelay = 0;
+	        }
+	    }
+
+	    if (Jumped) // Har man tryckt hoppa
+	    {
+	        movement = movement*2; // Dubbla hastigheten på spelaren
+	        JumpTime += Time.deltaTime; // Räkna tiden som hoppet hållt på
+            if (JumpTime >= SetJumpTime) // Om tiden är större än tiden hoppet ska hålla på, sätt hoppet till false och hopptiden till 0
+	        {
+	            Jumped = false;
+	            JumpTime = 0;
+	        }
+	    }
+
 		charRigid2D.velocity = movement * Speed;
+
+        
 	}
 
 	void Direction()
