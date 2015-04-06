@@ -4,7 +4,7 @@ using System.Collections;
 public class SlidingDoorScript : MonoBehaviour
 {
 
-    private bool IsOpen;
+    private bool IsOpen = false;
     private bool Opening;
     private bool Closing;
 
@@ -23,11 +23,12 @@ public class SlidingDoorScript : MonoBehaviour
         if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Entered - Sliding Doors");
+            if (!IsOpen)
+            {
+                Opening = true;
+            }
         }
-        if (!IsOpen)
-        {
-            Opening = true;
-        }
+        
     }
 
     void OnTriggerStay2D(Collider2D collissionobject)
@@ -44,12 +45,13 @@ public class SlidingDoorScript : MonoBehaviour
         if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Leaving - Sliding Doors");
+            if (IsOpen)
+            {
+                Closing = true;
+
+            }
         }
-        if (IsOpen)
-        {
-            Closing = true;
-           
-        }
+        
     }
 	
 	// Update is called once per frame

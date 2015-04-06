@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("Hej");
+        Debug.Log("Collision");
         Destroy(gameObject);
     }
 
