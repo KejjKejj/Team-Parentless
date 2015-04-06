@@ -20,6 +20,12 @@ public class Bullet : MonoBehaviour {
         Debug.Log(angle.ToString());
 	}
 
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        Debug.Log("Hej");
+        Destroy(gameObject);
+    }
+
 	// Update is called once per frame
 	void Update () {
 
