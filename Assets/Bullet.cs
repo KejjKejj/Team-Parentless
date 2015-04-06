@@ -20,8 +20,6 @@ public class Bullet : MonoBehaviour {
         Debug.Log(angle.ToString());
 	}
 
-
-
 	// Update is called once per frame
 	void Update () {
 
