@@ -2,16 +2,22 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
+
 	public float speed = 20;
+
 	Rigidbody2D Bulletbody2d = new Rigidbody2D();
+
 	// Use this for initialization
 	void Start () {
 		Bulletbody2d = GetComponent<Rigidbody2D> ();
-		Vector3 player = GameObject.FindGameObjectWithTag ("Player").transform.position;
-//		float deltaX = Input.mousePosition.x - player.x;
-//		float deltaY = Input.mousePosition.y - player.y;
-		Bulletbody2d.velocity = new Vector2 (Input.mousePosition.x,Input.mousePosition.y);
 
+	    float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
+        float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
+
+	    float angle = Mathf.Atan2(deltaY, deltaX);
+
+        Bulletbody2d.velocity = new Vector2(Mathf.Cos(angle) * speed, Mathf.Sin(angle) * speed);
+        Debug.Log(angle.ToString());
 	}
 
 

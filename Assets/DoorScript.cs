@@ -25,17 +25,17 @@ public class DoorScript : MonoBehaviour
 	    DoorCollider = gameObject.GetComponent<BoxCollider2D>();
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collissionobject)
     {
-        if (other.gameObject.tag == "Player")
+        if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Entered");
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D collissionobject)
     {
-        if (other.gameObject.tag == "Player")
+        if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Staying");
             
@@ -62,9 +62,9 @@ public class DoorScript : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D collissionobject)
     {
-        if (other.gameObject.tag == "Player")
+        if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Leaving");
         }
