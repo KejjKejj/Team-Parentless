@@ -69,7 +69,7 @@ public class M4 : Weapon
 
         float angle = Mathf.Atan2(deltaY, deltaX);
 
-        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
+        transform.position = new Vector3(Player.transform.position.x + (Mathf.Cos(angle - 90) / 3), Player.transform.position.y + (Mathf.Sin(angle - 90) / 3), Player.transform.position.z);
 
         transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
 
