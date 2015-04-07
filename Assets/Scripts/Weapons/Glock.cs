@@ -8,7 +8,8 @@ public class Glock : Weapon
 
     public GameObject Bullet;
 
-    private Rigidbody2D rbody2d;
+    public GameObject obj;
+    protected Movement Player;
 
 	// Use this for initialization
 	void Start ()
@@ -17,7 +18,7 @@ public class Glock : Weapon
 	    MagSize = 12;
 	    CurrentAmmo = MagSize;
 	    Automatic = false;
-	    rbody2d = GetComponent<Rigidbody2D>();
+        Player = obj.GetComponent<Movement>();
 	}
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -35,12 +36,15 @@ public class Glock : Weapon
             Debug.Log("Player Staying - Weapon - M4");
 
         }
-        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay)
+        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay && !Player.CarryingWeapon)
         {
             Debug.Log("Player pressed E - Weapon");
             IsPickedUp = true;
             SetPositionToPlayer = true;
             PickUpDelayTimer = 0;
+
+            Player.CarryingWeapon = true;
+            Debug.Log(Player.CarryingWeapon + " M4");
         }
     }
 
@@ -60,7 +64,10 @@ public class Glock : Weapon
         Vector3 CharPos = new Vector3(Player.transform.position.x, Player.transform.position.y);
         transform.rotation = Quaternion.LookRotation(Vector3.forward, MousePos - CharPos);
 
-        
+        float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
+        float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
+
+        float angle = Mathf.Atan2(deltaY, deltaX);
 
         transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z);
 
@@ -86,17 +93,13 @@ public class Glock : Weapon
             DropDelayTimer += Time.deltaTime;
         }
 
-        if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay)
+        if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay && Player.CarryingWeapon)
         {
             Debug.Log("Player pressed Weapon - Drop Weapon");
             IsPickedUp = false;
             DropDelayTimer = 0;
 
-            float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
-            float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
-
-            float angle = Mathf.Atan2(deltaY, deltaX);
-            rbody2d.AddForce(new Vector2(Mathf.Cos(angle) * 50, Mathf.Sin(angle) * 50));
+            Player.CarryingWeapon = false;
         }
 
         if (!IsPickedUp)

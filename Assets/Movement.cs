@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour {
 
 	public GameObject Bullet;
 
-    public bool CarryingWeapon = false;
+    public bool CarryingWeapon;
 
 	public Rigidbody2D ReturnPlayerPos(){
 		return charRigid2D;
@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		charRigid2D = GetComponent<Rigidbody2D> ();
+	    CarryingWeapon = false;
 	}
 
     //void Shot()

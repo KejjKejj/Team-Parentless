@@ -8,6 +8,9 @@ public class M4 : Weapon
 
     public GameObject Bullet;
 
+    public GameObject obj;
+    protected Movement Player;
+
     // Use this for initialization
     void Start()
     {
@@ -15,6 +18,7 @@ public class M4 : Weapon
         MagSize = 30;
         CurrentAmmo = MagSize;
         Automatic = true;
+        Player = obj.GetComponent<Movement>();
     }
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -32,12 +36,15 @@ public class M4 : Weapon
             Debug.Log("Player Staying - Weapon - M4");
 
         }
-        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay)
+        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay && !Player.CarryingWeapon)
         {
             Debug.Log("Player pressed E - Weapon");
             IsPickedUp = true;
             SetPositionToPlayer = true;
             PickUpDelayTimer = 0;
+
+            Player.CarryingWeapon = true;
+            Debug.Log(Player.CarryingWeapon + " M4");
         }
     }
 
@@ -86,11 +93,13 @@ public class M4 : Weapon
             DropDelayTimer += Time.deltaTime;
         }
 
-        if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay)
+        if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay && Player.CarryingWeapon)
         {
             Debug.Log("Player pressed Weapon - Drop Weapon");
             IsPickedUp = false;
             DropDelayTimer = 0;
+
+            Player.CarryingWeapon = false;
         }
 
         if (!IsPickedUp)
