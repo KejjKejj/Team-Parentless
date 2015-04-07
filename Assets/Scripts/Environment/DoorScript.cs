@@ -38,28 +38,29 @@ public class DoorScript : MonoBehaviour
         if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Staying");
-            
-        }
-        if (Input.GetButton("Interact"))
-        {
-            Debug.Log("Player pressed E");
-            if (ClickDelay >= DoorOpenDelay)
+
+            if (Input.GetButton("Interact"))
             {
-                if (DoorOpen)
+                Debug.Log("Player pressed E - Door");
+                if (ClickDelay >= DoorOpenDelay)
                 {
-                    DoorSwinging = true;
-                    DoorOpen = false;
-                    
+                    if (DoorOpen)
+                    {
+                        DoorSwinging = true;
+                        DoorOpen = false;
+
+                    }
+                    else
+                    {
+                        DoorSwinging = true;
+                        DoorOpen = true;
+
+                    }
+                    ClickDelay = 0;
                 }
-                else
-                {
-                    DoorSwinging = true;
-                    DoorOpen = true;
-                    
-                }
-                ClickDelay = 0;
             }
         }
+        
     }
 
     void OnTriggerExit2D(Collider2D collissionobject)

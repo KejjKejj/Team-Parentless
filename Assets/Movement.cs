@@ -17,6 +17,9 @@ public class Movement : MonoBehaviour {
     public float JumpDelay = 0;
 
 	public GameObject Bullet;
+
+    public bool CarryingWeapon = false;
+
 	public Rigidbody2D ReturnPlayerPos(){
 		return charRigid2D;
 	}
@@ -26,14 +29,14 @@ public class Movement : MonoBehaviour {
 		charRigid2D = GetComponent<Rigidbody2D> ();
 	}
 
-	void Shot()
-    {
+    //void Shot()
+    //{
 
-		if (Input.GetMouseButtonDown (0))
-        {
-			Instantiate(Bullet, transform.position, transform.rotation);
-		}
-	}
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        Instantiate(Bullet, transform.position, transform.rotation);
+    //    }
+    //}
 
 	void Move()
 	{
@@ -79,7 +82,7 @@ public class Movement : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		Shot ();
+		//Shot ();
 		Move ();
 		Direction ();
 	}

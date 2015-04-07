@@ -4,7 +4,7 @@ using System.Collections;
 public class MyCamera : MonoBehaviour {
 
 	private Rigidbody2D Charrigidbody2d;
-	public int DistFromPlayer = 10;
+	public int DistFromPlayer = 50;
 	// Use this for initialization
 	void Start () {
 	

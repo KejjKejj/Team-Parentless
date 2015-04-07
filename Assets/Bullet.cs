@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
-	public float speed = 20;
+	public float speed = 40;
 
 	Rigidbody2D Bulletbody2d = new Rigidbody2D();
 
@@ -17,12 +17,11 @@ public class Bullet : MonoBehaviour {
 	    float angle = Mathf.Atan2(deltaY, deltaX);
 
         Bulletbody2d.velocity = new Vector2(Mathf.Cos(angle) * speed, Mathf.Sin(angle) * speed);
-        Debug.Log(angle.ToString());
 	}
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("Collision");
+        Debug.Log("Collision with wall");
         Destroy(gameObject);
     }
 
