@@ -7,6 +7,7 @@ public class Glock : Weapon
     public int CurrentAmmo;
 
     public GameObject Bullet;
+    public GameObject ShellObj;
     public GameObject obj;
 
     protected Movement Player;
@@ -97,6 +98,10 @@ public class Glock : Weapon
         }
     }
 
+    void Shellspread()
+    {
+        Instantiate(ShellObj, transform.position, Quaternion.identity);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -142,6 +147,7 @@ public class Glock : Weapon
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
                     Audio2.clip = Shell;
+                    Shellspread();
                     Audio2.PlayDelayed(0.2f);
                 }
             }
@@ -157,6 +163,7 @@ public class Glock : Weapon
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
                     Audio2.clip = Shell;
+                    Shellspread();
                     Audio2.PlayDelayed(0.2f);
                 }
             }
@@ -169,6 +176,7 @@ public class Glock : Weapon
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
                     Audio2.PlayOneShot(Shell);
+                    Shellspread();
                 }
             }
         }

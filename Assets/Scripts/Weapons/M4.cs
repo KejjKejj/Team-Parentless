@@ -8,6 +8,7 @@ public class M4 : Weapon
 
     public GameObject Bullet;
     public GameObject obj;
+    public GameObject ShellObj;
 
     protected Movement Player;
 
@@ -97,6 +98,10 @@ public class M4 : Weapon
         }
     }
 
+    void Shellspread()
+    {
+        Instantiate(ShellObj, transform.position, Quaternion.identity);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -144,6 +149,7 @@ public class M4 : Weapon
                     Audio1.clip = Shot;
                     Audio1.Play();
                     Audio2.clip = Shell;
+                    Shellspread();
                     Audio2.PlayDelayed(0.2f);
                 }
             }
@@ -161,6 +167,7 @@ public class M4 : Weapon
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
                     Audio2.clip = Shell;
+                    Shellspread();
                     Audio2.PlayDelayed(0.2f);
                 }
             }
@@ -173,6 +180,7 @@ public class M4 : Weapon
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
                     Audio2.PlayOneShot(Shell);
+                    Shellspread();
                 }
             }
         }
