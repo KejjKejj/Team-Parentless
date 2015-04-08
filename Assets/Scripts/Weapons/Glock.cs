@@ -7,12 +7,15 @@ public class Glock : Weapon
     public int CurrentAmmo;
 
     public GameObject Bullet;
-
     public GameObject obj;
+
     protected Movement Player;
 
-    private AudioSource Audio;
+    private AudioSource[] AudioSources;
+    private AudioSource Audio1;
+    private AudioSource Audio2;
     public AudioClip Shot;
+    public AudioClip Shell;
 
 	// Use this for initialization
 	void Start ()
@@ -22,7 +25,9 @@ public class Glock : Weapon
 	    CurrentAmmo = MagSize;
 	    Automatic = false;
         Player = obj.GetComponent<Movement>();
-	    Audio = GetComponent<AudioSource>();
+	    AudioSources = GetComponents<AudioSource>();
+	    Audio1 = AudioSources[0];
+	    Audio2 = AudioSources[1];
 	}
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -135,7 +140,9 @@ public class Glock : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
-                    Audio.PlayOneShot(Shot);
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
         }
@@ -148,6 +155,9 @@ public class Glock : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
             if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
@@ -157,6 +167,8 @@ public class Glock : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.PlayOneShot(Shell);
                 }
             }
         }

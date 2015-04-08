@@ -7,18 +7,27 @@ public class M4 : Weapon
     public int CurrentAmmo;
 
     public GameObject Bullet;
-
     public GameObject obj;
+
     protected Movement Player;
+
+    private AudioSource[] AudioSources;
+    private AudioSource Audio1;
+    private AudioSource Audio2;
+    public AudioClip Shot;
+    public AudioClip Shell;
 
     // Use this for initialization
     void Start()
     {
-        FireRate = 0.05f;
+        FireRate = 0.1f;
         MagSize = 30;
         CurrentAmmo = MagSize;
         Automatic = true;
         Player = obj.GetComponent<Movement>();
+        AudioSources = GetComponents<AudioSource>();
+        Audio1 = AudioSources[0];
+        Audio2 = AudioSources[1];
     }
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -132,6 +141,10 @@ public class M4 : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
+                    Audio1.clip = Shot;
+                    Audio1.Play();
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
         }
@@ -146,6 +159,9 @@ public class M4 : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
             if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
@@ -155,6 +171,8 @@ public class M4 : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.PlayOneShot(Shell);
                 }
             }
         }
