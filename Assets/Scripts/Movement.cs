@@ -78,6 +78,19 @@ public class Movement : MonoBehaviour {
         {
             NumberOfShots = 0;
         }
+        if (coll.gameObject.tag == "BossShot")
+        {
+            if (Health < 1)
+            {
+                Destroy(gameObject);
+                Application.LoadLevel("Meny");
+            }
+
+            else
+            {
+                Health -= 10;
+            }
+        }
     }
 	void Direction()
 	{
@@ -88,7 +101,7 @@ public class Movement : MonoBehaviour {
 
 	}
 
-
+    
 	// Update is called once per frame
 	void FixedUpdate () {
 		//Shot ();

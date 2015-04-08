@@ -61,7 +61,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     
 
-    void SprayBlood()
+    public void SprayBlood()
     {
         Bloodspatter = new GameObject[20];
         for (int i = 0; i < Bloodspatter.Length; i++)
@@ -72,7 +72,7 @@ public class EnemyBehaviour : MonoBehaviour {
         }
     }
 
-
+    
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
