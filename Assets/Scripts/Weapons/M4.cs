@@ -27,6 +27,10 @@ public class M4 : Weapon
         {
             Debug.Log("Player Entered - Weapon pickuparea - M4");
         }
+        if (collissionobject.gameObject.tag == "Ammocrate")
+        {
+            CurrentAmmo = MagSize;
+        }
     }
 
     void OnTriggerStay2D(Collider2D collissionobject)
@@ -76,6 +80,14 @@ public class M4 : Weapon
 
     }
 
+    void OnGUI()
+    {
+        if (IsPickedUp)
+        {
+            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -110,35 +122,42 @@ public class M4 : Weapon
 
         // För att skjuta
         FireRateTimer += Time.deltaTime;
+        // Icke autovapen, pistoler etc
         if (!Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
         }
+
+        // Automat-vapen
         if (Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButton(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
         }
+
     }
 }

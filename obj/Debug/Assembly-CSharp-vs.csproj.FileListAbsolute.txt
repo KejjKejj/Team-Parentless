@@ -10,20 +10,4 @@ C:\Users\Viktor\Team-Parentless\Temp\bin\Debug\ICSharpCode.NRefactory.dll
 C:\Users\Viktor\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp.dll
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
-<<<<<<< HEAD
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.pdb
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\UnityEditor.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\UnityEngine.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\UnityEngine.UI.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Mono.Cecil.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Unity.SerializationLogic.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Unity.DataContract.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\ICSharpCode.NRefactory.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
-C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp.dll
-C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
-=======
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
->>>>>>> 16637f151176ed84ace06d5b0594d23569acc31b

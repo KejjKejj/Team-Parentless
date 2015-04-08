@@ -27,6 +27,10 @@ public class Glock : Weapon
         {
             Debug.Log("Player Entered - Weapon pickuparea - M4");
         }
+        if (collissionobject.gameObject.tag == "Ammocrate")
+        {
+            CurrentAmmo = MagSize;
+        }
     }
 
     void OnTriggerStay2D(Collider2D collissionobject)
@@ -76,6 +80,14 @@ public class Glock : Weapon
 
     }
 
+    void OnGUI()
+    {
+        if (IsPickedUp)
+        {
+            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -112,33 +124,37 @@ public class Glock : Weapon
         FireRateTimer += Time.deltaTime;
         if (!Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
         }
         if (Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButton(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
                 }
             }
         }
+        
     }
 }

@@ -72,13 +72,8 @@ public class Movement : MonoBehaviour {
 	}
 
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.gameObject.tag == "Ammocrate")
-        {
-            NumberOfShots = 0;
-        }
-    }
+    
+
 	void Direction()
 	{
 		Vector3 MousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
