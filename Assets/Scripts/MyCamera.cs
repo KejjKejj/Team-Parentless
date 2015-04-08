@@ -8,10 +8,13 @@ public class MyCamera : MonoBehaviour {
     public int Ammo;
     public Texture tex;
     
-	// Use this for initialization
+
+
+
 	void Start () {
         
 	}
+
     int GetAmmo()
     {
         return GameObject.Find("Character").GetComponent<Movement>().MaxNumberOfShots - GameObject.Find("Character").GetComponent<Movement>().NumberOfShots;

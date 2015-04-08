@@ -10,4 +10,3 @@ C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\ICSharpCode.NRefacto
 C:\Users\Måns\Desktop\Unity\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
 C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp.dll
 C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
-C:\Users\Måns\Desktop\Unity\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache

@@ -72,12 +72,10 @@ public class Movement : MonoBehaviour {
 	}
 
 
+
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Ammocrate")
-        {
-            NumberOfShots = 0;
-        }
+        
         if (coll.gameObject.tag == "BossShot")
         {
             if (Health < 1)
@@ -92,6 +90,10 @@ public class Movement : MonoBehaviour {
             }
         }
     }
+
+    
+
+
 	void Direction()
 	{
 		Vector3 MousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);

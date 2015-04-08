@@ -7,9 +7,15 @@ public class Glock : Weapon
     public int CurrentAmmo;
 
     public GameObject Bullet;
-
     public GameObject obj;
+
     protected Movement Player;
+
+    private AudioSource[] AudioSources;
+    private AudioSource Audio1;
+    private AudioSource Audio2;
+    public AudioClip Shot;
+    public AudioClip Shell;
 
 	// Use this for initialization
 	void Start ()
@@ -19,6 +25,9 @@ public class Glock : Weapon
 	    CurrentAmmo = MagSize;
 	    Automatic = false;
         Player = obj.GetComponent<Movement>();
+	    AudioSources = GetComponents<AudioSource>();
+	    Audio1 = AudioSources[0];
+	    Audio2 = AudioSources[1];
 	}
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -26,6 +35,10 @@ public class Glock : Weapon
         if (collissionobject.gameObject.tag == "Player")
         {
             Debug.Log("Player Entered - Weapon pickuparea - M4");
+        }
+        if (collissionobject.gameObject.tag == "Ammocrate")
+        {
+            CurrentAmmo = MagSize;
         }
     }
 
@@ -76,6 +89,14 @@ public class Glock : Weapon
 
     }
 
+    void OnGUI()
+    {
+        if (IsPickedUp)
+        {
+            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -112,33 +133,45 @@ public class Glock : Weapon
         FireRateTimer += Time.deltaTime;
         if (!Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
         }
         if (Automatic)
         {
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.clip = Shell;
+                    Audio2.PlayDelayed(0.2f);
                 }
             }
-            if (IsPickedUp && FireRateTimer >= FireRate)
+            if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
             {
                 if (Input.GetMouseButton(0))
                 {
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
+                    CurrentAmmo--;
+                    Audio1.PlayOneShot(Shot);
+                    Audio2.PlayOneShot(Shell);
                 }
             }
         }
+        
     }
 }
