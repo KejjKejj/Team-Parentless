@@ -37,7 +37,7 @@ public class MyCamera : MonoBehaviour {
     void OnGUI()
     {
         GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());
-        GUI.TextField(new Rect(100, 570, 85, 20),"Ammo: " + GetAmmo().ToString() + "/30");
+        
         
         showBossHealth();
         
