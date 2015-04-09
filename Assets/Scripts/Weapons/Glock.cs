@@ -9,7 +9,7 @@ public class Glock : Weapon
     public GameObject Bullet;
     public GameObject ShellObj;
     public GameObject obj;
-
+    public GameObject GunFlashLight;
     protected Movement Player;
 
     private AudioSource[] AudioSources;
@@ -17,6 +17,7 @@ public class Glock : Weapon
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
+    public float Recoil = 0;
 
 	// Use this for initialization
 	void Start ()
@@ -102,6 +103,13 @@ public class Glock : Weapon
     {
         Instantiate(ShellObj, transform.position, Quaternion.identity);
     }
+
+    void GunFlash()
+    {
+        gameObject.GetComponent<Weapon>().Shake = true;
+        Instantiate(GunFlashLight, transform.position, Quaternion.identity);
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -146,6 +154,7 @@ public class Glock : Weapon
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
+                    GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
                     Audio2.PlayDelayed(0.2f);
@@ -162,6 +171,7 @@ public class Glock : Weapon
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
+                    GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
                     Audio2.PlayDelayed(0.2f);
@@ -175,6 +185,7 @@ public class Glock : Weapon
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
+                    GunFlash();
                     Audio2.PlayOneShot(Shell);
                     Shellspread();
                 }

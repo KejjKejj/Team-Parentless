@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
     protected bool Automatic;
 
     protected int MagSize;
-
+    public bool Shake;
     
 
 	// Use this for initialization

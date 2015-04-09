@@ -9,20 +9,23 @@ public class M4 : Weapon
     public GameObject Bullet;
     public GameObject obj;
     public GameObject ShellObj;
-
+    public GameObject GunFlashLight;
     protected Movement Player;
-
+    
     private AudioSource[] AudioSources;
     private AudioSource Audio1;
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
+    public float Recoil = 0;
+    public float MaxRecoil = 0.1f;
+    
 
     // Use this for initialization
     void Start()
     {
         FireRate = 0.1f;
-        MagSize = 30;
+        MagSize = 100;
         CurrentAmmo = MagSize;
         Automatic = true;
         Player = obj.GetComponent<Movement>();
@@ -102,6 +105,12 @@ public class M4 : Weapon
     {
         Instantiate(ShellObj, transform.position, Quaternion.identity);
     }
+    void GunFlash()
+    {
+        gameObject.GetComponent<Weapon>().Shake = true;
+        Instantiate(GunFlashLight, transform.position, Quaternion.identity);
+       
+    }
     // Update is called once per frame
     void Update()
     {
@@ -148,6 +157,7 @@ public class M4 : Weapon
                     CurrentAmmo--;
                     Audio1.clip = Shot;
                     Audio1.Play();
+                    GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
                     Audio2.PlayDelayed(0.2f);
@@ -162,10 +172,12 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Recoil = 0;
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
+                    GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
                     Audio2.PlayDelayed(0.2f);
@@ -175,10 +187,15 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButton(0))
                 {
+                    if (Recoil <= MaxRecoil)
+                    {
+                        Recoil += 0.01f;
+                    }
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.PlayOneShot(Shot);
+                    GunFlash();
                     Audio2.PlayOneShot(Shell);
                     Shellspread();
                 }
