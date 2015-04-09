@@ -5,10 +5,16 @@ public class Bullet : MonoBehaviour {
 
 	public float speed = 20;
 
-	Rigidbody2D Bulletbody2d = new Rigidbody2D();
+	private Rigidbody2D Bulletbody2d = new Rigidbody2D();
+    private AudioSource Audio;
+
+    public AudioClip FirmWall;
+    public AudioClip Body;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+	    Audio = GetComponent<AudioSource>();
 		Bulletbody2d = GetComponent<Rigidbody2D> ();
 
 	    float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
@@ -22,8 +28,15 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-       
-        Destroy(gameObject);
+        if (coll.gameObject.tag == "FirmWall")
+        {
+            AudioSource.PlayClipAtPoint(FirmWall, transform.position, 0.02f);
+        }
+        if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Boss")
+        {
+            AudioSource.PlayClipAtPoint(Body, transform.position, 0.07f);
+        }
+        Destroy(gameObject); 
     }
 
 	// Update is called once per frame

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Weapon : MonoBehaviour
 {
-    protected bool IsPickedUp = false;
+    public bool IsPickedUp = false;
     protected bool SetPositionToPlayer;
 
     protected float DropDelay = 0.2f;

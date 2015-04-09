@@ -56,9 +56,9 @@ public class M4 : Weapon
             IsPickedUp = true;
             SetPositionToPlayer = true;
             PickUpDelayTimer = 0;
-
+            gameObject.GetComponent<Weapon>().IsPickedUp = true;
             Player.CarryingWeapon = true;
-            Debug.Log(Player.CarryingWeapon + " M4");
+            Debug.Log(IsPickedUp + " M4");
         }
     }
 
@@ -124,7 +124,7 @@ public class M4 : Weapon
             Debug.Log("Player pressed Weapon - Drop Weapon");
             IsPickedUp = false;
             DropDelayTimer = 0;
-
+            gameObject.GetComponent<Weapon>().IsPickedUp = false;
             Player.CarryingWeapon = false;
         }
 
