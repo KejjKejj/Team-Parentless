@@ -5,7 +5,7 @@ public class BossShot : MonoBehaviour {
     Rigidbody2D Bulletbody2d = new Rigidbody2D();
     Rigidbody2D Player = new Rigidbody2D();
     Rigidbody2D Boss = new Rigidbody2D();
-    private float timer = 0;
+    
     public float speed = -1f;
     public float angleshot;
     

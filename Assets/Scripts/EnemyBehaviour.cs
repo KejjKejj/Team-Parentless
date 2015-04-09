@@ -80,7 +80,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if (RandAmmo >= 75)
         {
 
-            GameObject clone = (GameObject)Instantiate(AmmoCrate, new Vector3(EnemyRigid2D.position.x, EnemyRigid2D.position.y), Quaternion.identity);
+            Instantiate(AmmoCrate, new Vector3(EnemyRigid2D.position.x, EnemyRigid2D.position.y), Quaternion.identity);
         }
     }
     // Update is called once per frame

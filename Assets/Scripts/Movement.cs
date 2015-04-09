@@ -27,17 +27,7 @@ public class Movement : MonoBehaviour {
 		charRigid2D = GetComponent<Rigidbody2D> ();
 	}
 
-    //void Shot()
-    //{
-
-    //    if (Input.GetMouseButtonDown (0) && NumberOfShots <= MaxNumberOfShots)
-    //    {
-
-    //        Instantiate(Bullet, transform.position, transform.rotation);
-    //        NumberOfShots++;
-            
-    //    }
-    //}
+   
 
 	void Move()
 	{
@@ -99,8 +89,6 @@ public class Movement : MonoBehaviour {
 		Vector3 MousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector3 CharPos = new Vector3 (charRigid2D.position.x, charRigid2D.position.y);
 		transform.rotation = Quaternion.LookRotation (Vector3.forward, MousePos - CharPos);
-
-
 	}
 
     
