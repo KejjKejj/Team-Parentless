@@ -22,9 +22,12 @@ public class Movement : MonoBehaviour {
 		return charRigid2D;
 	}
 
+    public PolygonCollider2D HitBox;
+
 	// Use this for initialization
 	void Start () {
 		charRigid2D = GetComponent<Rigidbody2D> ();
+	    HitBox = GetComponent<PolygonCollider2D>();
 	}
 
    
@@ -47,6 +50,7 @@ public class Movement : MonoBehaviour {
 
 	    if (Jumped) // Har man tryckt hoppa
 	    {
+	        HitBox.enabled = false;
 	        movement = movement*2; // Dubbla hastigheten på spelaren
 	        JumpTime += Time.deltaTime; // Räkna tiden som hoppet hållt på
             if (JumpTime >= SetJumpTime) // Om tiden är större än tiden hoppet ska hålla på, sätt hoppet till false och hopptiden till 0
@@ -54,6 +58,10 @@ public class Movement : MonoBehaviour {
 	            Jumped = false;
 	            JumpTime = 0;
 	        }
+	    }
+	    if (!Jumped)
+	    {
+	        HitBox.enabled = true;
 	    }
 
 		charRigid2D.velocity = movement * Speed;

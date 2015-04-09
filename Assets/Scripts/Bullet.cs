@@ -7,11 +7,13 @@ public class Bullet : MonoBehaviour {
 
 	private Rigidbody2D Bulletbody2d = new Rigidbody2D();
 
+    public GameObject WallHit;
 
     public AudioClip FirmWall;
     public AudioClip Body;
 
     public float Recoil;
+    public float AngleShot = 0;
 
 	// Use this for initialization
 	void Start ()
@@ -25,7 +27,7 @@ public class Bullet : MonoBehaviour {
 
 	    float angle = Mathf.Atan2(deltaY, deltaX);
 
-        Bulletbody2d.velocity = new Vector2(Mathf.Cos(angle + Recoil) * speed, Mathf.Sin(angle+ Recoil) * speed);
+        Bulletbody2d.velocity = new Vector2(Mathf.Cos(angle + Recoil + AngleShot) * speed, Mathf.Sin(angle + Recoil + AngleShot) * speed);
        
 	}
 
@@ -34,6 +36,7 @@ public class Bullet : MonoBehaviour {
         if (coll.gameObject.tag == "FirmWall")
         {
             AudioSource.PlayClipAtPoint(FirmWall, transform.position, 0.02f);
+            Instantiate(WallHit, transform.position, Quaternion.identity);
         }
         if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Boss")
         {
