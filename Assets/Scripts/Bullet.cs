@@ -19,7 +19,15 @@ public class Bullet : MonoBehaviour {
 	void Start ()
 	{
 		Bulletbody2d = GetComponent<Rigidbody2D> ();
-        Recoil = GameObject.Find("M4").GetComponent<M4>().Recoil;
+        GameObject[] Weapontype = GameObject.FindGameObjectsWithTag("Weapon");
+        for (int i = 0; i < Weapontype.Length; i++)
+        {
+            if (Weapontype[i].GetComponent<Weapon>().IsPickedUp)
+            {
+                Recoil = Weapontype[i].GetComponent<Weapon>().Recoil;
+            }
+        }
+        
         Recoil= Random.Range(-Recoil, Recoil);
         
 	    float deltaX = -((Screen.width / 2) - Input.mousePosition.x);

@@ -17,13 +17,15 @@ public class Glock : Weapon
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
-    public float Recoil = 0;
+   
 
 	// Use this for initialization
 	void Start ()
 	{
 	    FireRate = 0.5f;
 	    MagSize = 12;
+        Recoil = 0f;
+        MaxRecoil = 0f;
 	    CurrentAmmo = MagSize;
 	    Automatic = false;
         Player = obj.GetComponent<Movement>();

@@ -16,6 +16,8 @@ public class Weapon : MonoBehaviour
     protected bool Automatic;
 
     protected int MagSize;
+    public float Recoil;
+    public float MaxRecoil;
     public bool Shake;
     
 

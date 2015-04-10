@@ -23,7 +23,7 @@ public class Crosshair : MonoBehaviour
                 player = weapon[i].transform.position;
                 Debug.Log(player);
             }
-            Debug.Log(weapon[i].GetComponent<Weapon>().IsPickedUp);
+            
         }
 
         float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
