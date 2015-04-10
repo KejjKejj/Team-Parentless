@@ -19,6 +19,7 @@ public class Weapon : MonoBehaviour
     public float Recoil;
     public float MaxRecoil;
     public bool Shake;
+    public int ShakeAmount = 20;
     
 
 	// Use this for initialization

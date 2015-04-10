@@ -27,7 +27,7 @@ public class M4 : Weapon
         FireRate = 0.1f;
         MagSize = 100;
        
-        MaxRecoil = .1f;
+        //MaxRecoil = .1f;
         CurrentAmmo = MagSize;
         Automatic = true;
         Player = obj.GetComponent<Movement>();

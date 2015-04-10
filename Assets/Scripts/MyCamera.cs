@@ -10,6 +10,7 @@ public class MyCamera : MonoBehaviour {
     bool Shake;
     int CamShakeMove = 100;
     Quaternion PlayerDir;
+    private int ShakeAmount;
 
 	void Start () {
         
@@ -44,6 +45,7 @@ public class MyCamera : MonoBehaviour {
             if (Weapontype[i].GetComponent<Weapon>().Shake == true)
             {
                 Shake = Weapontype[i].GetComponent<Weapon>().Shake;
+                ShakeAmount = Weapontype[i].GetComponent<Weapon>().ShakeAmount;
             }
         }
         float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
@@ -53,7 +55,7 @@ public class MyCamera : MonoBehaviour {
         
         if (Shake && CamShakeMove > 0)
         {
-            transform.position = transform.position + new Vector3(-Mathf.Cos(angle)/20, -Mathf.Sin(angle)/20, -1);
+            transform.position = transform.position + new Vector3(-Mathf.Cos(angle)/ShakeAmount, -Mathf.Sin(angle)/ShakeAmount, -1);
             CamShakeMove -= 20;
         }
         else if (Shake && CamShakeMove <= 0)

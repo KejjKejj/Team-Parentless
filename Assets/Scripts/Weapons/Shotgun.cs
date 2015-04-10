@@ -18,8 +18,6 @@ public class Shotgun : Weapon
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
-    public float Recoil = 0;
-    public float MaxRecoil = 0.1f;
 
 
     // Use this for initialization
@@ -154,9 +152,9 @@ public class Shotgun : Weapon
                 if (Input.GetMouseButtonDown(0))
                 {
                     shot1 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
-                    shot1.GetComponent<Bullet>().AngleShot = 0.04f;
+                    shot1.GetComponent<Bullet>().AngleShot = 0.06f;
                     shot2 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
-                    shot2.GetComponent<Bullet>().AngleShot = -0.04f;
+                    shot2.GetComponent<Bullet>().AngleShot = -0.06f;
                     shot3 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
                     shot3.GetComponent<Bullet>().AngleShot = 0;
                     FireRateTimer = 0;
