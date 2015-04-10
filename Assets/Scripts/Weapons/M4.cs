@@ -17,8 +17,8 @@ public class M4 : Weapon
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
-    public float Recoil = 0;
-    public float MaxRecoil = 0.1f;
+    
+    
     
 
     // Use this for initialization
@@ -26,6 +26,8 @@ public class M4 : Weapon
     {
         FireRate = 0.1f;
         MagSize = 100;
+       
+        MaxRecoil = .1f;
         CurrentAmmo = MagSize;
         Automatic = true;
         Player = obj.GetComponent<Movement>();
@@ -172,7 +174,7 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Recoil = 0;
+                    gameObject.GetComponent<Weapon>().Recoil = 0;
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
@@ -187,9 +189,9 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButton(0))
                 {
-                    if (Recoil <= MaxRecoil)
+                    if (gameObject.GetComponent<Weapon>().Recoil <= MaxRecoil)
                     {
-                        Recoil += 0.01f;
+                        gameObject.GetComponent<Weapon>().Recoil += 0.01f;
                     }
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;

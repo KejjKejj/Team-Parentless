@@ -25,41 +25,16 @@ public class MyCamera : MonoBehaviour {
         return GameObject.Find("Character").GetComponent<Movement>().Health;
     }
 
-    int GetBossHealth()
-    {
-        if (GameObject.Find("Boss"))
-        {
-            return GameObject.Find("Boss").GetComponent<BossScript>().BossHealth;
-        }
-        else
-            return 0;
-    }
+    
     void OnGUI()
     {
         GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());
         
         
-        showBossHealth();
         
     }
-    bool PlayerinRangeofBoss()
-    {
-        
-        return GameObject.Find("BossZone").GetComponent<BossZone>().OpenFire;
-    }
-    void showBossHealth()
-    {
-        if(PlayerinRangeofBoss() && GetBossHealth() >= 0)
-        {
-
-            GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
-            GUI.DrawTexture(new Rect(0, 0, GetBossHealth()*(Screen.width/30), 50), tex);
-            
-            
-            
-        }
-        
-    }
+  
+  
 
     void CameraShake()
     {
@@ -75,7 +50,7 @@ public class MyCamera : MonoBehaviour {
         float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
         float angle = Mathf.Atan2(deltaY, deltaX);
         PlayerDir = GameObject.Find("Character").GetComponent<Movement>().transform.rotation;
-        Debug.Log(PlayerDir);
+        
         if (Shake && CamShakeMove > 0)
         {
             transform.position = transform.position + new Vector3(-Mathf.Cos(angle)/20, -Mathf.Sin(angle)/20, -1);
