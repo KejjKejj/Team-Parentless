@@ -9,7 +9,7 @@ public class MyCamera : MonoBehaviour {
     public Texture tex;
     bool Shake;
     int CamShakeMove = 100;
-    Quaternion PlayerDir;
+
     private int ShakeAmount;
 
 	void Start () {
@@ -51,7 +51,6 @@ public class MyCamera : MonoBehaviour {
         float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
         float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
         float angle = Mathf.Atan2(deltaY, deltaX);
-        PlayerDir = GameObject.Find("Character").GetComponent<Movement>().transform.rotation;
         
         if (Shake && CamShakeMove > 0)
         {

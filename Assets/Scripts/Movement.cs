@@ -79,7 +79,7 @@ public class Movement : MonoBehaviour {
             if (Health < 1)
             {
                 Destroy(gameObject);
-                Application.LoadLevel("Meny");
+                Application.LoadLevel(4);
             }
 
             else

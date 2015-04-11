@@ -28,6 +28,8 @@ public class MainBossScript : MonoBehaviour {
             {
                 Destroy(gameObject);
                 SprayBlood();
+                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+                Application.LoadLevel(2);
             }
             Health--;
         }
@@ -46,9 +48,6 @@ public class MainBossScript : MonoBehaviour {
 
             GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
             GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / 30), 50), Healthbar);
-
-
-
         }
 
     }
