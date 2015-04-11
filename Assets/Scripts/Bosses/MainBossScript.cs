@@ -28,7 +28,10 @@ public class MainBossScript : MonoBehaviour {
             {
                 Destroy(gameObject);
                 SprayBlood();
-                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+                if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
+                {
+                    PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+                }
                 Application.LoadLevel(2);
             }
             Health--;
