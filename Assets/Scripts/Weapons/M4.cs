@@ -10,27 +10,23 @@ public class M4 : Weapon
     public GameObject obj;
     public GameObject ShellObj;
     public GameObject GunFlashLight;
-    protected Movement Player;
+    public Movement Player;
     
     private AudioSource[] AudioSources;
     private AudioSource Audio1;
     private AudioSource Audio2;
+
     public AudioClip Shot;
     public AudioClip Shell;
-    
-    
-    
+    public AudioClip PickUp;
 
     // Use this for initialization
     void Start()
     {
         FireRate = 0.1f;
         MagSize = 100;
-       
-        //MaxRecoil = .1f;
         CurrentAmmo = MagSize;
         Automatic = true;
-        Player = obj.GetComponent<Movement>();
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
@@ -38,10 +34,6 @@ public class M4 : Weapon
 
     void OnTriggerEnter2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
-        {
-            Debug.Log("Player Entered - Weapon pickuparea - M4");
-        }
         if (collissionobject.gameObject.tag == "Ammocrate")
         {
             CurrentAmmo = MagSize;
@@ -50,34 +42,43 @@ public class M4 : Weapon
 
     void OnTriggerStay2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
+        if (collissionobject.tag == "Player")
         {
-            Debug.Log("Player Staying - Weapon - M4");
-
-        }
-        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay && !Player.CarryingWeapon)
-        {
-            Debug.Log("Player pressed E - Weapon");
-            IsPickedUp = true;
-            SetPositionToPlayer = true;
-            PickUpDelayTimer = 0;
-            gameObject.GetComponent<Weapon>().IsPickedUp = true;
-            Player.CarryingWeapon = true;
-            Debug.Log(IsPickedUp + " M4");
+            if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay &&
+                !collissionobject.GetComponent<Movement>().CarryingWeapon)
+            {
+                Player = collissionobject.GetComponent<Movement>();
+                PickUpWeapon();
+            }
         }
     }
 
     void OnTriggerExit2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
-        {
-            Debug.Log("Player Leaving - Weapon");
-        }
+
+    }
+
+    public void PickUpWeapon()
+    {    
+        IsPickedUp = true;
+        SetPositionToPlayer = true;
+        PickUpDelayTimer = 0;
+        gameObject.GetComponent<Weapon>().IsPickedUp = true;
+        Player.CarryingWeapon = true;
+        Audio1.PlayOneShot(PickUp);
+    }
+
+    public void DropWeapon()
+    {
+        IsPickedUp = false;
+        DropDelayTimer = 0;
+        gameObject.GetComponent<Weapon>().IsPickedUp = false;
+        Player.CarryingWeapon = false;
     }
 
     void Position()
     {
-        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        GameObject PlayerPos = GameObject.FindGameObjectWithTag("Player");
 
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 CharPos = new Vector3(Player.transform.position.x, Player.transform.position.y);
@@ -88,11 +89,9 @@ public class M4 : Weapon
 
         float angle = Mathf.Atan2(deltaY, deltaX);
 
-        transform.position = new Vector3(Player.transform.position.x + (Mathf.Cos(angle - 90) / 3), Player.transform.position.y + (Mathf.Sin(angle - 90) / 3), Player.transform.position.z);
+        transform.position = new Vector3(PlayerPos.transform.position.x + (Mathf.Cos(angle - 90) / 3), PlayerPos.transform.position.y + (Mathf.Sin(angle - 90) / 3), PlayerPos.transform.position.z);
 
         transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-
-
     }
 
     void OnGUI()
@@ -111,7 +110,7 @@ public class M4 : Weapon
     {
         gameObject.GetComponent<Weapon>().Shake = true;
         Instantiate(GunFlashLight, transform.position, Quaternion.identity);
-       
+
     }
     // Update is called once per frame
     void Update()
@@ -122,7 +121,6 @@ public class M4 : Weapon
         {
             Position();
             SetPositionToPlayer = false;
-            Debug.Log("Weapon Picked Up By Player!");
         }
 
         if (IsPickedUp)
@@ -132,11 +130,7 @@ public class M4 : Weapon
 
         if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay && Player.CarryingWeapon)
         {
-            Debug.Log("Player pressed Weapon - Drop Weapon");
-            IsPickedUp = false;
-            DropDelayTimer = 0;
-            gameObject.GetComponent<Weapon>().IsPickedUp = false;
-            Player.CarryingWeapon = false;
+            DropWeapon();
         }
 
         if (!IsPickedUp)

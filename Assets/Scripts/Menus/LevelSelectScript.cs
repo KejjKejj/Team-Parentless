@@ -13,22 +13,17 @@ public class LevelSelectScript : MonoBehaviour
 	    SaveSlot = PlayerPrefs.GetInt("CurrentSaveSlot");
 	    UnlockedLevels = PlayerPrefs.GetInt("Slot" + SaveSlot.ToString() + "UnlockedLevels");
 
-        Button thisButton = GameObject.Find("Level2").GetComponent<Button>();
-        if (UnlockedLevels < 2)
-        {
-            thisButton.interactable = false;
-            Debug.Log("Level 2 locked " + thisButton.interactable);
-        }
+	    for (var i = 0; i < UnlockedLevels; ++i)
+	    {
+            Button thisButton = GameObject.Find("Level" + (i + 1).ToString()).GetComponent<Button>();
+	        thisButton.interactable = true;
+	    }
 	}
 
-    public void SelectLevel1()
+    public void SelectLevel(int level)
     {
+        PlayerPrefs.SetInt("SelectedLevel", level);
         Application.LoadLevel(4);
-    }
-
-    public void SelectLevel2()
-    {
-        Application.LoadLevel(5);
     }
 
     public void ToMainMenu()

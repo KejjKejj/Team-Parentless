@@ -12,12 +12,18 @@ public class Movement : MonoBehaviour {
 	public int MaxNumberOfShots = 30;
 	public int NumberOfShots = 0;
 	public float ShotSpeed = 40;
+    public bool PickUpFirstWeapon = true;
+    public float PickUpFirstTimer;
     public bool Jumped;
     public float JumpTime = 0;
     public float SetJumpTime = 0.1f;
     public float JumpDelay = 0;
     public bool CarryingWeapon = false;
 	public GameObject Bullet;
+    public GameObject[] Weapons;
+    public GameObject SelectedWeapon;
+    
+    public GameObject WeaponInstance;
 	public Rigidbody2D ReturnPlayerPos(){
 		return charRigid2D;
 	}
@@ -28,6 +34,18 @@ public class Movement : MonoBehaviour {
 	void Start () {
 		charRigid2D = GetComponent<Rigidbody2D> ();
 	    HitBox = GetComponent<PolygonCollider2D>();
+	    CarryingWeapon = false;
+	    Weapons = GameObject.FindGameObjectsWithTag("Weapon");
+	    foreach (var w in Weapons)
+	    {
+            if (w.GetComponent<Weapon>().WeaponId == PlayerPrefs.GetInt("WeaponSelected"))
+	        {
+                Debug.Log(w.GetComponent<Weapon>().WeaponId + " Selected");
+                Debug.Log(PlayerPrefs.GetInt("WeaponSelected"));
+	            SelectedWeapon = w;
+	        }
+	    }
+	    WeaponInstance = (GameObject)Instantiate(SelectedWeapon, transform.position, transform.rotation);
 	}
 
    
@@ -65,8 +83,6 @@ public class Movement : MonoBehaviour {
 	    }
 
 		charRigid2D.velocity = movement * Speed;
-
-        
 	}
 
 
@@ -89,7 +105,25 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    
+    void PickUp()
+    {
+        if (WeaponInstance.GetComponent<M4>() != null)
+        {
+            WeaponInstance.GetComponent<M4>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<M4>().PickUpWeapon();
+        }
+        if (WeaponInstance.GetComponent<Glock>() != null)
+        {
+            WeaponInstance.GetComponent<Glock>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<Glock>().PickUpWeapon();
+        }
+        if (WeaponInstance.GetComponent<Shotgun>() != null)
+        {
+            WeaponInstance.GetComponent<Shotgun>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<Shotgun>().PickUpWeapon();
+        }
+        PickUpFirstWeapon = false;
+    }
 
 
 	void Direction()
@@ -102,9 +136,13 @@ public class Movement : MonoBehaviour {
     
 	// Update is called once per frame
 	void FixedUpdate () {
-		//Shot ();
 		Move ();
 		Direction ();
+	    PickUpFirstTimer += Time.deltaTime;
+	    if (PickUpFirstWeapon && PickUpFirstTimer >= 0.2f)
+	    {
+	        PickUp();
+	    }
 	}
 }
 

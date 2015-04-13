@@ -21,7 +21,6 @@ public class Crosshair : MonoBehaviour
             if (weapon[i].GetComponent<Weapon>().IsPickedUp)
             {
                 player = weapon[i].transform.position;
-                Debug.Log(player);
             }
             
         }
