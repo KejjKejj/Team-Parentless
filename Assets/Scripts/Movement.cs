@@ -4,29 +4,33 @@ using System.Collections;
 
 public class Movement : MonoBehaviour
 {
-
     private Animator Anim;
+
 	private Rigidbody2D charRigid2D;
+
 	public int Speed = 1000;
     public int Health = 100;
-    public int JumpSpeed = 3;
-    public int AxisSpeed = 3;
-	public int MaxNumberOfShots = 30;
-	public int NumberOfShots = 0;
-	public float ShotSpeed = 40;
-    public bool PickUpFirstWeapon = true;
-    public float PickUpFirstTimer;
+
+    public int JumpSpeed = 3;    
     public bool Jumped;
     public float JumpTime = 0;
     public float SetJumpTime = 0.1f;
     public float JumpDelay = 0;
+
+    public int AxisSpeed = 3;
+
+    public bool PickUpFirstWeapon = true;
+    public float PickUpFirstTimer;
+
     public bool CarryingWeapon = false;
+
     private float Angle;
+
 	public GameObject Bullet;
     public GameObject[] Weapons;
     public GameObject SelectedWeapon;
-    
     public GameObject WeaponInstance;
+
 	public Rigidbody2D ReturnPlayerPos(){
 		return charRigid2D;
 	}
@@ -72,7 +76,6 @@ public class Movement : MonoBehaviour
 
 	    if (Jumped) // Har man tryckt hoppa
 	    {
-	        HitBox.enabled = false;
 	        movement = movement*2; // Dubbla hastigheten på spelaren
 	        JumpTime += Time.deltaTime; // Räkna tiden som hoppet hållt på
             if (JumpTime >= SetJumpTime) // Om tiden är större än tiden hoppet ska hålla på, sätt hoppet till false och hopptiden till 0
@@ -81,10 +84,15 @@ public class Movement : MonoBehaviour
 	            JumpTime = 0;
 	        }
 	    }
-	    if (!Jumped)
-	    {
-	        HitBox.enabled = true;
-	    }
+
+        if (Jumped)
+        {
+            Physics2D.IgnoreLayerCollision(15, 0, true);
+        }
+        if (!Jumped)
+        {
+            Physics2D.IgnoreLayerCollision(15, 0, false);
+        }
 
 		charRigid2D.velocity = movement * Speed;
 	}
@@ -169,8 +177,9 @@ public class Movement : MonoBehaviour
 
     
 	// Update is called once per frame
-	void FixedUpdate () {
-		Move ();
+	void FixedUpdate () 
+    {
+	    Move ();
 		Direction ();
 	    SetAnimation();
         PickUpFirstTimer += Time.deltaTime;

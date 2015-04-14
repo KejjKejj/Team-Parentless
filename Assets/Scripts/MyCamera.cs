@@ -16,11 +16,6 @@ public class MyCamera : MonoBehaviour {
         
 	}
 
-    int GetAmmo()
-    {
-        return GameObject.Find("Character").GetComponent<Movement>().MaxNumberOfShots - GameObject.Find("Character").GetComponent<Movement>().NumberOfShots;
-    }
-
     int GetHealth()
     {
         return GameObject.Find("Character").GetComponent<Movement>().Health;
@@ -29,10 +24,7 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
-        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());
-        
-        
-        
+        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
     }
   
   
