@@ -2,8 +2,10 @@
 using System.Collections;
 
 
-public class Movement : MonoBehaviour {
+public class Movement : MonoBehaviour
+{
 
+    private Animator Anim;
 	private Rigidbody2D charRigid2D;
 	public int Speed = 1000;
     public int Health = 100;
@@ -19,6 +21,7 @@ public class Movement : MonoBehaviour {
     public float SetJumpTime = 0.1f;
     public float JumpDelay = 0;
     public bool CarryingWeapon = false;
+    private float Angle;
 	public GameObject Bullet;
     public GameObject[] Weapons;
     public GameObject SelectedWeapon;
@@ -34,18 +37,19 @@ public class Movement : MonoBehaviour {
 	void Start () {
 		charRigid2D = GetComponent<Rigidbody2D> ();
 	    HitBox = GetComponent<PolygonCollider2D>();
+	    Anim = GetComponent<Animator>();
 	    CarryingWeapon = false;
-	    Weapons = GameObject.FindGameObjectsWithTag("Weapon");
-	    foreach (var w in Weapons)
-	    {
+        Weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        foreach (var w in Weapons)
+        {
             if (w.GetComponent<Weapon>().WeaponId == PlayerPrefs.GetInt("WeaponSelected"))
-	        {
+            {
                 Debug.Log(w.GetComponent<Weapon>().WeaponId + " Selected");
                 Debug.Log(PlayerPrefs.GetInt("WeaponSelected"));
-	            SelectedWeapon = w;
-	        }
-	    }
-	    WeaponInstance = (GameObject)Instantiate(SelectedWeapon, transform.position, transform.rotation);
+                SelectedWeapon = w;
+            }
+        }
+        WeaponInstance = (GameObject)Instantiate(SelectedWeapon, transform.position, transform.rotation);
 	}
 
    
@@ -54,7 +58,7 @@ public class Movement : MonoBehaviour {
 	{
 	    var movement = charRigid2D.velocity;
         movement.x = Input.GetAxisRaw("Horizontal") * AxisSpeed;
-        movement.y = Input.GetAxisRaw("Vertical") * AxisSpeed;
+	    movement.y = Input.GetAxisRaw("Vertical") * AxisSpeed;
 
 	    JumpDelay += Time.deltaTime;
 	    if (!Jumped && JumpDelay > 0.5f) // Har man inte hoppat och hoppat inom 0.5 sek?
@@ -125,12 +129,42 @@ public class Movement : MonoBehaviour {
         PickUpFirstWeapon = false;
     }
 
+    void SetAnimation()
+    {
+        if (Input.GetAxisRaw("Horizontal") != 0 && ((Angle > 45 && Angle < 135) || (Angle > 225 && Angle < 325)))
+        {
+            Anim.SetBool("Strafing", false);
+            Anim.SetBool("Walking", true);
+        }
+        else if (Input.GetAxisRaw("Vertical") != 0 && ((Angle < 45 || Angle > 325) || (Angle > 135 && Angle < 225)))
+        {
+            Anim.SetBool("Strafing", false);
+            Anim.SetBool("Walking", true);
+        }
+        else if (Input.GetAxisRaw("Horizontal") != 0)
+        {
+            Anim.SetBool("Walking", false);
+            Anim.SetBool("Strafing", true);
+        }
+        
+        else if (Input.GetAxisRaw("Vertical") != 0)
+        {
+            Anim.SetBool("Walking", false);
+            Anim.SetBool("Strafing", true);
+        }
+        else
+        {
+            Anim.SetBool("Strafing", false);
+            Anim.SetBool("Walking", false);
+        }
+    }
 
 	void Direction()
 	{
 		Vector3 MousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector3 CharPos = new Vector3 (charRigid2D.position.x, charRigid2D.position.y);
 		transform.rotation = Quaternion.LookRotation (Vector3.forward, MousePos - CharPos);
+	    Angle = transform.localEulerAngles.z;
 	}
 
     
@@ -138,11 +172,12 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () {
 		Move ();
 		Direction ();
-	    PickUpFirstTimer += Time.deltaTime;
-	    if (PickUpFirstWeapon && PickUpFirstTimer >= 0.2f)
-	    {
-	        PickUp();
-	    }
+	    SetAnimation();
+        PickUpFirstTimer += Time.deltaTime;
+        if (PickUpFirstWeapon && PickUpFirstTimer >= 0.2f)
+        {
+            PickUp();
+        }
 	}
 }
 

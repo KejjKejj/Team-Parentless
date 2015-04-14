@@ -125,7 +125,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("Träff");
         if (coll.gameObject.tag == "Shot1")
         {
             Destroy(gameObject);
