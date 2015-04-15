@@ -8,17 +8,22 @@ public class Shotgun : Weapon
     public int CurrentAmmo;
 
     public GameObject Bullet;
-    public GameObject obj;
+    private GameObject obj;
     public GameObject ShellObj;
     public GameObject GunFlashLight;
-    protected Movement Player;
+    public Movement Player;
 
     private AudioSource[] AudioSources;
     private AudioSource Audio1;
     private AudioSource Audio2;
+
     public AudioClip Shot;
     public AudioClip Shell;
+
     
+
+    public AudioClip PickUp;
+
 
 
     // Use this for initialization
@@ -28,18 +33,13 @@ public class Shotgun : Weapon
         MagSize = 8;
         CurrentAmmo = MagSize;
         Automatic = false;
-        Player = obj.GetComponent<Movement>();
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
+        gameObject.GetComponent<Weapon>().WeaponId = 1;
     }
-
     void OnTriggerEnter2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
-        {
-            Debug.Log("Player Entered - Weapon pickuparea - M4");
-        }
         if (collissionobject.gameObject.tag == "Ammocrate")
         {
             CurrentAmmo = MagSize;
@@ -48,29 +48,38 @@ public class Shotgun : Weapon
 
     void OnTriggerStay2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
+        if (collissionobject.tag == "Player")
         {
-            Debug.Log("Player Staying - Weapon - M4");
-
-        }
-        if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay && !Player.CarryingWeapon)
-        {
-            Debug.Log("Player pressed E - Weapon");
-            IsPickedUp = true;
-            SetPositionToPlayer = true;
-            PickUpDelayTimer = 0;
-            gameObject.GetComponent<Weapon>().IsPickedUp = true;
-            Player.CarryingWeapon = true;
-            Debug.Log(IsPickedUp + " M4");
+            if (Input.GetButton("Weapon") && !IsPickedUp && gameObject.tag == "Weapon" && PickUpDelayTimer >= DropDelay &&
+                !collissionobject.GetComponent<Movement>().CarryingWeapon)
+            {
+                Player = collissionobject.GetComponent<Movement>();
+                PickUpWeapon();
+            }
         }
     }
 
     void OnTriggerExit2D(Collider2D collissionobject)
     {
-        if (collissionobject.gameObject.tag == "Player")
-        {
-            Debug.Log("Player Leaving - Weapon");
-        }
+
+    }
+
+    public void PickUpWeapon()
+    {
+        IsPickedUp = true;
+        SetPositionToPlayer = true;
+        PickUpDelayTimer = 0;
+        gameObject.GetComponent<Weapon>().IsPickedUp = true;
+        Player.CarryingWeapon = true;
+        Audio1.PlayOneShot(PickUp);
+    }
+
+    public void DropWeapon()
+    {
+        IsPickedUp = false;
+        DropDelayTimer = 0;
+        gameObject.GetComponent<Weapon>().IsPickedUp = false;
+        Player.CarryingWeapon = false;
     }
 
     void Position()
@@ -120,7 +129,6 @@ public class Shotgun : Weapon
         {
             Position();
             SetPositionToPlayer = false;
-            Debug.Log("Weapon Picked Up By Player!");
         }
 
         if (IsPickedUp)
@@ -130,11 +138,7 @@ public class Shotgun : Weapon
 
         if (Input.GetButton("Weapon") && IsPickedUp && gameObject.tag == "Weapon" && DropDelayTimer >= DropDelay && Player.CarryingWeapon)
         {
-            Debug.Log("Player pressed Weapon - Drop Weapon");
-            IsPickedUp = false;
-            DropDelayTimer = 0;
-            gameObject.GetComponent<Weapon>().IsPickedUp = false;
-            Player.CarryingWeapon = false;
+            DropWeapon();
         }
 
         if (!IsPickedUp)
@@ -153,9 +157,9 @@ public class Shotgun : Weapon
                 if (Input.GetMouseButtonDown(0))
                 {
                     shot1 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
-                    shot1.GetComponent<Bullet>().AngleShot = 0.04f;
+                    shot1.GetComponent<Bullet>().AngleShot = 0.06f;
                     shot2 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
-                    shot2.GetComponent<Bullet>().AngleShot = -0.04f;
+                    shot2.GetComponent<Bullet>().AngleShot = -0.06f;
                     shot3 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
                     shot3.GetComponent<Bullet>().AngleShot = 0;
                     FireRateTimer = 0;

@@ -24,13 +24,22 @@ public class MainBossScript : MonoBehaviour {
     void ApplyDamage(int damage)
     {
         Health -= damage;
+
+
         if (Health <= 0)
         {
             Destroy(gameObject);
             SprayBlood();
+            if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
+            {
+                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+            }
+            Application.LoadLevel(2);
         }
-        
+
     }
+        
+    
 
 
    
@@ -47,9 +56,6 @@ public class MainBossScript : MonoBehaviour {
 
             GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
             GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / 30), 50), Healthbar);
-
-
-
         }
 
     }

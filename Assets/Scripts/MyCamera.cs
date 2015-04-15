@@ -9,16 +9,12 @@ public class MyCamera : MonoBehaviour {
     public Texture tex;
     bool Shake;
     int CamShakeMove = 100;
-    Quaternion PlayerDir;
+
+    private int ShakeAmount;
 
 	void Start () {
         
 	}
-
-    int GetAmmo()
-    {
-        return GameObject.Find("Character").GetComponent<Movement>().MaxNumberOfShots - GameObject.Find("Character").GetComponent<Movement>().NumberOfShots;
-    }
 
     int GetHealth()
     {
@@ -28,10 +24,7 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
-        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());
-        
-        
-        
+        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
     }
   
   
@@ -44,16 +37,16 @@ public class MyCamera : MonoBehaviour {
             if (Weapontype[i].GetComponent<Weapon>().Shake == true)
             {
                 Shake = Weapontype[i].GetComponent<Weapon>().Shake;
+                ShakeAmount = Weapontype[i].GetComponent<Weapon>().ShakeAmount;
             }
         }
         float deltaX = -((Screen.width / 2) - Input.mousePosition.x);
         float deltaY = -((Screen.height / 2) - Input.mousePosition.y);
         float angle = Mathf.Atan2(deltaY, deltaX);
-        PlayerDir = GameObject.Find("Character").GetComponent<Movement>().transform.rotation;
         
         if (Shake && CamShakeMove > 0)
         {
-            transform.position = transform.position + new Vector3(-Mathf.Cos(angle)/20, -Mathf.Sin(angle)/20, -1);
+            transform.position = transform.position + new Vector3(-Mathf.Cos(angle)/ShakeAmount, -Mathf.Sin(angle)/ShakeAmount, -1);
             CamShakeMove -= 20;
         }
         else if (Shake && CamShakeMove <= 0)

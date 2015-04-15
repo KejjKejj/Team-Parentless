@@ -19,15 +19,15 @@ public class Weapon : MonoBehaviour
     public float Recoil;
     public float MaxRecoil;
     public bool Shake;
-    
+    public int ShakeAmount = 20;
+
+    public int WeaponId;
 
 	// Use this for initialization
 	void Start ()
 	{
 	    
 	}
-
-    
 	
 	// Update is called once per frame
 	void Update () {
