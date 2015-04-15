@@ -112,8 +112,8 @@ public class Movement : MonoBehaviour
     void ApplyDamage(int damage)
     {
         Health -= damage;
-
     }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
             if (Health <= 0)

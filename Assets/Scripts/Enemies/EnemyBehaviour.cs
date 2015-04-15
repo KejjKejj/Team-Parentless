@@ -160,6 +160,7 @@ public class EnemyBehaviour : MonoBehaviour {
  
         if (Health <= 0)
         {
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
             Destroy(gameObject);
             SpawnCrate();
             SprayBlood();
