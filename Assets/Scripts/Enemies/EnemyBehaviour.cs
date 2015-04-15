@@ -22,6 +22,7 @@ public class EnemyBehaviour : MonoBehaviour {
     public Vector3 MoveDirection;
     public Vector3 Velocity;
 
+
 	public Transform SightEnemy1, SightPlayer1;
 	public bool Spotted = false;
 	public bool Detected = false;
@@ -31,9 +32,11 @@ public class EnemyBehaviour : MonoBehaviour {
 	public Transform Player;
 
 
+
 	// Use this for initialization
 	void Start ()
 	{
+      
 		EnemyRigid2D = GetComponent<Rigidbody2D> ();
 		EnemyPos = new Vector3 (EnemyRigid2D.position.x, EnemyRigid2D.position.y, 0);
         
@@ -87,7 +90,7 @@ public class EnemyBehaviour : MonoBehaviour {
 		{
 			EnemyRigid2D.velocity = TowardsPlayer * 1 * Time.deltaTime;
 			Direction();
-			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Default")) &&
+			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Player")) &&
 			   !Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("FirmWall")))
 			{
 				EnemyRigid2D.velocity = TowardsPlayer * 0;
@@ -133,6 +136,11 @@ public class EnemyBehaviour : MonoBehaviour {
         }
         EnemyRigid2D.velocity = new Vector2(Velocity.x, Velocity.y);
 
+        //transform.rotation = Quaternion.);
+        //transform.LookAt(Target);
+
+        
+
     }
 	// Roterar fienden mot spelarens håll
 	void Direction()
@@ -140,17 +148,9 @@ public class EnemyBehaviour : MonoBehaviour {
 		Vector3 PlayerPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
 		transform.rotation = Quaternion.LookRotation (Vector3.forward, PlayerPos - EnemyPos);
 	}
+    
+   
 
-    //void OnCollisionEnter2D(Collision2D coll)
-    //{
-        
-    //    if (coll.gameObject.tag == "Shot1")
-    //    {
-    //        Destroy(gameObject);
-    //        SpawnCrate();
-    //        SprayBlood();
-    //    }
-    //}
 
     void ApplyDamage(int damage)
     {
@@ -159,6 +159,7 @@ public class EnemyBehaviour : MonoBehaviour {
  
         if (Health <= 0)
         {
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
             Destroy(gameObject);
             SpawnCrate();
             SprayBlood();
@@ -192,8 +193,13 @@ public class EnemyBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
 		timer -= Time.deltaTime;
+
+       
+
 		Move ();
+
 
 	}
 }

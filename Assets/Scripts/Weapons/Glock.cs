@@ -28,6 +28,7 @@ public class Glock : Weapon
 	    MagSize = 12;
         Recoil = 0f;
         MaxRecoil = 0f;
+        damage = 7;
 	    CurrentAmmo = MagSize;
 	    Automatic = false;
 	    AudioSources = GetComponents<AudioSource>();
@@ -68,6 +69,7 @@ public class Glock : Weapon
         SetPositionToPlayer = true;
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
+        GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }

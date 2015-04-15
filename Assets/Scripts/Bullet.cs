@@ -14,10 +14,13 @@ public class Bullet : MonoBehaviour {
 
     public float Recoil;
     public float AngleShot = 0;
+    public int damage;
 
 	// Use this for initialization
 	void Start ()
 	{
+        damage = GameObject.Find("Character").GetComponent<Movement>().WeaponDamage;
+        
 		Bulletbody2d = GetComponent<Rigidbody2D> ();
         GameObject[] Weapontype = GameObject.FindGameObjectsWithTag("Weapon");
         for (int i = 0; i < Weapontype.Length; i++)
@@ -49,6 +52,9 @@ public class Bullet : MonoBehaviour {
         if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Boss")
         {
             AudioSource.PlayClipAtPoint(Body, transform.position, 0.1f);
+            
+            coll.gameObject.SendMessage("ApplyDamage", damage);
+            
         }
         Destroy(gameObject); 
     }

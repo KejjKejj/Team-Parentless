@@ -20,9 +20,7 @@ public class Astar : MonoBehaviour {
 		Vector2 EnemyPos = new Vector2 (EnemyRigid2D.position.x, EnemyRigid2D.position.y);
 		Vector2 Goal = new Vector2 (4, 2);
 
-		float EnemyX = EnemyPos.x - Goal.x;
-		float EnemyY = EnemyPos.y - Goal.y;
-		Vector2 TowardsPlayer = new Vector2 (EnemyX, EnemyY);
+
 
 		ClosedCords.Add (wall);
 
@@ -38,7 +36,7 @@ public class Astar : MonoBehaviour {
 
 
 		if (OpenCords.Contains (Goal)) {
-			EnemyRigid2D.velocity = TowardsPlayer * 1;
+
 		}
 
 		//EnemyRigid2D.velocity = Goal * 3;
