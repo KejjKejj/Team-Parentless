@@ -9,7 +9,6 @@ public class EnemyBehaviour : MonoBehaviour {
     public GameObject[] Bloodspatter;
     private int RandAmmo;
 	private Vector3 EnemyPos;
-	private float Distance;
 	private float Vinkel;
 
     public int Health = 10;
@@ -65,7 +64,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
 	void Attack()
 	{
-		timer -= Time.deltaTime;
+
 		if (timer <= 0) 
 		{
 			Instantiate(EnemyBullet,transform.position,transform.rotation);
@@ -79,7 +78,7 @@ public class EnemyBehaviour : MonoBehaviour {
 		float PlayerX = PlayerPos.x - EnemyRigid2D.position.x;
 		float PlayerY = PlayerPos.y - EnemyRigid2D.position.y;
 		Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
-		Distance = Vector3.Distance (EnemyPos, PlayerPos);
+
 
 		Debug.DrawLine (SightEnemy1.position, SightPlayer1.position, Color.blue);
 
@@ -193,7 +192,7 @@ public class EnemyBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-	
+		timer -= Time.deltaTime;
 		Move ();
 
 	}
