@@ -13,6 +13,8 @@ public class Weapon : MonoBehaviour
     protected float FireRate;
     protected float FireRateTimer;
 
+    public int damage;
+
     protected bool Automatic;
 
     protected int MagSize;

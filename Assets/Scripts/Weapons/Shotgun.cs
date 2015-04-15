@@ -33,6 +33,7 @@ public class Shotgun : Weapon
         MagSize = 8;
         CurrentAmmo = MagSize;
         Automatic = false;
+        damage = 5;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
@@ -70,6 +71,7 @@ public class Shotgun : Weapon
         SetPositionToPlayer = true;
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
+        GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }

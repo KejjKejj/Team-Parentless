@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour
 
     public bool PickUpFirstWeapon = true;
     public float PickUpFirstTimer;
+    public int WeaponDamage;
 
     public bool CarryingWeapon = false;
 
@@ -115,20 +116,11 @@ public class Movement : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D coll)
     {
-        
-        if (coll.gameObject.tag == "BossShot")
-        {
-            if (Health < 1)
+            if (Health <= 0)
             {
                 Destroy(gameObject);
                 Application.LoadLevel(4);
             }
-
-            else
-            {
-                Health -= 1;
-            }
-        }
     }
 
 
@@ -201,7 +193,7 @@ public class Movement : MonoBehaviour
 	void FixedUpdate () 
     {
 	    Move ();
-
+        Debug.Log(WeaponDamage);
 		Direction ();
 	    SetAnimation();
         PickUpFirstTimer += Time.deltaTime;
@@ -209,6 +201,8 @@ public class Movement : MonoBehaviour
         {
             PickUp();
         }
+
+        
 	}
 }
 

@@ -28,7 +28,7 @@ public class BossShot : MonoBehaviour {
         if (GetBossState() == 2)
         {
             Bulletbody2d.velocity = new Vector2(Mathf.Cos(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer + angleshot) * 10,
-                                                Mathf.Sin(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer + angleshot) * 10);
+                                               Mathf.Sin(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer + angleshot) * 10);
            
             
         }
@@ -40,7 +40,12 @@ public class BossShot : MonoBehaviour {
     }
     void OnCollisionEnter2D(Collision2D coll)
     {
+        if (coll.transform.tag == "Player")
+        {
+            GameObject.Find("Character").SendMessage("ApplyDamage", 5);
+            
 
+        }
         Destroy(gameObject);
     }
 	// Update is called once per frame

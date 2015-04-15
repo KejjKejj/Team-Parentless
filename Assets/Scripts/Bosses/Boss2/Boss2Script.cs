@@ -45,15 +45,7 @@ public class Boss2Script : MainBossScript {
             charge = false;
 
         }
-        if (coll.transform.tag == "Shot1")
-        {
-            if (Health <= 0)
-            {
-                Destroy(gameObject);
-                SprayBlood();
-            }
-            Health--;
-        }
+   
     }
     void Raycasting()
     {

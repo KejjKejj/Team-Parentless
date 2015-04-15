@@ -25,17 +25,14 @@ public class EnemyBehaviour : MonoBehaviour {
     public Vector3 Target;
     public Vector3 MoveDirection;
     public Vector3 Velocity;
-
-
-
-
-
+    
 
 
 
 	// Use this for initialization
 	void Start ()
 	{
+      
 		EnemyRigid2D = GetComponent<Rigidbody2D> ();
 		EnemyPos = new Vector3 (EnemyRigid2D.position.x, EnemyRigid2D.position.y, 0);
         
@@ -93,32 +90,9 @@ public class EnemyBehaviour : MonoBehaviour {
         }
         EnemyRigid2D.velocity = new Vector2(Velocity.x, Velocity.y);
         //transform.rotation = Quaternion.);
-        transform.LookAt(Target);
+        //transform.LookAt(Target);
 
-        //if (EnemyRigid2D.position.x < -6)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(0, 10), Random.Range(-10, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //else if (EnemyRigid2D.position.x > 25)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 0), Random.Range(-10, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //else if (EnemyRigid2D.position.y > 12)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 10), Random.Range(-10, 0), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //if (EnemyRigid2D.position.y < 0)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 10), Random.Range(0, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
+        
     }
 	// Roterar fienden mot spelarens håll
 	void Direction()
@@ -126,17 +100,9 @@ public class EnemyBehaviour : MonoBehaviour {
 		Vector3 PlayerPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
 		transform.rotation = Quaternion.LookRotation (Vector3.forward, PlayerPos - EnemyPos);
 	}
+    
+   
 
-    //void OnCollisionEnter2D(Collision2D coll)
-    //{
-        
-    //    if (coll.gameObject.tag == "Shot1")
-    //    {
-    //        Destroy(gameObject);
-    //        SpawnCrate();
-    //        SprayBlood();
-    //    }
-    //}
 
     void ApplyDamage(int damage)
     {
@@ -178,9 +144,9 @@ public class EnemyBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-	
+       
 		Move ();
-
+       
         //Test();
 
 	}

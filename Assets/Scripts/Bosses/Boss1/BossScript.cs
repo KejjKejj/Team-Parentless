@@ -96,24 +96,6 @@ public class BossScript : MainBossScript {
         }
     }
 
-
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (coll.transform.tag == "Shot1")
-        {
-            if (Health <= 0)
-            {
-                Destroy(gameObject);
-                SprayBlood();
-            }
-            Health--;
-        }
-    }
-
-
- 
-
-    
 	// Update is called once per frame
 	void Update () {
         Shot();

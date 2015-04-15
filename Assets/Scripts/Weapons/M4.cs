@@ -26,6 +26,7 @@ public class M4 : Weapon
         FireRate = 0.1f;
         MagSize = 100;
         CurrentAmmo = MagSize;
+        damage = 3;
         Automatic = true;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
@@ -64,6 +65,7 @@ public class M4 : Weapon
         SetPositionToPlayer = true;
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
+        GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }

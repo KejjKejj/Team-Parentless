@@ -60,6 +60,7 @@ public class MainBossScript : MonoBehaviour {
 
     }
 
+    
     public void SprayBlood()
     {
         Bloodspatter = new GameObject[20];
