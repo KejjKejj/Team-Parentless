@@ -96,23 +96,28 @@ public class BossScript : MainBossScript {
         }
     }
 
-
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.transform.tag == "Shot1")
+        Health -= 10;
+
+
+        if (Health <= 0)
         {
-            if (Health <= 0)
+            Debug.Log("Död!");
+            Destroy(gameObject);
+            SprayBlood();
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 1000);
+            if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
             {
-                Destroy(gameObject);
-                SprayBlood();
+                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
             }
-            Health--;
+            PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney",
+                                PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
+                                GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
+            Application.LoadLevel(2);
         }
+
     }
-
-
- 
-
     
 	// Update is called once per frame
 	void Update () {

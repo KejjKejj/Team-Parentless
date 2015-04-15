@@ -92,8 +92,8 @@ public class EnemyBehaviour : MonoBehaviour {
             }
         }
         EnemyRigid2D.velocity = new Vector2(Velocity.x, Velocity.y);
-        //transform.rotation = Quaternion.);
-        transform.LookAt(Target);
+        //transform.rotation = Quaternion.LookRotation(Vector3.forward, ));
+        //transform.LookAt(Target);
 
         //if (EnemyRigid2D.position.x < -6)
         //{

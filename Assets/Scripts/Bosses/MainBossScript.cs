@@ -28,21 +28,21 @@ public class MainBossScript : MonoBehaviour {
 
         if (Health <= 0)
         {
+            Debug.Log("Död!");
             Destroy(gameObject);
             SprayBlood();
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 1000);
             if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
             {
                 PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
             }
+            PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney", 
+                                PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
+                                GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
             Application.LoadLevel(2);
         }
 
     }
-        
-    
-
-
-   
 
     void OnGUI()
     {
