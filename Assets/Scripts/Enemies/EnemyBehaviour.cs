@@ -7,15 +7,12 @@ public class EnemyBehaviour : MonoBehaviour {
     public GameObject Blood;
     public GameObject AmmoCrate;
     public GameObject[] Bloodspatter;
-	private float Speed = 0.5f;
     private int RandAmmo;
 	private Vector3 EnemyPos;
 	private float Distance;
 	private float Vinkel;
 
     public int Health = 10;
-
-    private int state = 0;
 
 
     public float patrolSpeed;
@@ -26,11 +23,13 @@ public class EnemyBehaviour : MonoBehaviour {
     public Vector3 MoveDirection;
     public Vector3 Velocity;
 
+	public Transform SightEnemy1, SightPlayer1;
+	public bool Spotted = false;
+	public bool Detected = false;
 
-
-
-
-
+	public GameObject EnemyBullet;
+	private float timer = 1f;
+	public Transform Player;
 
 
 	// Use this for initialization
@@ -40,6 +39,40 @@ public class EnemyBehaviour : MonoBehaviour {
 		EnemyPos = new Vector3 (EnemyRigid2D.position.x, EnemyRigid2D.position.y, 0);
         
 	}
+
+	void OnTriggerStay2D(Collider2D collissionObject)
+	{
+		Vector3 PlayerPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
+		float PlayerX = PlayerPos.x - EnemyRigid2D.position.x;
+		float PlayerY = PlayerPos.y - EnemyRigid2D.position.y;
+		Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
+
+		if (collissionObject.tag == "Player") 
+		{
+			EnemyRigid2D.velocity = TowardsPlayer * 0;
+			Direction();
+			Spotted = true;
+			Detected = true;
+			Attack();
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D collissionObject)
+	{
+		if (collissionObject.tag == "Player")
+			Spotted = false;
+	}
+
+	void Attack()
+	{
+		timer -= Time.deltaTime;
+		if (timer <= 0) 
+		{
+			Instantiate(EnemyBullet,transform.position,transform.rotation);
+			timer = 1f;
+		}
+	}
+
 	void Move()
 	{
 		Vector3 PlayerPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
@@ -48,14 +81,22 @@ public class EnemyBehaviour : MonoBehaviour {
 		Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
 		Distance = Vector3.Distance (EnemyPos, PlayerPos);
 
-		if (Distance < 5) 
+		Debug.DrawLine (SightEnemy1.position, SightPlayer1.position, Color.blue);
+
+
+		if (Detected) 
 		{
-			EnemyRigid2D.velocity = TowardsPlayer * Speed;
+			EnemyRigid2D.velocity = TowardsPlayer * 1 * Time.deltaTime;
 			Direction();
-		} 
-		else if (Distance > 5) 
+			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Default")) &&
+			   !Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("FirmWall")))
+			{
+				EnemyRigid2D.velocity = TowardsPlayer * 0;
+				Attack();
+			}
+		}
+		 if (!Spotted && !Detected) 
 		{
-			//EnemyRigid2D.velocity = new Vector2(Random.Range(5,5),Random.Range(2,2));
             Patrol();
 		}
 		EnemyPos = new Vector2(EnemyRigid2D.position.x, EnemyRigid2D.position.y);
@@ -92,33 +133,7 @@ public class EnemyBehaviour : MonoBehaviour {
             }
         }
         EnemyRigid2D.velocity = new Vector2(Velocity.x, Velocity.y);
-        //transform.rotation = Quaternion.LookRotation(Vector3.forward, ));
-        //transform.LookAt(Target);
 
-        //if (EnemyRigid2D.position.x < -6)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(0, 10), Random.Range(-10, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //else if (EnemyRigid2D.position.x > 25)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 0), Random.Range(-10, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //else if (EnemyRigid2D.position.y > 12)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 10), Random.Range(-10, 0), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
-        //if (EnemyRigid2D.position.y < 0)
-        //{
-        //    Vector3 Rand = new Vector3(Random.Range(-10, 10), Random.Range(0, 10), 0);
-        //    EnemyRigid2D.velocity = Rand * Speed;
-        //    transform.rotation = Quaternion.LookRotation(Vector3.forward, Rand);
-        //}
     }
 	// Roterar fienden mot spelarens håll
 	void Direction()
@@ -180,8 +195,6 @@ public class EnemyBehaviour : MonoBehaviour {
     {
 	
 		Move ();
-
-        //Test();
 
 	}
 }
