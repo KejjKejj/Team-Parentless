@@ -12,7 +12,7 @@ public class EnemyBehaviour : MonoBehaviour {
 	private Vector3 EnemyPos;
 	private float Distance;
 	private float Vinkel;
-
+    public int Health = 10;
 	// Use this for initialization
 	void Start ()
 	{
@@ -48,17 +48,22 @@ public class EnemyBehaviour : MonoBehaviour {
 		transform.rotation = Quaternion.LookRotation (Vector3.forward, PlayerPos - EnemyPos);
 	}
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        Debug.Log("Träff");
-        if (coll.gameObject.tag == "Shot1")
-        {
-            Destroy(gameObject);
-            SpawnCrate();
-            SprayBlood();
-        }
-    }
+    //void OnCollisionEnter2D(Collision2D coll)
+    //{
+        
+    //    if (coll.gameObject.tag == "Shot1")
+    //    {
+    //        Destroy(gameObject);
+    //        SpawnCrate();
+    //        SprayBlood();
+    //    }
+    //}
 
+    void ApplyDamage(int damage)
+    {
+        Health -= damage;
+        
+    }
     
 
     public void SprayBlood()
@@ -88,5 +93,11 @@ public class EnemyBehaviour : MonoBehaviour {
     {
 	
 		Move ();
+        if(Health <= 0)
+        {
+            Destroy(gameObject);
+            SpawnCrate();
+            SprayBlood();
+        }
 	}
 }

@@ -9,6 +9,7 @@ public class MainBossScript : MonoBehaviour {
     public GameObject Blood;
     public GameObject[] Bloodspatter;
     
+    
 	// Use this for initialization
     
 	void Start () {
@@ -20,19 +21,19 @@ public class MainBossScript : MonoBehaviour {
         return GameObject.Find("BossZone").GetComponent<BossZone>().OpenFire;
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+    void ApplyDamage(int damage)
     {
-        if (coll.gameObject.tag == "Shot1")
+        Health -= damage;
+        if (Health <= 0)
         {
-            if (Health <= 0)
-            {
-                Destroy(gameObject);
-                SprayBlood();
-            }
-            Health--;
+            Destroy(gameObject);
+            SprayBlood();
         }
-
+        
     }
+
+
+   
 
     void OnGUI()
     {
@@ -63,8 +64,11 @@ public class MainBossScript : MonoBehaviour {
 
         }
     }
+
+
 	// Update is called once per frame
 	void Update () {
-	
+
+       
 	}
 }

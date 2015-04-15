@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 958472970bcceae4c8e54741226c050d
+timeCreated: 1428662541
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - EnemyRigid2D: {instanceID: 0}
+  - Healthbar: {fileID: 2800000, guid: 294bcef98969b2544a30e8b8df96a3a0, type: 3}
+  - Blood: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

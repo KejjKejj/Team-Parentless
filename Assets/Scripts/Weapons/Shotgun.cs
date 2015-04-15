@@ -18,8 +18,7 @@ public class Shotgun : Weapon
     private AudioSource Audio2;
     public AudioClip Shot;
     public AudioClip Shell;
-    public float Recoil = 0;
-    public float MaxRecoil = 0.1f;
+    
 
 
     // Use this for initialization

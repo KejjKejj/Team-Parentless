@@ -12,7 +12,7 @@ public class BossZone : MonoBehaviour {
         
         if (coll.gameObject.tag == "Player")
         {
-            Debug.Log("Inne i bossrange");
+            
             OpenFire = true;
         }
     }
@@ -21,7 +21,7 @@ public class BossZone : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Player")
         {
-            Debug.Log("Lämnar bossrange");
+            
             OpenFire = false;
         }
     }

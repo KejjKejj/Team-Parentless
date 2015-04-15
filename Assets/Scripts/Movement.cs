@@ -18,6 +18,7 @@ public class Movement : MonoBehaviour {
     public float JumpDelay = 0;
     public bool CarryingWeapon = false;
 	public GameObject Bullet;
+    public GameObject Knife;
 	public Rigidbody2D ReturnPlayerPos(){
 		return charRigid2D;
 	}
@@ -66,11 +67,18 @@ public class Movement : MonoBehaviour {
 
 		charRigid2D.velocity = movement * Speed;
 
-        
+        if(Input.GetMouseButtonDown(1))
+        {
+            KnifeAttack();
+        }
 	}
 
 
+    void ApplyDamage(int damage)
+    {
+        Health -= damage;
 
+    }
     void OnCollisionEnter2D(Collision2D coll)
     {
         
@@ -84,14 +92,17 @@ public class Movement : MonoBehaviour {
 
             else
             {
-                Health -= 10;
+                Health -= 1;
             }
         }
     }
 
-    
 
 
+    void KnifeAttack()
+    {
+        Instantiate(Knife, transform.position, Quaternion.identity);
+    } 
 	void Direction()
 	{
 		Vector3 MousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -103,6 +114,7 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		//Shot ();
+        
 		Move ();
 		Direction ();
 	}

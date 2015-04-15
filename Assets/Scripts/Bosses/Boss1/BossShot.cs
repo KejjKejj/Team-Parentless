@@ -11,6 +11,7 @@ public class BossShot : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+        
         Player = GameObject.Find("Character").GetComponent<Movement>().ReturnPlayerPos();
         Boss = GameObject.Find("Boss").GetComponent<BossScript>().ReturnBossPos();
         Bulletbody2d = GetComponent<Rigidbody2D>();

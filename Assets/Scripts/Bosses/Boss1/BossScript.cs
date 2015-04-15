@@ -13,7 +13,7 @@ public class BossScript : MainBossScript {
     public float TimeBetweenShots = 0.5f;
     public float Timer = 0;
     public float BossRottimer = 0;
-    
+
     public Rigidbody2D ReturnBossPos()
     {
         return EnemyRigid2D;
@@ -96,7 +96,20 @@ public class BossScript : MainBossScript {
         }
     }
 
-    
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.transform.tag == "Shot1")
+        {
+            if (Health <= 0)
+            {
+                Destroy(gameObject);
+                SprayBlood();
+            }
+            Health--;
+        }
+    }
+
 
  
 
