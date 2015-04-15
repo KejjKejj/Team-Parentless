@@ -96,32 +96,10 @@ public class BossScript : MainBossScript {
         }
     }
 
-<<<<<<< HEAD
-=======
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        Health -= 10;
 
-
-        if (Health <= 0)
-        {
-            Debug.Log("Död!");
-            Destroy(gameObject);
-            SprayBlood();
-            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 1000);
-            if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
-            {
-                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
-            }
-            PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney",
-                                PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
-                                GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
-            Application.LoadLevel(2);
-        }
-
-    }
     
->>>>>>> 1af85ce9a46f383f540cd73b5c8ca6cbf36c1cca
+    
+
 	// Update is called once per frame
 	void Update () {
         Shot();
