@@ -4,7 +4,7 @@ using System.Collections;
 public class MainBossScript : MonoBehaviour {
 
     public Rigidbody2D EnemyRigid2D;
-    protected int Health;
+    public int Health;
     public Texture Healthbar;
     public GameObject Blood;
     public GameObject[] Bloodspatter;
