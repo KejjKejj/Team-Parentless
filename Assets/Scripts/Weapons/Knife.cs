@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Knife : Weapon {
+public class Knife : Weapon
+{
 
-    
+    public AudioClip Slash;
+
+
     public GameObject obj;
     GameObject Player;
     public Color CurrColor;
@@ -24,6 +27,8 @@ public class Knife : Weapon {
         float angle = Mathf.Atan2(deltaY, deltaX);
         
         transform.position = new Vector3(Player.transform.position.x + (Mathf.Cos(angle)), Player.transform.position.y + (Mathf.Sin(angle)), Player.transform.position.z);
+
+        AudioSource.PlayClipAtPoint(Slash, transform.position, 0.5f);
     }
 
 

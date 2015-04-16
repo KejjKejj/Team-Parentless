@@ -23,6 +23,11 @@ public class LevelSelectScript : MonoBehaviour
     public void SelectLevel(int level)
     {
         PlayerPrefs.SetInt("SelectedLevel", level);
+        Application.LoadLevel(5);
+    }
+
+    public void WeaponShopButton()
+    {
         Application.LoadLevel(4);
     }
 
