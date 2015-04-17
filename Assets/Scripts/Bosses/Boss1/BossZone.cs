@@ -8,8 +8,7 @@ public class BossZone : MonoBehaviour {
 	
 	}
     void OnTriggerEnter2D(Collider2D coll)
-    {
-        
+    {        
         if (coll.gameObject.tag == "Player")
         {
             
@@ -20,8 +19,7 @@ public class BossZone : MonoBehaviour {
     void OnTriggerExit2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Player")
-        {
-            
+        {           
             OpenFire = false;
         }
     }

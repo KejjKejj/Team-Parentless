@@ -38,6 +38,7 @@ public class BossShot : MonoBehaviour {
     {
         return GameObject.Find("Boss").GetComponent<BossScript>().state;
     }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.transform.tag == "Player")
