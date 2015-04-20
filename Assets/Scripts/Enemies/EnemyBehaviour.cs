@@ -9,11 +9,11 @@ public class EnemyBehaviour : MonoBehaviour {
     public GameObject[] Bloodspatter;
     private int RandAmmo;
 	private Vector3 EnemyPos;
-	private float Distance;
 	private float Vinkel;
 
-    public int Health = 10;
+    public float Health = 10;
 
+    public bool Onfire = false;
 
     public float patrolSpeed;
     public int CurWayPoint;
@@ -31,7 +31,8 @@ public class EnemyBehaviour : MonoBehaviour {
 	public GameObject EnemyBullet;
 	private float timer = 1f;
 	public Transform Player;
-
+       
+    
 
 
 	// Use this for initialization
@@ -68,7 +69,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
 	void Attack()
 	{
-		timer -= Time.deltaTime;
+
 		if (timer <= 0) 
 		{
 			Instantiate(EnemyBullet,transform.position,transform.rotation);
@@ -82,7 +83,7 @@ public class EnemyBehaviour : MonoBehaviour {
 		float PlayerX = PlayerPos.x - EnemyRigid2D.position.x;
 		float PlayerY = PlayerPos.y - EnemyRigid2D.position.y;
 		Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
-		Distance = Vector3.Distance (EnemyPos, PlayerPos);
+
 
 		Debug.DrawLine (SightEnemy1.position, SightPlayer1.position, Color.blue);
 
@@ -91,7 +92,7 @@ public class EnemyBehaviour : MonoBehaviour {
 		{
 			EnemyRigid2D.velocity = TowardsPlayer * 1 * Time.deltaTime;
 			Direction();
-			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Default")) &&
+			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Player")) &&
 			   !Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("FirmWall")))
 			{
 				EnemyRigid2D.velocity = TowardsPlayer * 0;
@@ -158,15 +159,31 @@ public class EnemyBehaviour : MonoBehaviour {
 
         Health -= damage;
  
+        //if (Health <= 0)
+        //{
+        //    GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
+        //    Destroy(gameObject);
+        //    SpawnCrate();
+        //    SprayBlood();
+        //}
+
+    }
+
+    void ApplyFireDamage(bool Fire)
+    {
+        Onfire = Fire;
+
+    }
+    void CheckIfDead()
+    {
         if (Health <= 0)
         {
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
             Destroy(gameObject);
             SpawnCrate();
             SprayBlood();
         }
-
     }
-    
 
     public void SprayBlood()
     {
@@ -193,9 +210,16 @@ public class EnemyBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-       
-		Move ();
 
+		timer -= Time.deltaTime;
+
+
+        CheckIfDead();
+		Move ();
+        if (Onfire)
+        {
+            Health -= 4 * Time.deltaTime;
+        }
 
 	}
 }

@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class M4 : Weapon
+public class Flamethrower: Weapon
 {
 
     public int CurrentAmmo;
 
-    public GameObject Bullet;
+    public GameObject Flame;
     public GameObject obj;
     public GameObject ShellObj;
     public GameObject GunFlashLight;
     public Movement Player;
-    
+
     private AudioSource[] AudioSources;
     private AudioSource Audio1;
     private AudioSource Audio2;
@@ -23,10 +23,12 @@ public class M4 : Weapon
     // Use this for initialization
     void Start()
     {
-        FireRate = 0.1f;
-        MagSize = 100;
+        FireRate = 0.01f;
+        MagSize = 1000;
         CurrentAmmo = MagSize;
         damage = 2;
+        ShakeAmount = 0;
+        
         Automatic = true;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
@@ -60,7 +62,7 @@ public class M4 : Weapon
     }
 
     public void PickUpWeapon()
-    {    
+    {
         IsPickedUp = true;
         SetPositionToPlayer = true;
         PickUpDelayTimer = 0;
@@ -117,7 +119,7 @@ public class M4 : Weapon
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log(Audio1.isPlaying);
         // För att plocka upp vapen
         if (IsPickedUp && SetPositionToPlayer)
         {
@@ -150,11 +152,14 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Instantiate(Bullet, transform.position, transform.rotation);
+                    Instantiate(Flame, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
                     Audio1.clip = Shot;
-                    Audio1.Play();
+                    if (!Audio1.isPlaying)
+                    {
+                        Audio1.PlayOneShot(Shot);
+                    }
                     GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
@@ -170,11 +175,15 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    gameObject.GetComponent<Weapon>().Recoil = 0;
-                    Instantiate(Bullet, transform.position, transform.rotation);
+                    gameObject.GetComponent<Weapon>().Recoil = 0.25f;
+                    Instantiate(Flame, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
-                    Audio1.PlayOneShot(Shot);
+                    Audio1.clip = Shot;
+                    if (!Audio1.isPlaying)
+                    {
+                        Audio1.Play();
+                    }
                     GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
@@ -185,19 +194,29 @@ public class M4 : Weapon
             {
                 if (Input.GetMouseButton(0))
                 {
-                    if (gameObject.GetComponent<Weapon>().Recoil <= MaxRecoil)
-                    {
-                        gameObject.GetComponent<Weapon>().Recoil += 0.01f;
-                    }
-                    Instantiate(Bullet, transform.position, transform.rotation);
+                    
+                    Instantiate(Flame, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
-                    Audio1.PlayOneShot(Shot);
+                    Audio1.clip = Shot;
+                    if (!Audio1.isPlaying)
+                    {
+                        Audio1.Play();
+                    }
                     GunFlash();
                     Audio2.PlayOneShot(Shell);
                     Shellspread();
                 }
+                
             }
+            
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Audio1.clip = Shot;
+                    Audio1.Stop();
+                }
+
+            
         }
 
     }
