@@ -4,11 +4,13 @@ using System.Collections;
 public class MainBossScript : MonoBehaviour {
 
     public Rigidbody2D EnemyRigid2D;
-    public int Health;
+
+    public float Health;
+
     public Texture Healthbar;
     public GameObject Blood;
     public GameObject[] Bloodspatter;
-    
+    public bool Onfire = false;
     
 	// Use this for initialization
     
@@ -26,6 +28,31 @@ public class MainBossScript : MonoBehaviour {
         Health -= damage;
 
 
+        //if (Health <= 0)
+        //{
+        //    Debug.Log("Död!");
+        //    Destroy(gameObject);
+        //    SprayBlood();
+        //    GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 1000);
+        //    if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
+        //    {
+        //        PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+        //    }
+        //    PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney", 
+        //                        PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
+        //                        GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
+        //    Application.LoadLevel(2);
+        //}
+
+    }
+    void ApplyFireDamage(bool Fire)
+    {
+        Onfire = Fire;
+        
+    }
+    public void CheckIfDead()
+    {
+
         if (Health <= 0)
         {
             Debug.Log("Död!");
@@ -36,14 +63,12 @@ public class MainBossScript : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
             }
-            PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney", 
+            PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney",
                                 PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
                                 GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
             Application.LoadLevel(2);
         }
-
     }
-
     void OnGUI()
     {
         showBossHealth();
@@ -74,7 +99,8 @@ public class MainBossScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+        
        
+        Debug.Log(Health);
 	}
 }

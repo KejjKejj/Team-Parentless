@@ -9,11 +9,18 @@ public class MyCamera : MonoBehaviour {
     public Texture tex;
     bool Shake;
     int CamShakeMove = 100;
-
+    public float CamSize = 10;
     private int ShakeAmount;
 
-	void Start () {
-        
+    float Damping = 5f;
+    float Height  = 13.0f;
+    float Offset  = 0.0f;
+    private Vector3 CenterCamera;
+    private float yVelocity = 0.0F;
+    private float xVelocity = 0.0F;
+
+    void Start () {
+        gameObject.GetComponent<Camera>().orthographicSize = CamSize;
 	}
 
     int GetHealth()
@@ -64,10 +71,31 @@ public class MyCamera : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-
+        Vector3 MousePos = Input.mousePosition;
+        MousePos.z = 3f;
+        Vector3 CursorPos = Camera.main.ScreenToWorldPoint(MousePos);
         Vector3 player = GameObject.FindGameObjectWithTag("Player").transform.position;
         player.z -= DistFromPlayer;
-        transform.position = player;
+        float camx = (player.x + CursorPos.x) /2;
+        float camy = (player.y + CursorPos.y) /2;
+
+        float NewCamx = Mathf.SmoothDamp(player.x, CursorPos.x, ref xVelocity, 3f);
+        float NewCamy = Mathf.SmoothDamp(player.y, CursorPos.y, ref yVelocity, 3f);
+        
+        //float angle = Mathf.Atan2(camy, camx);
+        //Vector2 range = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        //float NewCamx = Mathf.SmoothDamp(camx, range.x, ref xVelocity, 3f);
+        //float NewCamy = Mathf.SmoothDamp(camy, range.y, ref yVelocity, 3f);
+        
+        //float Stopcamx = camx;
+        //float Stopcamy = camy;
+        //CenterCamera = new Vector3(camx , camy, player.z);
+       
+        //transform.position = MousePos;
+
+        
+        transform.position = Vector3.Lerp(transform.position, new Vector3(NewCamx, NewCamy, player.z), Time.deltaTime * Damping);
+        
         CameraShake();
 	}
 }

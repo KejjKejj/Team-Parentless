@@ -11,8 +11,9 @@ public class EnemyBehaviour : MonoBehaviour {
 	private Vector3 EnemyPos;
 	private float Vinkel;
 
-    public int Health = 10;
+    public float Health = 10;
 
+    public bool Onfire = false;
 
     public float patrolSpeed;
     public int CurWayPoint;
@@ -30,7 +31,8 @@ public class EnemyBehaviour : MonoBehaviour {
 	public GameObject EnemyBullet;
 	private float timer = 1f;
 	public Transform Player;
-
+       
+    
 
 
 	// Use this for initialization
@@ -157,6 +159,23 @@ public class EnemyBehaviour : MonoBehaviour {
 
         Health -= damage;
  
+        //if (Health <= 0)
+        //{
+        //    GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
+        //    Destroy(gameObject);
+        //    SpawnCrate();
+        //    SprayBlood();
+        //}
+
+    }
+
+    void ApplyFireDamage(bool Fire)
+    {
+        Onfire = Fire;
+
+    }
+    void CheckIfDead()
+    {
         if (Health <= 0)
         {
             GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
@@ -164,9 +183,7 @@ public class EnemyBehaviour : MonoBehaviour {
             SpawnCrate();
             SprayBlood();
         }
-
     }
-    
 
     public void SprayBlood()
     {
@@ -196,10 +213,13 @@ public class EnemyBehaviour : MonoBehaviour {
 
 		timer -= Time.deltaTime;
 
-       
 
+        CheckIfDead();
 		Move ();
-
+        if (Onfire)
+        {
+            Health -= 4 * Time.deltaTime;
+        }
 
 	}
 }

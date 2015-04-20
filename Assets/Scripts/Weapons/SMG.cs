@@ -1,37 +1,36 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
-public class M4 : Weapon
-{
+public class SMG : Weapon {
 
     public int CurrentAmmo;
 
     public GameObject Bullet;
-    public GameObject obj;
+    private GameObject obj;
     public GameObject ShellObj;
     public GameObject GunFlashLight;
     public Movement Player;
-    
+
     private AudioSource[] AudioSources;
     private AudioSource Audio1;
     private AudioSource Audio2;
 
     public AudioClip Shot;
     public AudioClip Shell;
-    public AudioClip PickUp;
+	// Use this for initialization
+	void Start () {
 
-    // Use this for initialization
-    void Start()
-    {
-        FireRate = 0.1f;
-        MagSize = 100;
+        FireRate = 0.05f;
+        MagSize = 50;
         CurrentAmmo = MagSize;
-        damage = 2;
+        damage = 3;
         Automatic = true;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
-    }
+        gameObject.GetComponent<Weapon>().WeaponId = 3;
+	}
 
     void OnTriggerEnter2D(Collider2D collissionobject)
     {
@@ -54,20 +53,15 @@ public class M4 : Weapon
         }
     }
 
-    void OnTriggerExit2D(Collider2D collissionobject)
-    {
-
-    }
-
     public void PickUpWeapon()
-    {    
+    {
         IsPickedUp = true;
         SetPositionToPlayer = true;
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
-        Audio1.PlayOneShot(PickUp);
+        //Audio1.PlayOneShot(PickUp);
     }
 
     public void DropWeapon()
@@ -80,7 +74,7 @@ public class M4 : Weapon
 
     void Position()
     {
-        GameObject PlayerPos = GameObject.FindGameObjectWithTag("Player");
+        GameObject Player = GameObject.FindGameObjectWithTag("Player");
 
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 CharPos = new Vector3(Player.transform.position.x, Player.transform.position.y);
@@ -91,9 +85,11 @@ public class M4 : Weapon
 
         float angle = Mathf.Atan2(deltaY, deltaX);
 
-        transform.position = new Vector3(PlayerPos.transform.position.x + (Mathf.Cos(angle - 90) / 3), PlayerPos.transform.position.y + (Mathf.Sin(angle - 90) / 3), PlayerPos.transform.position.z);
+        transform.position = new Vector3(Player.transform.position.x + (Mathf.Cos(angle - 90) / 3), Player.transform.position.y + (Mathf.Sin(angle - 90) / 3), Player.transform.position.z);
 
         transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+
+
     }
 
     void OnGUI()
@@ -114,7 +110,7 @@ public class M4 : Weapon
         Instantiate(GunFlashLight, transform.position, Quaternion.identity);
 
     }
-    // Update is called once per frame
+	// Update is called once per frame
     void Update()
     {
 
@@ -143,7 +139,6 @@ public class M4 : Weapon
 
         // För att skjuta
         FireRateTimer += Time.deltaTime;
-        // Icke autovapen, pistoler etc
         if (!Automatic)
         {
             if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
@@ -153,8 +148,7 @@ public class M4 : Weapon
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;
                     CurrentAmmo--;
-                    Audio1.clip = Shot;
-                    Audio1.Play();
+                    Audio1.PlayOneShot(Shot);
                     GunFlash();
                     Audio2.clip = Shell;
                     Shellspread();
@@ -162,8 +156,6 @@ public class M4 : Weapon
                 }
             }
         }
-
-        // Automat-vapen
         if (Automatic)
         {
             if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
@@ -187,7 +179,7 @@ public class M4 : Weapon
                 {
                     if (gameObject.GetComponent<Weapon>().Recoil <= MaxRecoil)
                     {
-                        gameObject.GetComponent<Weapon>().Recoil += 0.01f;
+                        gameObject.GetComponent<Weapon>().Recoil += 0.02f;
                     }
                     Instantiate(Bullet, transform.position, transform.rotation);
                     FireRateTimer = 0;

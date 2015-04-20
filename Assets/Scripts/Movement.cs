@@ -30,7 +30,9 @@ public class Movement : MonoBehaviour
 
     private float Angle;
 
-    public GameObject Bullet;
+    public bool OnFire = false;
+
+	public GameObject Bullet;
 
     public GameObject Knife;
 
@@ -128,7 +130,14 @@ public class Movement : MonoBehaviour
         }
     }
 
-
+    void CheckIfDead()
+    {
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+            Application.LoadLevel(Application.loadedLevel);
+        }
+    }
     void PickUp()
     {
         if (WeaponInstance.GetComponent<M4>() != null)
@@ -180,6 +189,15 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //void OnFireDamage()
+    //{
+    //    if (OnFire)
+    //    {
+    //        Health -= 1;
+
+    //    }
+
+    //}
     void KnifeAttack()
     {
         Instantiate(Knife, transform.position, Quaternion.identity);
@@ -208,20 +226,10 @@ public class Movement : MonoBehaviour
             PickUp();
         }
 
+        //OnFireDamage();
+        CheckIfDead();
+        
+	}
 
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

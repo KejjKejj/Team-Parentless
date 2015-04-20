@@ -38,6 +38,7 @@ public class EnemyBullet : MonoBehaviour {
 		if (coll.gameObject.tag == "Player")
 		{
 			AudioSource.PlayClipAtPoint(Body, transform.position, 0.1f);
+            coll.gameObject.SendMessage("ApplyDamage", 5);
 		}
 		Destroy(gameObject); 
 	}
