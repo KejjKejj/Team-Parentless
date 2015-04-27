@@ -18,6 +18,7 @@ public class SMG : Weapon {
 
     public AudioClip Shot;
     public AudioClip Shell;
+    public AudioClip PickUp;
 	// Use this for initialization
 	void Start () {
 
@@ -61,7 +62,7 @@ public class SMG : Weapon {
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
-        //Audio1.PlayOneShot(PickUp);
+        Audio1.PlayOneShot(PickUp);
     }
 
     public void DropWeapon()

@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     public int JumpSpeed = 3;
     public bool Jumped;
     public float JumpTime = 0;
-    public float SetJumpTime = 0.1f;
+    public float SetJumpTime = 2f;
     public float JumpDelay = 0;
 
     private float KnifeTimer = 0;
@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
     public int WeaponDamage;
 
     public bool CarryingWeapon = false;
+    public bool IsHandgun = false;
 
     private float Angle;
 
@@ -77,9 +78,10 @@ public class Movement : MonoBehaviour
 
         JumpDelay += Time.deltaTime;
         if (!Jumped && JumpDelay > 0.5f) // Har man inte hoppat och hoppat inom 0.5 sek?
-        {
+        {       
             if (Input.GetButton("Jump")) // Trycker man space, sätt Jumped till sant och hopp delayen till 0
             {
+                Anim.SetBool("Sliding", true);
                 Jumped = true;
                 JumpDelay = 0;
             }
@@ -99,6 +101,7 @@ public class Movement : MonoBehaviour
 
         if (!Jumped)
         {
+            Anim.SetBool("Sliding", false);
             Physics2D.IgnoreLayerCollision(15, 18, false);
         }
 
@@ -123,21 +126,24 @@ public class Movement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (Health <= 0)
-        {
-            Destroy(gameObject);
-            Application.LoadLevel(Application.loadedLevel);
-        }
+        //if (Health <= 0)
+        //{
+        //    Destroy(gameObject);
+        //    Application.LoadLevel(Application.loadedLevel);
+        //}
     }
 
     void CheckIfDead()
     {
+        
         if (Health <= 0)
         {
-            Destroy(gameObject);
-            Application.LoadLevel(Application.loadedLevel);
+            Anim.Play("Death");
+            //Destroy(gameObject);
+            //Application.LoadLevel(Application.loadedLevel);
         }
     }
+
     void PickUp()
     {
         if (WeaponInstance.GetComponent<M4>() != null)
@@ -161,31 +167,113 @@ public class Movement : MonoBehaviour
 
     void SetAnimation()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0 && ((Angle > 45 && Angle < 135) || (Angle > 225 && Angle < 325)))
+        if (CarryingWeapon)
         {
-            Anim.SetBool("Strafing", false);
-            Anim.SetBool("Walking", true);
-        }
-        else if (Input.GetAxisRaw("Vertical") != 0 && ((Angle < 45 || Angle > 325) || (Angle > 135 && Angle < 225)))
-        {
-            Anim.SetBool("Strafing", false);
-            Anim.SetBool("Walking", true);
-        }
-        else if (Input.GetAxisRaw("Horizontal") != 0)
-        {
-            Anim.SetBool("Walking", false);
-            Anim.SetBool("Strafing", true);
-        }
+            if (IsHandgun)
+            {
+                Anim.SetBool("Strafing", false);
+                Anim.SetBool("Walking", false);
+                Anim.SetBool("StrafingUnarmed", false);
+                Anim.SetBool("WalkingUnarmed", false);
+                Anim.SetBool("Pistol", true);
+                Anim.SetBool("Armed", false);
+                if (Input.GetAxisRaw("Horizontal") != 0 && ((Angle > 45 && Angle < 135) || (Angle > 225 && Angle < 325)))
+                {
+                    Anim.SetBool("StrafingPistol", false);
+                    Anim.SetBool("WalkingPistol", true);
+                }
+                else if (Input.GetAxisRaw("Vertical") != 0 && ((Angle < 45 || Angle > 325) || (Angle > 135 && Angle < 225)))
+                {
+                    Anim.SetBool("StrafingPistol", false);
+                    Anim.SetBool("WalkingPistol", true);
+                }
+                else if (Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    Anim.SetBool("WalkingPistol", false);
+                    Anim.SetBool("StrafingPistol", true);
+                }
 
-        else if (Input.GetAxisRaw("Vertical") != 0)
-        {
-            Anim.SetBool("Walking", false);
-            Anim.SetBool("Strafing", true);
+                else if (Input.GetAxisRaw("Vertical") != 0)
+                {
+                    Anim.SetBool("WalkingPistol", false);
+                    Anim.SetBool("StrafingPistol", true);
+                }
+                else
+                {
+                    Anim.SetBool("StrafingPistol", false);
+                    Anim.SetBool("WalkingPistol", false);
+                }
+            }
+            else
+            {
+                Anim.SetBool("StrafingPistol", false);
+                Anim.SetBool("WalkingPistol", false);
+                Anim.SetBool("StrafingUnarmed", false);
+                Anim.SetBool("WalkingUnarmed", false);
+                Anim.SetBool("Pistol", false);
+                Anim.SetBool("Armed", true);
+                if (Input.GetAxisRaw("Horizontal") != 0 && ((Angle > 45 && Angle < 135) || (Angle > 225 && Angle < 325)))
+                {
+                    Anim.SetBool("Walking", false);
+                    Anim.SetBool("Strafing", true);
+                }
+                else if (Input.GetAxisRaw("Vertical") != 0 && ((Angle < 45 || Angle > 325) || (Angle > 135 && Angle < 225)))
+                {
+                    Anim.SetBool("Strafing", false);
+                    Anim.SetBool("Walking", true);
+                }
+                else if (Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    Anim.SetBool("Walking", false);
+                    Anim.SetBool("Strafing", true);
+                }
+
+                else if (Input.GetAxisRaw("Vertical") != 0)
+                {
+                    Anim.SetBool("Walking", false);
+                    Anim.SetBool("Strafing", true);
+                }
+                else
+                {
+                    Anim.SetBool("Strafing", false);
+                    Anim.SetBool("Walking", false);
+                }
+            }
         }
-        else
+        if (!CarryingWeapon)
         {
             Anim.SetBool("Strafing", false);
             Anim.SetBool("Walking", false);
+            Anim.SetBool("StrafingPistol", false);
+            Anim.SetBool("WalkingPistol", false);
+            Anim.SetBool("Pistol", false);
+            Anim.SetBool("Armed", false);
+            if (Input.GetAxisRaw("Horizontal") != 0 && ((Angle > 45 && Angle < 135) || (Angle > 225 && Angle < 325)))
+            {
+                Anim.SetBool("StrafingUnarmed", false);
+                Anim.SetBool("WalkingUnarmed", true);
+            }
+            else if (Input.GetAxisRaw("Vertical") != 0 && ((Angle < 45 || Angle > 325) || (Angle > 135 && Angle < 225)))
+            {
+                Anim.SetBool("StrafingUnarmed", false);
+                Anim.SetBool("WalkingUnarmed", true);
+            }
+            else if (Input.GetAxisRaw("Horizontal") != 0)
+            {
+                Anim.SetBool("WalkingUnarmed", false);
+                Anim.SetBool("StrafingUnarmed", true);
+            }
+
+            else if (Input.GetAxisRaw("Vertical") != 0)
+            {
+                Anim.SetBool("WalkingUnarmed", false);
+                Anim.SetBool("StrafingUnarmed", true);
+            }
+            else
+            {
+                Anim.SetBool("StrafingUnarmed", false);
+                Anim.SetBool("WalkingUnarmed", false);
+            }
         }
     }
 
@@ -199,9 +287,10 @@ public class Movement : MonoBehaviour
 
     //}
     void KnifeAttack()
-    {
+    {       
         Instantiate(Knife, transform.position, Quaternion.identity);
     }
+
     void Direction()
     {
         Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -216,7 +305,6 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         Move();
-        Debug.Log(WeaponDamage);
         Direction();
         SetAnimation();
         PickUpFirstTimer += Time.deltaTime;

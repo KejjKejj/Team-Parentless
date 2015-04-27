@@ -69,7 +69,7 @@ public class Flamethrower: Weapon
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
-        Audio1.PlayOneShot(PickUp);
+        //Audio1.PlayOneShot(PickUp);
     }
 
     public void DropWeapon()
@@ -185,9 +185,9 @@ public class Flamethrower: Weapon
                         Audio1.Play();
                     }
                     GunFlash();
-                    Audio2.clip = Shell;
-                    Shellspread();
-                    Audio2.PlayDelayed(0.2f);
+                    //Audio2.clip = Shell;
+                    //Shellspread();
+                    //Audio2.PlayDelayed(0.2f);
                 }
             }
             if (IsPickedUp && FireRateTimer >= FireRate && CurrentAmmo > 0)
@@ -203,9 +203,9 @@ public class Flamethrower: Weapon
                     {
                         Audio1.Play();
                     }
-                    GunFlash();
-                    Audio2.PlayOneShot(Shell);
-                    Shellspread();
+                    //GunFlash();
+                    //Audio2.PlayOneShot(Shell);
+                    //Shellspread();
                 }
                 
             }
