@@ -19,6 +19,8 @@ public class MyCamera : MonoBehaviour {
     private float yVelocity = 0.0F;
     private float xVelocity = 0.0F;
 
+
+    public GUIStyle gui;
     void Start () {
         gameObject.GetComponent<Camera>().orthographicSize = CamSize;
 	}
@@ -31,7 +33,8 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
-        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
+        //GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
+        GUI.TextField(new Rect(0, Screen.height-20, 85, 20), "Health: " + GetHealth().ToString(),gui);
     }
   
   

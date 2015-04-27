@@ -11,6 +11,8 @@ public class TurretScript : MonoBehaviour {
     public float Health = 20;
     private int RandAmmo;
     public bool Onfire = false;
+    public int MaxFire = 30;
+    private int NumberShots = 0;
     
 	// Use this for initialization
 	void Start () {
@@ -24,7 +26,7 @@ public class TurretScript : MonoBehaviour {
         !Physics2D.Linecast(transform.position, PlayerPos,1<<LayerMask.NameToLayer("FirmWall")))
         {
             Direction();
-            Attack();
+            StartCoroutine(Cooldown());
         }
         Debug.DrawLine(transform.position,PlayerPos,Color.black);
         
@@ -34,8 +36,25 @@ public class TurretScript : MonoBehaviour {
     {
 
         Health -= damage;
-
+        Debug.Log(Health);
         
+    }
+
+    IEnumerator Cooldown()
+    {
+       
+        if (NumberShots <= MaxFire)
+        {
+            Attack();
+            NumberShots++;
+            Debug.Log(NumberShots);
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            NumberShots = 0;
+            
+        }
     }
     void Direction()
     {
@@ -61,6 +80,7 @@ public class TurretScript : MonoBehaviour {
         Onfire = Fire;
 
     }
+    
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
@@ -79,5 +99,6 @@ public class TurretScript : MonoBehaviour {
         {
             Health -= 4 * Time.deltaTime;
         }
+        CheckIfDead();
 	}
 }

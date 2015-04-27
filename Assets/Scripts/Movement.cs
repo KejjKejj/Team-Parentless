@@ -87,7 +87,7 @@ public class Movement : MonoBehaviour
 
         if (Jumped) // Har man tryckt hoppa
         {
-            Physics2D.IgnoreLayerCollision(15, 18, true);
+            Physics2D.IgnoreLayerCollision(1, 18, true);
             movement = movement * 2; // Dubbla hastigheten på spelaren
             JumpTime += Time.deltaTime; // Räkna tiden som hoppet hållt på
             if (JumpTime >= SetJumpTime) // Om tiden är större än tiden hoppet ska hålla på, sätt hoppet till false och hopptiden till 0

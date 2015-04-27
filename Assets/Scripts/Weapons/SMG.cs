@@ -18,6 +18,7 @@ public class SMG : Weapon {
 
     public AudioClip Shot;
     public AudioClip Shell;
+    public GUIStyle GuiFont;
 	// Use this for initialization
 	void Start () {
 
@@ -96,7 +97,7 @@ public class SMG : Weapon {
     {
         if (IsPickedUp)
         {
-            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+            GUI.TextField(new Rect(130, Screen.height-20, 120, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString(),GuiFont);
         }
     }
 
