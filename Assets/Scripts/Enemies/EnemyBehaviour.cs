@@ -31,6 +31,10 @@ public class EnemyBehaviour : MonoBehaviour {
 	private float timer = 1f;
 	public Transform Player;
 
+    public Vector2 TempPlayerPos;
+
+
+    public Transform testPath;
 
 
 	// Use this for initialization
@@ -56,6 +60,7 @@ public class EnemyBehaviour : MonoBehaviour {
 			Spotted = true;
 			Detected = true;
 			Attack();
+            TempPlayerPos = new Vector2(PlayerPos.x, PlayerPos.y);
 		}
 	}
 
@@ -75,12 +80,12 @@ public class EnemyBehaviour : MonoBehaviour {
 		}
 	}
 
+
 	void Move()
 	{
 		Vector3 PlayerPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
-		float PlayerX = PlayerPos.x - EnemyRigid2D.position.x;
-		float PlayerY = PlayerPos.y - EnemyRigid2D.position.y;
-		Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
+
+		//Vector2 TowardsPlayer = new Vector2 (PlayerX, PlayerY);
 
 
 		Debug.DrawLine (SightEnemy1.position, SightPlayer1.position, Color.blue);
@@ -88,21 +93,43 @@ public class EnemyBehaviour : MonoBehaviour {
 
 		if (Detected) 
 		{
-			EnemyRigid2D.velocity = TowardsPlayer * 1 * Time.deltaTime;
-			Direction();
+
+
+
+            float LastSeenX = TempPlayerPos.x - EnemyPos.x;
+            float LastSeenY = TempPlayerPos.y - EnemyPos.y;
+            Vector2 TowardsLastSeen = new Vector2(LastSeenX, LastSeenY);
+            EnemyRigid2D.velocity = TowardsLastSeen * 5 * Time.deltaTime;
+
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, TowardsLastSeen);
+
+            //Om det är fri sikt, dvs ingen vägg finns mellan Enemy och player enligt linecasten
 			if(Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("Player")) &&
 			   !Physics2D.Linecast (SightEnemy1.position, SightPlayer1.position, 1 << LayerMask.NameToLayer ("FirmWall")))
 			{
-				EnemyRigid2D.velocity = TowardsPlayer * 0;
+				EnemyRigid2D.velocity = TowardsLastSeen * 0;
+                Direction();
 				Attack();
+                TempPlayerPos = new Vector2(PlayerPos.x, PlayerPos.y);
+                EnemyPos = new Vector2(EnemyRigid2D.position.x, EnemyRigid2D.position.y);
 			}
 		}
 		 if (!Spotted && !Detected) 
 		{
             Patrol();
 		}
-		EnemyPos = new Vector2(EnemyRigid2D.position.x, EnemyRigid2D.position.y);
+		
 	}
+
+    void Hunt()
+    {
+        Vector3 Target = testPath.position;
+        Vector3 MoveDirection = Target - transform.position;
+        Vector3 Velocity = EnemyRigid2D.velocity;
+
+
+
+    }
 
     void Patrol()
     {
