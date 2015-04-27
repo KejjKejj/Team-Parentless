@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics;
 
 public class MyCamera : MonoBehaviour {
 
@@ -23,7 +24,8 @@ public class MyCamera : MonoBehaviour {
     public GUIStyle gui;
     void Start () {
         gameObject.GetComponent<Camera>().orthographicSize = CamSize;
-	}
+        
+    }
 
     int GetHealth()
     {
@@ -33,8 +35,10 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
+
         //GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
         GUI.TextField(new Rect(0, Screen.height-20, 85, 20), "Health: " + GetHealth().ToString(),gui);
+
     }
   
   
@@ -78,26 +82,20 @@ public class MyCamera : MonoBehaviour {
         MousePos.z = 3f;
         Vector3 CursorPos = Camera.main.ScreenToWorldPoint(MousePos);
         Vector3 player = GameObject.FindGameObjectWithTag("Player").transform.position;
+	    Vector3 crosshair = GameObject.Find("Crosshair").transform.position;
         player.z -= DistFromPlayer;
-        float camx = (player.x + CursorPos.x) /2;
-        float camy = (player.y + CursorPos.y) /2;
 
-        float NewCamx = Mathf.SmoothDamp(player.x, CursorPos.x, ref xVelocity, 3f);
-        float NewCamy = Mathf.SmoothDamp(player.y, CursorPos.y, ref yVelocity, 3f);
-        
-        //float angle = Mathf.Atan2(camy, camx);
-        //Vector2 range = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-        //float NewCamx = Mathf.SmoothDamp(camx, range.x, ref xVelocity, 3f);
-        //float NewCamy = Mathf.SmoothDamp(camy, range.y, ref yVelocity, 3f);
-        
-        //float Stopcamx = camx;
-        //float Stopcamy = camy;
-        //CenterCamera = new Vector3(camx , camy, player.z);
-       
-        //transform.position = MousePos;
 
-        
-        transform.position = Vector3.Lerp(transform.position, new Vector3(NewCamx, NewCamy, player.z), Time.deltaTime * Damping);
+        float camx = (player.x + crosshair.x) / 2;
+        float camy = (player.y + crosshair.y) / 2;
+
+        float angle = Mathf.Atan2(camy, camx);
+        Vector2 range = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+        float NewCamx = Mathf.SmoothDamp(camx, camx, ref xVelocity, 3f);
+        float NewCamy = Mathf.SmoothDamp(camy, camy, ref yVelocity, 3f);
+
+	    transform.position = new Vector3(NewCamx, NewCamy, player.z);
         
         CameraShake();
 	}

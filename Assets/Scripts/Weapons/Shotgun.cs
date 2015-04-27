@@ -19,9 +19,6 @@ public class Shotgun : Weapon
 
     public AudioClip Shot;
     public AudioClip Shell;
-
-    
-
     public AudioClip PickUp;
 
     public GUIStyle GuiFont;

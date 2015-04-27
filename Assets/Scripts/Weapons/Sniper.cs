@@ -17,7 +17,11 @@ public class Sniper : Weapon {
 
     public AudioClip Shot;
     public AudioClip Shell;
+
     public GUIStyle GuiFont;
+
+    public AudioClip PickUp;
+
 	// Use this for initialization
 	void Start () {
 
@@ -61,7 +65,7 @@ public class Sniper : Weapon {
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
-        //Audio1.PlayOneShot(PickUp);
+        Audio1.PlayOneShot(PickUp);
     }
 
     public void DropWeapon()

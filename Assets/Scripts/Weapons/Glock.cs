@@ -71,6 +71,7 @@ public class Glock : Weapon
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
         Player.CarryingWeapon = true;
+        Player.IsHandgun = true;
         Audio1.PlayOneShot(PickUp);
     }
 
@@ -80,6 +81,7 @@ public class Glock : Weapon
         DropDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = false;
         Player.CarryingWeapon = false;
+        Player.IsHandgun = false;
     }
 
     void Position()
