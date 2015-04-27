@@ -8,6 +8,7 @@ public class ScoreScript : MonoBehaviour
 
     private GameObject Player;
 
+    public GUIStyle GuiFont;
 	// Use this for initialization
 	void Start ()
 	{
@@ -22,7 +23,7 @@ public class ScoreScript : MonoBehaviour
 
     void OnGUI()
     {     
-        GUI.TextField(new Rect(1800, 100, 100, 20), "Money: " + CurrentScore.ToString());   
+        GUI.TextField(new Rect(Screen.width - 100, 0, 100, 20), "Money: " + CurrentScore.ToString(),GuiFont);   
     }
 
 	// Update is called once per frame

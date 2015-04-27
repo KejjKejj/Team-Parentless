@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics;
 
 public class MyCamera : MonoBehaviour {
 
@@ -9,12 +10,22 @@ public class MyCamera : MonoBehaviour {
     public Texture tex;
     bool Shake;
     int CamShakeMove = 100;
-
+    public float CamSize = 10;
     private int ShakeAmount;
 
-	void Start () {
+    float Damping = 5f;
+    float Height  = 13.0f;
+    float Offset  = 0.0f;
+    private Vector3 CenterCamera;
+    private float yVelocity = 0.0F;
+    private float xVelocity = 0.0F;
+
+
+    public GUIStyle gui;
+    void Start () {
+        gameObject.GetComponent<Camera>().orthographicSize = CamSize;
         
-	}
+    }
 
     int GetHealth()
     {
@@ -24,7 +35,10 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
-        GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
+
+        //GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
+        GUI.TextField(new Rect(0, Screen.height-20, 85, 20), "Health: " + GetHealth().ToString(),gui);
+
     }
   
   
@@ -64,10 +78,25 @@ public class MyCamera : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-
+        Vector3 MousePos = Input.mousePosition;
+        MousePos.z = 3f;
+        Vector3 CursorPos = Camera.main.ScreenToWorldPoint(MousePos);
         Vector3 player = GameObject.FindGameObjectWithTag("Player").transform.position;
+	    Vector3 crosshair = GameObject.Find("Crosshair").transform.position;
         player.z -= DistFromPlayer;
-        transform.position = player;
+
+
+        float camx = (player.x + crosshair.x) / 2;
+        float camy = (player.y + crosshair.y) / 2;
+
+        float angle = Mathf.Atan2(camy, camx);
+        Vector2 range = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+        float NewCamx = Mathf.SmoothDamp(camx, camx, ref xVelocity, 3f);
+        float NewCamy = Mathf.SmoothDamp(camy, camy, ref yVelocity, 3f);
+
+	    transform.position = new Vector3(NewCamx, NewCamy, player.z);
+        
         CameraShake();
 	}
 }

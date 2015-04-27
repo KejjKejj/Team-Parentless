@@ -19,12 +19,9 @@ public class Shotgun : Weapon
 
     public AudioClip Shot;
     public AudioClip Shell;
-
-    
-
     public AudioClip PickUp;
 
-
+    public GUIStyle GuiFont;
 
     // Use this for initialization
     void Start()
@@ -108,7 +105,7 @@ public class Shotgun : Weapon
     {
         if (IsPickedUp)
         {
-            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+            GUI.TextField(new Rect(130, Screen.height - 20, 120, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString(),GuiFont);
         }
     }
 
@@ -158,11 +155,11 @@ public class Shotgun : Weapon
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    shot1 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
+                    shot1 = (GameObject)Instantiate(Bullet, transform.position, transform.rotation);
                     shot1.GetComponent<Bullet>().AngleShot = 0.06f;
-                    shot2 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
+                    shot2 = (GameObject)Instantiate(Bullet, transform.position, transform.rotation);
                     shot2.GetComponent<Bullet>().AngleShot = -0.06f;
-                    shot3 = (GameObject)Instantiate(Bullet, transform.position, Quaternion.identity);
+                    shot3 = (GameObject)Instantiate(Bullet, transform.position, transform.rotation);
                     shot3.GetComponent<Bullet>().AngleShot = 0;
                     FireRateTimer = 0;
                     CurrentAmmo--;
@@ -170,6 +167,7 @@ public class Shotgun : Weapon
                     Audio1.Play();
                     GunFlash();
                     Audio2.clip = Shell;
+                    Shellspread();
                     Shellspread();
                     Audio2.PlayDelayed(0.2f);
                 }

@@ -124,9 +124,15 @@ public class Boss2Script : MainBossScript {
 
         }
     }
+
 	// Update is called once per frame
 	void FixedUpdate () {
        
         Rotate();
+        if (Onfire)
+        {
+            Health -= 4 * Time.deltaTime;
+
+        }
 	}
 }

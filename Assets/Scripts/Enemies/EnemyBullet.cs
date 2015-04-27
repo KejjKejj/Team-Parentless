@@ -8,6 +8,8 @@ public class EnemyBullet : MonoBehaviour {
 	private Rigidbody2D Bulletbody2d = new Rigidbody2D();
 	
 	public GameObject WallHit;
+    public GameObject BodyHit;
+    public GameObject Blood;
 	
 	public AudioClip FirmWall;
 	public AudioClip Body;
@@ -38,6 +40,9 @@ public class EnemyBullet : MonoBehaviour {
 		if (coll.gameObject.tag == "Player")
 		{
 			AudioSource.PlayClipAtPoint(Body, transform.position, 0.1f);
+            Instantiate(BodyHit, transform.position, transform.rotation);
+            Instantiate(Blood, transform.position, transform.rotation);
+            coll.gameObject.SendMessage("ApplyDamage", 5);
 		}
 		Destroy(gameObject); 
 	}

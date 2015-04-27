@@ -67,13 +67,13 @@ public class BossScript : MainBossScript {
             shot1.GetComponent<BossShot>().angleshot = 0;
             shot1.GetComponent<BossShot>().speed = 10;
             shot2 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            shot2.GetComponent<BossShot>().angleshot = 3.1f;
+            shot2.GetComponent<BossShot>().angleshot = Mathf.PI/2;
             shot2.GetComponent<BossShot>().speed = 10;
             shot3 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            shot3.GetComponent<BossShot>().angleshot = 1.5f;
+            shot3.GetComponent<BossShot>().angleshot = Mathf.PI;
             shot3.GetComponent<BossShot>().speed = 10;
             shot4 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            shot4.GetComponent<BossShot>().angleshot = 4.7f;
+            shot4.GetComponent<BossShot>().angleshot = Mathf.PI * 1.5f;
             shot4.GetComponent<BossShot>().speed = 10;
 
         }
@@ -95,15 +95,18 @@ public class BossScript : MainBossScript {
             
         }
     }
-
-
-	// Update is called once per frame
+   
 	void Update () {
         Shot();
         if (Health > 10)
         { state = 1; }
         if (Health <= 10)
         { state = 2; }
-        
+        CheckIfDead();
+        if (Onfire)
+        {
+            Health -= 4 * Time.deltaTime;
+
+        }
 	}
 }

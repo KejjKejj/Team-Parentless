@@ -37,6 +37,7 @@ C:\Users\Daniel\Desktop\System- & programvaruutveckling fk\Projekt\Team-Parentle
 C:\Users\Daniel\Desktop\System- & programvaruutveckling fk\Projekt\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
 C:\Users\Daniel\Desktop\System- & programvaruutveckling fk\Projekt\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+<<<<<<< HEAD
 C:\Users\Johan\Documents\SpelProjekt1\Temp\bin\Debug\Assembly-CSharp.dll
 C:\Users\Johan\Documents\SpelProjekt1\Temp\bin\Debug\Assembly-CSharp.pdb
 C:\Users\Johan\Documents\SpelProjekt1\Temp\bin\Debug\UnityEditor.dll
@@ -50,3 +51,18 @@ C:\Users\Johan\Documents\SpelProjekt1\Temp\bin\Debug\Unity.CecilTools.dll
 C:\Users\Johan\Documents\SpelProjekt1\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
 C:\Users\Johan\Documents\SpelProjekt1\obj\Debug\Assembly-CSharp.dll
 C:\Users\Johan\Documents\SpelProjekt1\obj\Debug\Assembly-CSharp.pdb
+=======
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.SerializationLogic.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
+>>>>>>> 639f00126d254253945e78a195330a1df50e0ffa

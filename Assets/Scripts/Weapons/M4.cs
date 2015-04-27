@@ -20,13 +20,14 @@ public class M4 : Weapon
     public AudioClip Shell;
     public AudioClip PickUp;
 
+    public GUIStyle GuiFont;
     // Use this for initialization
     void Start()
     {
         FireRate = 0.1f;
         MagSize = 100;
         CurrentAmmo = MagSize;
-        damage = 3;
+        damage = 2;
         Automatic = true;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
@@ -100,7 +101,7 @@ public class M4 : Weapon
     {
         if (IsPickedUp)
         {
-            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+            GUI.TextField(new Rect(130, Screen.height - 20, 180, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString(),GuiFont);
         }
     }
 
