@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     public int JumpSpeed = 3;
     public bool Jumped;
     public float JumpTime = 0;
-    public float SetJumpTime = 2f;
+    public float SetJumpTime = 12f;
     public float JumpDelay = 0;
 
     private float KnifeTimer = 0;
@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour
     public GameObject[] Weapons;
     public GameObject SelectedWeapon;
     public GameObject WeaponInstance;
+   
 
     public Rigidbody2D ReturnPlayerPos()
     {
@@ -63,6 +64,7 @@ public class Movement : MonoBehaviour
                 Debug.Log(w.GetComponent<Weapon>().WeaponId + " Selected");
                 Debug.Log(PlayerPrefs.GetInt("WeaponSelected"));
                 SelectedWeapon = w;
+                
             }
         }
         WeaponInstance = (GameObject)Instantiate(SelectedWeapon, transform.position, transform.rotation);
@@ -89,7 +91,7 @@ public class Movement : MonoBehaviour
 
         if (Jumped) // Har man tryckt hoppa
         {
-            Physics2D.IgnoreLayerCollision(1, 18, true);
+            Physics2D.IgnoreLayerCollision(18, 20, true);
             movement = movement * 2; // Dubbla hastigheten på spelaren
             JumpTime += Time.deltaTime; // Räkna tiden som hoppet hållt på
             if (JumpTime >= SetJumpTime) // Om tiden är större än tiden hoppet ska hålla på, sätt hoppet till false och hopptiden till 0
@@ -102,7 +104,7 @@ public class Movement : MonoBehaviour
         if (!Jumped)
         {
             Anim.SetBool("Sliding", false);
-            Physics2D.IgnoreLayerCollision(15, 18, false);
+            Physics2D.IgnoreLayerCollision(18, 20, false);
         }
 
         if (KnifeTimer >= KnifeDelay)
@@ -124,15 +126,7 @@ public class Movement : MonoBehaviour
         Health -= damage;
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        //if (Health <= 0)
-        //{
-        //    Destroy(gameObject);
-        //    Application.LoadLevel(Application.loadedLevel);
-        //}
-    }
-
+  
     void CheckIfDead()
     {
         
@@ -313,7 +307,8 @@ public class Movement : MonoBehaviour
         {
             PickUp();
         }
-
+       
+        
         //OnFireDamage();
         CheckIfDead();
         

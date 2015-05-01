@@ -69,6 +69,7 @@ public class Shotgun : Weapon
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
+        
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }

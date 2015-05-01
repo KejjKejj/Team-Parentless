@@ -33,7 +33,7 @@ public class Sniper : Weapon {
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
-        gameObject.GetComponent<Weapon>().WeaponId = 3;
+        gameObject.GetComponent<Weapon>().WeaponId = 4;
 	}
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -64,6 +64,7 @@ public class Sniper : Weapon {
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
+        
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }

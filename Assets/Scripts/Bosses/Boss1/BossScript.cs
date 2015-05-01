@@ -13,7 +13,7 @@ public class BossScript : MainBossScript {
     public float TimeBetweenShots = 0.5f;
     public float Timer = 0;
     public float BossRottimer = 0;
-
+    public Vector2 dir;
     public Rigidbody2D ReturnBossPos()
     {
         return EnemyRigid2D;
@@ -62,19 +62,27 @@ public class BossScript : MainBossScript {
         }
         if (state == 2)
         {
-            TimeBetweenShots = 0.25f;
-            shot1 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            shot1.GetComponent<BossShot>().angleshot = 0;
-            shot1.GetComponent<BossShot>().speed = 10;
+            TimeBetweenShots = 0.4f;
+            
+            shot1 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.identity);
+            shot1.GetComponent<BossShot>().dirr = transform.up;
+            shot1.GetComponent<BossShot>().angleshot =0;
+            shot1.GetComponent<BossShot>().speed = 20;
+       
             shot2 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            shot2.GetComponent<BossShot>().angleshot = Mathf.PI/2;
-            shot2.GetComponent<BossShot>().speed = 10;
+            shot2.GetComponent<BossShot>().dirr = transform.right;
+            shot2.GetComponent<BossShot>().angleshot = Mathf.PI / 2;
+            shot2.GetComponent<BossShot>().speed = 20;
+           
             shot3 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+            shot3.GetComponent<BossShot>().dirr = -transform.up;
             shot3.GetComponent<BossShot>().angleshot = Mathf.PI;
-            shot3.GetComponent<BossShot>().speed = 10;
-            shot4 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+            shot3.GetComponent<BossShot>().speed = 20;
+           
+            shot4 = (GameObject)Instantiate(BossShot, transform.position, Quaternion.Euler(new Vector3(0,0 , 0)));
+            shot4.GetComponent<BossShot>().dirr = -transform.right;
             shot4.GetComponent<BossShot>().angleshot = Mathf.PI * 1.5f;
-            shot4.GetComponent<BossShot>().speed = 10;
+            shot4.GetComponent<BossShot>().speed = 20;
 
         }
 
@@ -91,7 +99,7 @@ public class BossScript : MainBossScript {
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, BossRottimer));
            
-            BossRottimer += 1f;
+            BossRottimer += 0.75f;
             
         }
     }

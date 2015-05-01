@@ -23,7 +23,8 @@ public class TurretScript : MonoBehaviour {
     void Raycasting()
     {
         if (Physics2D.Linecast(transform.position,PlayerPos, 1<<LayerMask.NameToLayer("Player")) &&
-        !Physics2D.Linecast(transform.position, PlayerPos,1<<LayerMask.NameToLayer("FirmWall")))
+        !Physics2D.Linecast(transform.position, PlayerPos,1<<LayerMask.NameToLayer("FirmWall")) &&
+        !Physics2D.Linecast(transform.position,PlayerPos,1<<LayerMask.NameToLayer("SoftWall")))
         {
             Direction();
             StartCoroutine(Cooldown());
