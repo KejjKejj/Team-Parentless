@@ -37,7 +37,6 @@ public class TurretScript : MonoBehaviour {
     {
 
         Health -= damage;
-        Debug.Log(Health);
         
     }
 
@@ -48,7 +47,6 @@ public class TurretScript : MonoBehaviour {
         {
             Attack();
             NumberShots++;
-            Debug.Log(NumberShots);
         }
         else
         {

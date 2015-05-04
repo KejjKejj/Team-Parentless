@@ -61,8 +61,6 @@ public class Movement : MonoBehaviour
         {
             if (w.GetComponent<Weapon>().WeaponId == PlayerPrefs.GetInt("WeaponSelected"))
             {
-                Debug.Log(w.GetComponent<Weapon>().WeaponId + " Selected");
-                Debug.Log(PlayerPrefs.GetInt("WeaponSelected"));
                 SelectedWeapon = w;
                 
             }

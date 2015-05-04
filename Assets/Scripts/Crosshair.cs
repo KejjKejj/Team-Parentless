@@ -4,7 +4,6 @@ using System.Collections;
 public class Crosshair : MonoBehaviour
 {
     private GameObject _weapon;
-    private SpriteRenderer _renderer;
 
     private Vector2 MouseDistance;
 
@@ -13,7 +12,7 @@ public class Crosshair : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    _renderer = GetComponent<SpriteRenderer>();
+
 	}
 	
 	// Update is called once per frame

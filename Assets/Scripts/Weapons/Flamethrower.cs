@@ -122,7 +122,6 @@ public class Flamethrower: Weapon
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Audio1.isPlaying);
         // För att plocka upp vapen
         if (IsPickedUp && SetPositionToPlayer)
         {
