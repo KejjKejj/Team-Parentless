@@ -11,3 +11,16 @@ C:\Users\Viktor\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp.dll
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
 C:\Users\Viktor\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.SerializationLogic.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Måns\Desktop\Ny version av projekt\Team-Parentless\Temp\bin\Debug\Unity.CecilTools.dll
