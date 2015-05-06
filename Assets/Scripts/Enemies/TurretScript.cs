@@ -13,7 +13,9 @@ public class TurretScript : MonoBehaviour {
     public bool Onfire = false;
     public int MaxFire = 30;
     private int NumberShots = 0;
-    
+
+    float ShootTimer = 0.1f;
+    float Timer;
 	// Use this for initialization
 	void Start () {
         EnemyRigid2D = GetComponent<Rigidbody2D>();
@@ -27,7 +29,13 @@ public class TurretScript : MonoBehaviour {
         !Physics2D.Linecast(transform.position,PlayerPos,1<<LayerMask.NameToLayer("SoftWall")))
         {
             Direction();
-            StartCoroutine(Cooldown());
+            //StartCoroutine(Cooldown());
+            if (Timer >= ShootTimer)
+            {
+                StartCoroutine(Cooldown());
+                Timer = 0;
+            }
+             
         }
         Debug.DrawLine(transform.position,PlayerPos,Color.black);
         
@@ -40,20 +48,29 @@ public class TurretScript : MonoBehaviour {
         
     }
 
+   
+
     IEnumerator Cooldown()
     {
-       
-        if (NumberShots <= MaxFire)
+
+
+        
+
+        if (NumberShots >= MaxFire)
         {
-            Attack();
-            NumberShots++;
+            yield return new WaitForSeconds(2f);
+            NumberShots = 0;
+            Debug.Log("Kattt");
+
+
         }
         else
         {
-            yield return new WaitForSeconds(3);
-            NumberShots = 0;
-            
+            Instantiate(EnemyBullet, transform.position, transform.rotation);
+
         }
+        Debug.Log(NumberShots);
+        NumberShots++;
     }
     void Direction()
     {
@@ -99,5 +116,7 @@ public class TurretScript : MonoBehaviour {
             Health -= 4 * Time.deltaTime;
         }
         CheckIfDead();
+        Timer += Time.deltaTime;
+        
 	}
 }
