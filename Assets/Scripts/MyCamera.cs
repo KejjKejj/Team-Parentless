@@ -32,7 +32,10 @@ public class MyCamera : MonoBehaviour {
     
     void OnGUI()
     {
-
+        if (GetHealth() <= 0)
+        {
+            GUI.TextField(new Rect(Screen.width / 2, Screen.height / 2, 85, 20), "PRESS R TO RESTART!", gui);
+        }
         //GUI.TextField(new Rect(0, 570, 85, 20), "Health: " + GetHealth().ToString());  
         GUI.TextField(new Rect(0, Screen.height-20, 85, 20), "Health: " + GetHealth().ToString(),gui);
 

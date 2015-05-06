@@ -30,6 +30,7 @@ public class Movement : MonoBehaviour
     public bool IsHandgun = false;
 
     private float Angle;
+    public bool Alive = true;
 
     public bool OnFire = false;
 
@@ -56,7 +57,7 @@ public class Movement : MonoBehaviour
         HitBox = GetComponent<PolygonCollider2D>();
         Anim = GetComponent<Animator>();
         CarryingWeapon = false;
-        Weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        //Weapons = GameObject.FindGameObjectsWithTag("Weapon");
         foreach (var w in Weapons)
         {
             if (w.GetComponent<Weapon>().WeaponId == PlayerPrefs.GetInt("WeaponSelected"))
@@ -131,8 +132,14 @@ public class Movement : MonoBehaviour
         if (Health <= 0)
         {
             Anim.Play("Death");
-            //Destroy(gameObject);
-            //Application.LoadLevel(Application.loadedLevel);
+            Alive = false;
+            charRigid2D.velocity = new Vector2(0, 0);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevel(Application.loadedLevel);
+            }
+            GameObject w = gameObject.GetComponentInChildren<Weapon>().gameObject;
+            Destroy(w);
         }
     }
 
@@ -294,22 +301,23 @@ public class Movement : MonoBehaviour
 
     // Update is called once per frame
 
-    void FixedUpdate()
+    private void Update()
     {
-        Move();
-        Direction();
-        SetAnimation();
+        if (Alive)
+        {
+            Move();
+            Direction();
+            SetAnimation();
+        }
+
         PickUpFirstTimer += Time.deltaTime;
         KnifeTimer += Time.deltaTime;
         if (PickUpFirstWeapon && PickUpFirstTimer >= 0.2f)
         {
             PickUp();
         }
-       
-        
-        //OnFireDamage();
-        CheckIfDead();
-        
+
+        CheckIfDead();     
 	}
 
 }

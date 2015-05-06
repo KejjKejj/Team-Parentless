@@ -31,7 +31,6 @@ public class Knife : Weapon
         AudioSource.PlayClipAtPoint(Slash, transform.position, 0.5f);
     }
 
-
     void Disappear()
     {
 

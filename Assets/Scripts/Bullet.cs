@@ -46,6 +46,7 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        Debug.Log(coll.gameObject.tag);
         if (coll.gameObject.tag == "FirmWall")
         {
             AudioSource.PlayClipAtPoint(FirmWall, transform.position, 0.02f);

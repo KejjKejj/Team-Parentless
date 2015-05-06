@@ -19,6 +19,7 @@ public class EnemyStateMachine : MonoBehaviour
     private GameObject[] _waypoints;
     private GameObject _player;
     private Rigidbody2D _rigid;
+    private Movement _pAlive;
 
     public GameObject[] PatrolPath;
     public GameObject Shot;
@@ -41,6 +42,7 @@ public class EnemyStateMachine : MonoBehaviour
 	{
 	    _waypoints  = GameObject.FindGameObjectsWithTag("Waypoint");
 	    _player     = GameObject.FindGameObjectWithTag("Player");
+	    _pAlive     = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
 	    _rigid      = GetComponent<Rigidbody2D>();
         _goal       = new Vector3(0, 0, 0);
 	    _target     = PatrolPath[0].transform.position;
@@ -137,7 +139,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         _chasing = false;
         LookDirection(_player.transform.position);
-        if (_attackTimer >= TimeBetweenAttacks)
+        if (_attackTimer >= TimeBetweenAttacks && _pAlive.Alive)
         {
             Instantiate(Shot, transform.position, transform.rotation);
             _attackTimer = 0;
