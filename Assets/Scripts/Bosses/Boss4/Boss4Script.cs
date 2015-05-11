@@ -13,8 +13,6 @@ public class Boss4Script : MonoBehaviour {
 	void Start ()
     {
         BossRigid2D = GetComponent<Rigidbody2D>();
-        Vector3 GunPos = GameObject.FindGameObjectWithTag("StaticGun").transform.position;
-        Vector3 PlayerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 	}
 
     void Load(float BossX, float BossY)

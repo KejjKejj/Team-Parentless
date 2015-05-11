@@ -29,7 +29,7 @@ public class DoorScript : MonoBehaviour
     {
         if (collissionobject.gameObject.tag == "Player")
         {
-            Debug.Log("Player Entered");
+
         }
     }
 
@@ -37,11 +37,9 @@ public class DoorScript : MonoBehaviour
     {
         if (collissionobject.gameObject.tag == "Player")
         {
-            Debug.Log("Player Staying");
 
             if (Input.GetButton("Interact"))
             {
-                Debug.Log("Player pressed E - Door");
                 if (ClickDelay >= DoorOpenDelay)
                 {
                     if (DoorOpen)
@@ -67,7 +65,6 @@ public class DoorScript : MonoBehaviour
     {
         if (collissionobject.gameObject.tag == "Player")
         {
-            Debug.Log("Player Leaving");
         }
     }
 

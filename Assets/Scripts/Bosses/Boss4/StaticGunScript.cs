@@ -18,7 +18,6 @@ public class StaticGunScript : MonoBehaviour {
 	void Start () {
         GunRigid2D = GetComponent<Rigidbody2D>();
         SR = GetComponent<SpriteRenderer>();
-        Vector3 PlayerPos = GameObject.FindGameObjectWithTag("Boss").transform.position;
 	}
 
     void OnTriggerEnter2D(Collider2D CollisionObject)

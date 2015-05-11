@@ -113,7 +113,7 @@ public class Flame : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Enemy") != null)
         {
-            GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyBehaviour>().Onfire = false; 
+            GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>().Onfire = false; 
    
         }
         if (GameObject.Find("Turret") != null)
