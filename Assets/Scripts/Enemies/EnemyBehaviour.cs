@@ -21,6 +21,8 @@ public class EnemyBehaviour : MonoBehaviour {
     public Vector3 Target;
     public Vector3 MoveDirection;
     public Vector3 Velocity;
+    public float delayTime = 2;
+    public float nextUsage;
 
 
 	public Transform SightEnemy1, SightPlayer1;
@@ -115,7 +117,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
             if (MoveDirection.magnitude < 1)
             {
-                CurWayPoint++;
+                CurWayPoint += Random.Range(0, patrolWayPoints.Length);
             }
             else
             {
@@ -127,7 +129,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if (doPatrol)
             {
-                CurWayPoint = 0;
+                CurWayPoint = Random.Range(0, patrolWayPoints.Length);
             }
             else
             {
@@ -135,9 +137,7 @@ public class EnemyBehaviour : MonoBehaviour {
             }
         }
         EnemyRigid2D.velocity = new Vector2(Velocity.x, Velocity.y);
-
-        //transform.rotation = Quaternion.);
-        //transform.LookAt(Target);
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, Target - transform.position);
 
         
 
