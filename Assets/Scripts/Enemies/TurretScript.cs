@@ -60,7 +60,7 @@ public class TurretScript : MonoBehaviour {
         {
             yield return new WaitForSeconds(2f);
             NumberShots = 0;
-            Debug.Log("Kattt");
+            
 
 
         }
@@ -69,7 +69,7 @@ public class TurretScript : MonoBehaviour {
             Instantiate(EnemyBullet, transform.position, transform.rotation);
 
         }
-        Debug.Log(NumberShots);
+        
         NumberShots++;
     }
     void Direction()
@@ -100,7 +100,7 @@ public class TurretScript : MonoBehaviour {
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
-        Debug.Log(RandAmmo);
+        
         if (RandAmmo >= 75)
         {
 

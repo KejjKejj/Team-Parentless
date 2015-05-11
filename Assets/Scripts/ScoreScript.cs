@@ -23,7 +23,7 @@ public class ScoreScript : MonoBehaviour
 
     void OnGUI()
     {     
-        GUI.TextField(new Rect(Screen.width - 100, 0, 100, 20), "Money: " + CurrentScore.ToString(),GuiFont);   
+        GUI.TextField(new Rect(Screen.width - 100, 0, 180, 50), "Money: " + CurrentScore.ToString(),GuiFont);   
     }
 
 	// Update is called once per frame
