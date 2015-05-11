@@ -83,7 +83,6 @@ public class TurretScript : MonoBehaviour {
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
-        Debug.Log(RandAmmo);
         if (RandAmmo >= 75)
         {
 

@@ -24,7 +24,7 @@ public class Boss5ShieldScript : MonoBehaviour
 
         float angle = Mathf.Atan2(deltaY, deltaX);
 
-        transform.position = bossPos + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
+        transform.position = bossPos + new Vector3(Mathf.Cos(angle) / 2, Mathf.Sin(angle) / 2, 0);
 
         transform.rotation = Quaternion.LookRotation(Vector3.forward, playerPos - transform.position);
       
