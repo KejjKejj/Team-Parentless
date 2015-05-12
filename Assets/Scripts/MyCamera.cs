@@ -15,18 +15,27 @@ public class MyCamera : MonoBehaviour {
     private Vector3 CenterCamera;
     private float yVelocity = 0.0F;
     private float xVelocity = 0.0F;
+    
+    private float RandR, RandG, RandB;
+   Camera back;
 
-    public Color color1 = Color.yellow;
-    public Color color2 = Color.red;
-    public float duration = 1.0f;
+    //public Color color1 = Color.yellow;
+    //public Color color2 = Color.red;
+    //public float duration = 1.0f;
     public Camera camera1;
 
 
+   public Color color1 = Color.red;
+   public Color color2 = Color.blue;
+   public float duration = 3.0F;
+    
     public GUIStyle gui;
     void Start () {
         gameObject.GetComponent<Camera>().orthographicSize = CamSize;
+
         camera1 = gameObject.GetComponent<Camera>();
 	    camera1.clearFlags = CameraClearFlags.SolidColor;
+
     }
 
     int GetHealth()
@@ -45,8 +54,41 @@ public class MyCamera : MonoBehaviour {
         GUI.TextField(new Rect(0, Screen.height-20, 85, 20), "Health: " + GetHealth().ToString(),gui);
 
     }
-  
-  
+
+    void BackgroundNoise()
+    {
+        Color old = Camera.main.backgroundColor;
+       if(RandR < 255)
+       {
+           RandR++;
+       }
+       else
+       {
+           RandR = 0;
+       }
+        if(RandG < 255)
+        {
+            RandG++;
+        }
+        else
+        {
+            RandG = 0;
+        }
+
+        if(RandB < 255)
+        {
+            RandB++;
+        }
+        else
+        {
+            RandB = 0;
+        }
+        //camera.backgroundColor = new Color(RandR, RandG, RandB);
+        UnityEngine.Debug.Log(RandR + " " + RandG + " " + RandB);
+        //Camera.main.backgroundColor = new Color(RandR, RandG, RandB);
+        Color.Lerp(old, new Color(RandR, RandG, RandB), 1);
+
+    }
 
     void CameraShake()
     {
@@ -98,8 +140,10 @@ public class MyCamera : MonoBehaviour {
 
 	    transform.position = new Vector3(NewCamx, NewCamy, player.z);
 
+
         var t = Mathf.PingPong(Time.time, duration) / duration;
         camera1.backgroundColor = Color.Lerp(color1, color2, t);
+
         CameraShake();
 	}
 }

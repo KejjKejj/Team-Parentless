@@ -2,14 +2,14 @@
 using System.Collections;
 
 
-public class Movement : MonoBehaviour
+public class Movement : CharacterMain
 {
-    private Animator Anim;
+    //private Animator Anim;
 
-    private Rigidbody2D charRigid2D;
+    //private Rigidbody2D charRigid2D;
 
     public int Speed = 1000;
-    public int Health = 100;
+    //public int Health = 100;
 
     public int JumpSpeed = 3;
     public bool Jumped;
@@ -30,9 +30,9 @@ public class Movement : MonoBehaviour
     public bool IsHandgun = false;
 
     private float Angle;
-    public bool Alive = true;
+    //public bool Alive = true;
 
-    public bool OnFire = false;
+    protected bool OnFire = false;
 
 	public GameObject Bullet;
 
@@ -41,7 +41,8 @@ public class Movement : MonoBehaviour
     public GameObject[] Weapons;
     public GameObject SelectedWeapon;
     public GameObject WeaponInstance;
-   
+
+    public bool CheckPoint = false;
 
     public Rigidbody2D ReturnPlayerPos()
     {
@@ -54,6 +55,12 @@ public class Movement : MonoBehaviour
     void Start()
     {
         charRigid2D = GetComponent<Rigidbody2D>();
+        if(GameObject.Find("CheckPoint").GetComponent<CheckPointZone>().CheckPointEntered)
+        gameObject.GetComponent<Transform>().position = GameObject.Find("CheckPoint").transform.position;
+        else
+        {
+            gameObject.GetComponent<Transform>().position = GameObject.Find("SpawnPoint").transform.position;
+        }
         HitBox = GetComponent<PolygonCollider2D>();
         Anim = GetComponent<Animator>();
         CarryingWeapon = false;
@@ -120,28 +127,28 @@ public class Movement : MonoBehaviour
     }
 
 
-    void ApplyDamage(int damage)
-    {
-        Health -= damage;
-    }
+    //void ApplyDamage(int damage)
+    //{
+    //    Health -= damage;
+    //}
 
   
-    void CheckIfDead()
-    {
+    //void CheckIfDead()
+    //{
         
-        if (Health <= 0)
-        {
-            Anim.Play("Death");
-            Alive = false;
-            charRigid2D.velocity = new Vector2(0, 0);
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Application.LoadLevel(Application.loadedLevel);
-            }
-            GameObject w = gameObject.GetComponentInChildren<Weapon>().gameObject;
-            Destroy(w);
-        }
-    }
+    //    if (Health <= 0)
+    //    {
+    //        Anim.Play("Death");
+    //        Alive = false;
+    //        charRigid2D.velocity = new Vector2(0, 0);
+    //        if (Input.GetKeyDown(KeyCode.R))
+    //        {
+    //            Application.LoadLevel(Application.loadedLevel);
+    //        }
+    //        GameObject w = gameObject.GetComponentInChildren<Weapon>().gameObject;
+    //        Destroy(w);
+    //    }
+    //}
 
     void PickUp()
     {
@@ -275,7 +282,7 @@ public class Movement : MonoBehaviour
             }
         }
     }
-
+    
     //void OnFireDamage()
     //{
     //    if (OnFire)
@@ -309,6 +316,7 @@ public class Movement : MonoBehaviour
             Direction();
             SetAnimation();
         }
+       
 
         PickUpFirstTimer += Time.deltaTime;
         KnifeTimer += Time.deltaTime;
@@ -317,7 +325,7 @@ public class Movement : MonoBehaviour
             PickUp();
         }
 
-        CheckIfDead();     
+        //CheckIfDead();     
 	}
 
 }

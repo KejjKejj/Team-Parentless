@@ -23,7 +23,7 @@ public class Flame : MonoBehaviour
     void Start()
     {
         CurrColor = gameObject.GetComponent<Renderer>().material.color;
-        DecreaseRate = Random.Range(0.9f, 0.96f);
+        DecreaseRate = Random.Range(0.94f, 0.97f);
         damage = GameObject.Find("Character").GetComponent<Movement>().WeaponDamage;
 
         Bulletbody2d = GetComponent<Rigidbody2D>();
@@ -69,7 +69,7 @@ public class Flame : MonoBehaviour
 
         CurrColor.a = disapperRate;
         gameObject.GetComponent<Renderer>().material.color = CurrColor;
-        disapperRate -= 0.03f;
+        disapperRate -= 0.015f;
 
 
         if (disapperRate < 0)

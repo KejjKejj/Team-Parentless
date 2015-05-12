@@ -13,14 +13,19 @@ public class MainBossScript : MonoBehaviour {
     public GameObject Blood;
     public GameObject[] Bloodspatter;
     public bool Onfire = false;
+
     
-	// Use this for initialization
+    // Use this for initialization
     
 	void Start ()
 	{
 	    HealthNumber = Health;
 	}
 
+    public Rigidbody2D ReturnBossPos()
+    {
+        return EnemyRigid2D;
+    }   
     protected bool GetPlayerInRange()
     {
         return GameObject.Find("BossZone").GetComponent<BossZone>().OpenFire;

@@ -35,7 +35,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     private bool _chasing;
     private float _attackTimer;
-    private float _walkSpeed = 5f;
+    public float _walkSpeed = 5f;
 
     public float TimeBetweenAttacks = 1f;
     public bool StaticEnemy;

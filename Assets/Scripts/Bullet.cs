@@ -55,7 +55,7 @@ public class Bullet : MonoBehaviour {
         {
             AudioSource.PlayClipAtPoint(Body, transform.position, 0.12f);
             Instantiate(BodyHit, transform.position, transform.rotation);
-            Instantiate(Blood, transform.position, transform.rotation);
+            //Instantiate(Blood, transform.position, transform.rotation);
             coll.gameObject.SendMessage("ApplyDamage", damage);
             
         }
