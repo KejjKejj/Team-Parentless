@@ -8,7 +8,10 @@ public class Boss5Script : MonoBehaviour {
     public GameObject Shield;
     public GameObject Bomb;
     public GameObject Bullet;
+    public GameObject GunFlashLight;
+    public AudioClip MachineGunShot;
 
+    private AudioSource _audioSource;
     private GameObject _bossZone;
 
     private int Phase = 1;
@@ -24,6 +27,7 @@ public class Boss5Script : MonoBehaviour {
 	void Start ()
 	{
 	    _bossZone = GameObject.FindGameObjectWithTag("BossZone");
+	    _audioSource = gameObject.GetComponent<AudioSource>();
 	}
 
     public void PhaseOne()
@@ -61,14 +65,26 @@ public class Boss5Script : MonoBehaviour {
     {
         if (FireTimer >= FireRate)
         {
+            GunFlash();
             Instantiate(Bullet,
                 transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, 0), 
                 transform.rotation);
             Instantiate(Bullet,
                 transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, 0),
                 transform.rotation);
+            _audioSource.PlayOneShot(MachineGunShot);
             FireTimer = 0;
         }
+    }
+
+    void GunFlash()
+    {
+        Instantiate(GunFlashLight, 
+            transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, 0),
+                Quaternion.identity);
+        Instantiate(GunFlashLight,
+                transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, 0),
+                transform.rotation);
     }
 
     public void DisableShield()

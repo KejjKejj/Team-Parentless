@@ -7,6 +7,8 @@ public class MainBossScript : MonoBehaviour {
 
     public float Health;
 
+    private float HealthNumber;
+
     public Texture Healthbar;
     public GameObject Blood;
     public GameObject[] Bloodspatter;
@@ -14,8 +16,9 @@ public class MainBossScript : MonoBehaviour {
     
 	// Use this for initialization
     
-	void Start () {
-	
+	void Start ()
+	{
+	    HealthNumber = Health;
 	}
 
     protected bool GetPlayerInRange()
@@ -79,9 +82,9 @@ public class MainBossScript : MonoBehaviour {
         if (GetPlayerInRange() && Health >= 0)
         {
             GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
-            GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / 30), 50), Healthbar);
+            GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / HealthNumber), 50), Healthbar);
         }
-
+        Debug.Log(Health);
     }
 
     

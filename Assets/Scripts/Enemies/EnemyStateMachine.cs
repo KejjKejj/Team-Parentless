@@ -20,10 +20,13 @@ public class EnemyStateMachine : MonoBehaviour
     private GameObject _player;
     private Rigidbody2D _rigid;
     private Movement _pAlive;
+    private Animator _animator;
+    private AudioSource _audio;
 
     public GameObject[] PatrolPath;
     public GameObject Shot;
     public Transform EnemySightStart, EnemySightEnd;
+    public AudioClip ShotSound;
 
     private Vector3 _goal;
     private Vector3 _target;
@@ -36,6 +39,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     public float TimeBetweenAttacks = 1f;
     public bool StaticEnemy;
+    public bool IsAlive = true;
 
 	// Use this for initialization
 	void Start ()
@@ -43,6 +47,8 @@ public class EnemyStateMachine : MonoBehaviour
 	    _waypoints  = GameObject.FindGameObjectsWithTag("Waypoint");
 	    _player     = GameObject.FindGameObjectWithTag("Player");
 	    _pAlive     = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
+	    _animator   = gameObject.GetComponent<Animator>();
+	    _audio      = gameObject.GetComponent<AudioSource>();      
 	    _rigid      = GetComponent<Rigidbody2D>();
         _goal       = new Vector3(0, 0, 0);
 	    _target     = PatrolPath[0].transform.position;
@@ -53,6 +59,7 @@ public class EnemyStateMachine : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+	    if (!IsAlive) return;
         if (!StaticEnemy)
         {
             DecideAction();
@@ -66,8 +73,9 @@ public class EnemyStateMachine : MonoBehaviour
             }
         }
 
-	    _attackTimer += Time.deltaTime;
+        _attackTimer += Time.deltaTime;
         Debug.DrawLine(EnemySightStart.position, EnemySightEnd.position, Color.red);
+	    
 	}
 
     #region Line of Sight
@@ -145,6 +153,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (_attackTimer >= TimeBetweenAttacks && _pAlive.Alive)
         {
             Instantiate(Shot, transform.position, transform.rotation);
+            _audio.PlayOneShot(ShotSound);
             _attackTimer = 0;
         }
     }
@@ -153,6 +162,7 @@ public class EnemyStateMachine : MonoBehaviour
     #region Moving Functions
     void StandStill()
     {
+        _animator.SetBool("Walking", false);
         _rigid.velocity = new Vector2(0, 0);
     }
 
@@ -163,6 +173,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void MoveTowards(Vector3 target)
     {
+        _animator.SetBool("Walking", true);
         LookDirection(target);
         Vector3 moveDirection = target - transform.position;
         Vector3 velocity = moveDirection.normalized * _walkSpeed;
