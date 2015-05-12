@@ -14,6 +14,7 @@ public class TurretScript : MonoBehaviour {
     public int MaxFire = 30;
     private int NumberShots = 0;
 
+    public GameObject Scraps;
     float ShootTimer = 0.1f;
     float Timer;
 	// Use this for initialization
@@ -96,11 +97,17 @@ public class TurretScript : MonoBehaviour {
         Onfire = Fire;
 
     }
-    
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if(coll.gameObject.tag == "Shot1")
+        {
+            Instantiate(Scraps, transform.position, transform.rotation);
+        }
+    }
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
-        
+
         if (RandAmmo >= 75)
         {
 

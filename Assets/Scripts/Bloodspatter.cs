@@ -43,8 +43,9 @@ public class Bloodspatter : MonoBehaviour {
     {
         Destroy(this);
     }
+
 	// Update is called once per frame
 	void Update () {
-        Disappear();
+        //Disappear();
 	}
 }

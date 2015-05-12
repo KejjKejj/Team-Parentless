@@ -85,7 +85,9 @@ public class EnemyStateMachine : MonoBehaviour
             !(Physics2D.Linecast(EnemySightStart.position, target,
                 1 << LayerMask.NameToLayer("FirmWall")) ||
               Physics2D.Linecast(EnemySightStart.position, target,
-                  1 << LayerMask.NameToLayer("SoftWall")));
+                  1 << LayerMask.NameToLayer("SoftWall")) ||
+              Physics2D.Linecast(EnemySightStart.position, target,
+                  1 << LayerMask.NameToLayer("Furniture")));
     }
     #endregion
 
@@ -104,6 +106,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Action()
     {
+        Debug.Log(_state);
         switch (_state)
         {
             case State.STATE_PATROLLING:
@@ -170,12 +173,13 @@ public class EnemyStateMachine : MonoBehaviour
     #region Patrolling Functions
     void Patrol()
     {
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             _target = SelectRandomPatrolNode();
         }
         else
         {
+            if (_rigid.velocity.x == 0) { _target = SelectRandomPatrolNode(); }
             MoveTowards(_target);
         }
     }
@@ -185,7 +189,7 @@ public class EnemyStateMachine : MonoBehaviour
         for (int i = 0; i < PatrolPath.Length; ++i)
         {
             Vector3 node = PatrolPath[Random.Range(0, PatrolPath.Length)].transform.position;
-            if (LineOfSightToTarget(node))
+            if (LineOfSightToTarget(node) && node != _target)
             {
                 return node;
             }
@@ -196,7 +200,7 @@ public class EnemyStateMachine : MonoBehaviour
     void ReturnToPatrolling()
     {
         _goal = PatrolPath[0].transform.position;
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             if (_target == _goal)
             {
@@ -220,11 +224,13 @@ public class EnemyStateMachine : MonoBehaviour
         {
             SetGoalNode(_player.transform.position);
             _chasing = true;
+            Debug.Log(_goal + " GoAL");
         }
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             if (_target == _goal && !LineOfSightToPlayer())
             {
+                Debug.Log(_goal + "Reached");
                 _state = State.STATE_CHASE_ENDED;
                 _chasing = false;
             }
@@ -232,6 +238,7 @@ public class EnemyStateMachine : MonoBehaviour
         }
         else
         {
+            Debug.Log(_target);
             MoveTowards(_target);
         }
     }
@@ -257,8 +264,7 @@ public class EnemyStateMachine : MonoBehaviour
         for (int i = 0; i < _waypoints.Length; ++i)
         {
             Vector3 node = _waypoints[i].transform.position;
-            if (Physics2D.Linecast(transform.position, node, 1 << LayerMask.NameToLayer("FirmWall")) ||
-                Physics2D.Linecast(transform.position, node, 1 << LayerMask.NameToLayer("SoftWall")))
+            if (!LineOfSightToTarget(node))
             {
 
             }
@@ -267,7 +273,6 @@ public class EnemyStateMachine : MonoBehaviour
                 closest = _waypoints[i].transform.position;
             }
         }
-        
         return closest;
     }
     #endregion

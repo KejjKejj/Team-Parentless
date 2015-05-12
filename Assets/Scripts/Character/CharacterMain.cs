@@ -9,6 +9,8 @@ public class CharacterMain : MonoBehaviour {
     public Rigidbody2D charRigid2D;
 
     public bool Alive = true;
+
+    
 	// Use this for initialization
 	void Start () {
         Anim = GetComponent<Animator>();

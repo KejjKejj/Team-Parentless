@@ -41,7 +41,8 @@ public class Movement : CharacterMain
     public GameObject[] Weapons;
     public GameObject SelectedWeapon;
     public GameObject WeaponInstance;
-   
+
+    public bool CheckPoint = false;
 
     public Rigidbody2D ReturnPlayerPos()
     {
@@ -54,6 +55,12 @@ public class Movement : CharacterMain
     void Start()
     {
         charRigid2D = GetComponent<Rigidbody2D>();
+        if(GameObject.Find("CheckPoint").GetComponent<CheckPointZone>().CheckPointEntered)
+        gameObject.GetComponent<Transform>().position = GameObject.Find("CheckPoint").transform.position;
+        else
+        {
+            gameObject.GetComponent<Transform>().position = GameObject.Find("SpawnPoint").transform.position;
+        }
         HitBox = GetComponent<PolygonCollider2D>();
         Anim = GetComponent<Animator>();
         CarryingWeapon = false;

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Diagnostics;
 
 public class MyCamera : MonoBehaviour {
 
@@ -20,6 +19,11 @@ public class MyCamera : MonoBehaviour {
     private float RandR, RandG, RandB;
    Camera back;
 
+    //public Color color1 = Color.yellow;
+    //public Color color2 = Color.red;
+    //public float duration = 1.0f;
+    public Camera camera1;
+
 
    public Color color1 = Color.red;
    public Color color2 = Color.blue;
@@ -28,13 +32,10 @@ public class MyCamera : MonoBehaviour {
     public GUIStyle gui;
     void Start () {
         gameObject.GetComponent<Camera>().orthographicSize = CamSize;
-        back = GetComponent<Camera>();
-        //BackgroundNoise();
-        RandR = Camera.main.backgroundColor.r;
-        RandG = Camera.main.backgroundColor.g;
-        RandB = Camera.main.backgroundColor.b;
-        back = GetComponent<Camera>();
-        back.clearFlags = CameraClearFlags.SolidColor;
+
+        camera1 = gameObject.GetComponent<Camera>();
+	    camera1.clearFlags = CameraClearFlags.SolidColor;
+
     }
 
     int GetHealth()
@@ -139,9 +140,10 @@ public class MyCamera : MonoBehaviour {
 
 	    transform.position = new Vector3(NewCamx, NewCamy, player.z);
 
-        //BackgroundNoise();
-        float t = Mathf.PingPong(Time.time, duration) / duration;
-        back.backgroundColor = Color.Lerp(color1, color2, t);
+
+        var t = Mathf.PingPong(Time.time, duration) / duration;
+        camera1.backgroundColor = Color.Lerp(color1, color2, t);
+
         CameraShake();
 	}
 }
