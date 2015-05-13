@@ -8,7 +8,7 @@ public class BossShot : MonoBehaviour {
     
     public float speed = -1f;
     public float angleshot;
-    
+    public Vector2 dirr;
 	// Use this for initialization
 	void Start () {
         
@@ -27,10 +27,12 @@ public class BossShot : MonoBehaviour {
         }
         if (GetBossState() == 2)
         {
-            Bulletbody2d.velocity = new Vector2(Mathf.Cos(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer + angleshot) * 10,
-                                               Mathf.Sin(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer + angleshot) * 10);
-           
+            Debug.Log(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer);
+            //Bulletbody2d.velocity = new Vector2(Mathf.Cos(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer ) * 5,
+            //                                   Mathf.Sin(GameObject.Find("Boss").GetComponent<BossScript>().BossRottimer ) * 5);
+            Bulletbody2d.velocity = dirr * 4 ;
             
+
         }
 	}
     
@@ -38,6 +40,7 @@ public class BossShot : MonoBehaviour {
     {
         return GameObject.Find("Boss").GetComponent<BossScript>().state;
     }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.transform.tag == "Player")

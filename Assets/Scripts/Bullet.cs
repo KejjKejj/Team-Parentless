@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour {
 	private Rigidbody2D Bulletbody2d = new Rigidbody2D();
 
     public GameObject WallHit;
+    public GameObject BodyHit;
+    public GameObject Blood;
 
     public AudioClip FirmWall;
     public AudioClip Body;
@@ -44,15 +46,17 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        Debug.Log(coll.gameObject.tag);
         if (coll.gameObject.tag == "FirmWall")
         {
             AudioSource.PlayClipAtPoint(FirmWall, transform.position, 0.02f);
-            Instantiate(WallHit, transform.position, Quaternion.identity);
+            Instantiate(WallHit, transform.position, transform.rotation);
         }
         if (coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Boss")
         {
-            AudioSource.PlayClipAtPoint(Body, transform.position, 0.1f);
-            
+            AudioSource.PlayClipAtPoint(Body, transform.position, 0.12f);
+            Instantiate(BodyHit, transform.position, transform.rotation);
+            Instantiate(Blood, transform.position, transform.rotation);
             coll.gameObject.SendMessage("ApplyDamage", damage);
             
         }

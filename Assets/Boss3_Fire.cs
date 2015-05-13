@@ -15,6 +15,7 @@ public class Boss3_Fire : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+        StartCoroutine(Timer(2.0F));
         speed = 10;
         bulletBody = GetComponent<Rigidbody2D>();
         Vector3 PlayerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
@@ -33,14 +34,14 @@ public class Boss3_Fire : MonoBehaviour {
         Transform firebullet = (Transform)Instantiate(fireball, spawnPoint.position, Quaternion.identity);
         firebullet.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
         openFire = false;
-        Timer();
+        Timer(2.0f);
     }
 
-    IEnumerator Timer()
+    IEnumerator Timer(float waitForTime)
     {
         if (openFire == false)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(waitForTime);
             openFire = true;
             //Destroy(gameObject);
         }
@@ -62,6 +63,7 @@ public class Boss3_Fire : MonoBehaviour {
         if (openFire == true)
         {
             Fire();
+            //openFire = false;
         }
 	
 	}

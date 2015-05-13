@@ -95,15 +95,8 @@ public class Boss3Script : MainBossScript {
                     CurWayPoint = Random.Range(0, 3);
                 if (state == 2)
                 {
-                    //if (curTime == 0)
-                    //{
-                    //    curTime = Time.time;
-                    //}
                 
-                        //if ((Time.time - curTime) >= pauseDuration)
-                        //{
                             CurWayPoint++;
-                          //  curTime = 0;
                         //}
                         //if (CurWayPoint <= 7)
                         //{

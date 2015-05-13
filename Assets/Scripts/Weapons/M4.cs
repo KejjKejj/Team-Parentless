@@ -20,17 +20,19 @@ public class M4 : Weapon
     public AudioClip Shell;
     public AudioClip PickUp;
 
+    public GUIStyle GuiFont;
     // Use this for initialization
     void Start()
     {
         FireRate = 0.1f;
         MagSize = 100;
         CurrentAmmo = MagSize;
-        damage = 3;
+        damage = 2;
         Automatic = true;
         AudioSources = GetComponents<AudioSource>();
         Audio1 = AudioSources[0];
         Audio2 = AudioSources[1];
+        gameObject.GetComponent<Weapon>().WeaponId = 2;
     }
 
     void OnTriggerEnter2D(Collider2D collissionobject)
@@ -66,6 +68,7 @@ public class M4 : Weapon
         PickUpDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = true;
         GameObject.Find("Character").GetComponent<Movement>().WeaponDamage = damage;
+        
         Player.CarryingWeapon = true;
         Audio1.PlayOneShot(PickUp);
     }
@@ -75,6 +78,7 @@ public class M4 : Weapon
         IsPickedUp = false;
         DropDelayTimer = 0;
         gameObject.GetComponent<Weapon>().IsPickedUp = false;
+        
         Player.CarryingWeapon = false;
     }
 
@@ -100,7 +104,7 @@ public class M4 : Weapon
     {
         if (IsPickedUp)
         {
-            GUI.TextField(new Rect(100, 570, 100, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString());
+            GUI.TextField(new Rect(130, Screen.height - 20, 180, 20), "Ammo: " + CurrentAmmo.ToString() + " / " + MagSize.ToString(),GuiFont);
         }
     }
 
