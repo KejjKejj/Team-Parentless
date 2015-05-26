@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using System.Collections;
 
 public class Boss2Script : MainBossScript {
@@ -16,7 +16,9 @@ public class Boss2Script : MainBossScript {
     public bool left, right, charge;
     Vector3 upperright,upperleft;
     Vector2 chargedir;
-
+    
+    public GameObject BossShot;
+    GameObject shot;
 	// Use this for initialization
 	void Start () {
         
@@ -28,6 +30,7 @@ public class Boss2Script : MainBossScript {
     void ChargeAttack()
     {
         charge = true;
+
         EnemyRigid2D.velocity = chargedir;
         
         
@@ -38,10 +41,22 @@ public class Boss2Script : MainBossScript {
         if (coll.transform.tag == "FirmWall")
         {
             charge = false;
+            for(int i = 0; i < 20; i++)
+            {
+                shot =  (GameObject)Instantiate(BossShot, transform.position,transform.rotation);
+                shot.GetComponent<Transform>().Rotate(Random.Range(-1f,1f), Random.Range(-1f, 1f), 0.0f);
+               
+                shot.GetComponent<Rigidbody2D>().AddForce(shot.transform.forward * 50000);
+
+               //shot.GetComponent<BossShot>().dirr = Vector2.right;
+               //shot.GetComponent<BossShot>().angleshot = Mathf.PI;
+               //shot.GetComponent<BossShot>().speed = 20;
+            }
+            
         }
         if (coll.transform.tag == "Player")
         {
-            GameObject.Find("Character").SendMessage("ApplyDamage",5);
+            GameObject.Find("Character").SendMessage("ApplyDamage",25);
             charge = false;
 
         }
@@ -131,7 +146,7 @@ public class Boss2Script : MainBossScript {
         Rotate();
         if (Onfire)
         {
-            Health -= 4 * Time.deltaTime;
+            Health -= 7 * Time.deltaTime;
 
         }
 	}

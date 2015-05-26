@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
     public GameObject AmmoCrate;
     public GameObject[] Bloodspatter;
 
+    private Animator _animator;
+    private PolygonCollider2D _collider2D;
+
     private int RandAmmo;
     public float Health = 10;
     public bool Onfire = false;
@@ -14,7 +17,8 @@ public class Enemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        _animator = gameObject.GetComponent<Animator>();
+        _collider2D = gameObject.GetComponent<PolygonCollider2D>();
     }
 
     void ApplyDamage(int damage)
@@ -33,8 +37,10 @@ public class Enemy : MonoBehaviour
     {
         if (Health <= 0)
         {
+            _animator.SetBool("Dead", true);
             GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
-            Destroy(gameObject);
+            gameObject.GetComponent<EnemyStateMachine>().IsAlive = false;
+            _collider2D.enabled = false;
             SpawnCrate();
             SprayBlood();
         }

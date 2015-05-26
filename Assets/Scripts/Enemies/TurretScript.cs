@@ -13,7 +13,10 @@ public class TurretScript : MonoBehaviour {
     public bool Onfire = false;
     public int MaxFire = 30;
     private int NumberShots = 0;
-    
+
+    public GameObject Scraps;
+    float ShootTimer = 0.1f;
+    float Timer;
 	// Use this for initialization
 	void Start () {
         EnemyRigid2D = GetComponent<Rigidbody2D>();
@@ -27,7 +30,13 @@ public class TurretScript : MonoBehaviour {
         !Physics2D.Linecast(transform.position,PlayerPos,1<<LayerMask.NameToLayer("SoftWall")))
         {
             Direction();
-            StartCoroutine(Cooldown());
+            //StartCoroutine(Cooldown());
+            if (Timer >= ShootTimer)
+            {
+                StartCoroutine(Cooldown());
+                Timer = 0;
+            }
+             
         }
         Debug.DrawLine(transform.position,PlayerPos,Color.black);
         
@@ -40,20 +49,29 @@ public class TurretScript : MonoBehaviour {
         
     }
 
+   
+
     IEnumerator Cooldown()
     {
-       
-        if (NumberShots <= MaxFire)
+
+
+        
+
+        if (NumberShots >= MaxFire)
         {
-            Attack();
-            NumberShots++;
+            yield return new WaitForSeconds(2f);
+            NumberShots = 0;
+            
+
+
         }
         else
         {
-            yield return new WaitForSeconds(3);
-            NumberShots = 0;
-            
+            Instantiate(EnemyBullet, transform.position, transform.rotation);
+
         }
+        
+        NumberShots++;
     }
     void Direction()
     {
@@ -79,11 +97,17 @@ public class TurretScript : MonoBehaviour {
         Onfire = Fire;
 
     }
-    
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if(coll.gameObject.tag == "Shot1")
+        {
+            Instantiate(Scraps, transform.position, transform.rotation);
+        }
+    }
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
-        Debug.Log(RandAmmo);
+
         if (RandAmmo >= 75)
         {
 
@@ -99,5 +123,7 @@ public class TurretScript : MonoBehaviour {
             Health -= 4 * Time.deltaTime;
         }
         CheckIfDead();
+        Timer += Time.deltaTime;
+        
 	}
 }

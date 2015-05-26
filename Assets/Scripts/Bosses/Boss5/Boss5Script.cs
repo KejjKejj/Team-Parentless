@@ -8,6 +8,11 @@ public class Boss5Script : MonoBehaviour {
     public GameObject Shield;
     public GameObject Bomb;
     public GameObject Bullet;
+    public GameObject GunFlashLight;
+    public AudioClip MachineGunShot;
+
+    private AudioSource _audioSource;
+    private GameObject _bossZone;
 
     private int Phase = 1;
 
@@ -21,7 +26,8 @@ public class Boss5Script : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-
+	    _bossZone = GameObject.FindGameObjectWithTag("BossZone");
+	    _audioSource = gameObject.GetComponent<AudioSource>();
 	}
 
     public void PhaseOne()
@@ -59,14 +65,26 @@ public class Boss5Script : MonoBehaviour {
     {
         if (FireTimer >= FireRate)
         {
+            GunFlash();
             Instantiate(Bullet,
                 transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, 0), 
                 transform.rotation);
             Instantiate(Bullet,
                 transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, 0),
                 transform.rotation);
+            _audioSource.PlayOneShot(MachineGunShot);
             FireTimer = 0;
         }
+    }
+
+    void GunFlash()
+    {
+        Instantiate(GunFlashLight, 
+            transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 70)) * 1.4f, 0),
+                Quaternion.identity);
+        Instantiate(GunFlashLight,
+                transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, Mathf.Sin(Mathf.Deg2Rad * (transform.localEulerAngles.z + 110)) * 1.4f, 0),
+                transform.rotation);
     }
 
     public void DisableShield()
@@ -85,8 +103,8 @@ public class Boss5Script : MonoBehaviour {
     {
         if (Timer >= 1f)
         {
-            float x = Random.Range(-9.6f, 9.2f);
-            float y = Random.Range(0, 12);
+            float x = Random.Range(-35f, -70f);
+            float y = Random.Range(-7f, 7f);
 
             Instantiate(Bomb, new Vector3(x, y, 0), Quaternion.identity);
 
@@ -97,17 +115,17 @@ public class Boss5Script : MonoBehaviour {
     public void CreateBombs()
     {
         // Bakom vänster vägg
-        Instantiate(Bomb, new Vector3(-9.6f, 1.5f, 0), Quaternion.identity);
-        Instantiate(Bomb, new Vector3(-9.6f, 4f, 0), Quaternion.identity);
+        Instantiate(Bomb, new Vector3(-73f, 1f, 0), Quaternion.identity);
+        Instantiate(Bomb, new Vector3(-73f, -1.2f, 0), Quaternion.identity);
         // Bakom höger vägg
-        Instantiate(Bomb, new Vector3(9.2f, 1.5f, 0), Quaternion.identity);
-        Instantiate(Bomb, new Vector3(9.2f, 4f, 0), Quaternion.identity);
+        Instantiate(Bomb, new Vector3(-33f, 1f, 0), Quaternion.identity);
+        Instantiate(Bomb, new Vector3(-33f, -1.2f, 0), Quaternion.identity);
 
         // Slumpa i rummet
-        for (int i = 0; i < 30; ++i)
+        for (int i = 0; i < 10; ++i)
         {
-            float x = Random.Range(-9.6f, 9.2f);
-            float y = Random.Range(-7, 12);
+            float x = Random.Range(-70f, -35f);
+            float y = Random.Range(-8, 8);
 
             Instantiate(Bomb, new Vector3(x, y, 0), Quaternion.identity);
         }
@@ -130,21 +148,23 @@ public class Boss5Script : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-	    if (Phase == 1)
+	    if (_bossZone.GetComponent<BossZone>().OpenFire && gameObject.GetComponent<MainBossScript>().Health > 0)
 	    {
-	        PhaseOne();
-	        if (gameObject.GetComponent<MainBossScript>().Health <= 20)
+	        if (Phase == 1)
 	        {
-	            Phase = 2;
+	            PhaseOne();
+	            if (gameObject.GetComponent<MainBossScript>().Health <= 20)
+	            {
+	                Phase = 2;
+	            }
+	        }
+
+	        if (Phase == 2)
+	        {
+	            PhaseTwo();
 	        }
 	    }
-
-	    if (Phase == 2)
-	    {
-	        PhaseTwo();
-	    }
-
-	    Timer += Time.deltaTime;
-	    FireTimer += Time.deltaTime;
+        Timer += Time.deltaTime;
+        FireTimer += Time.deltaTime;
     }
 }
