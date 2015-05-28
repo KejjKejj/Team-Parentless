@@ -87,6 +87,7 @@ public class MainBossScript : MonoBehaviour {
         if (GetPlayerInRange() && Health >= 0)
         {
             GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
+            
             GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / HealthNumber), 50), Healthbar);
         }
         Debug.Log(Health);
