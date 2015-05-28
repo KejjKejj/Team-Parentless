@@ -6,20 +6,22 @@ public class Boss4Script : MonoBehaviour {
     public GameObject Boss4Bullet;
     public Transform BossSight, PlayerSight;
     private Rigidbody2D BossRigid2D;
+    private GameObject[] ChasePoints;
     private float timer = 0;
     private float ShotTimer = 0;
 
 	// Use this for initialization
-	void Start ()
+    void Start()
     {
         BossRigid2D = GetComponent<Rigidbody2D>();
-	}
+        ChasePoints = GameObject.FindGameObjectsWithTag("Boss4Points");
+    }
 
-    void Load(float BossX, float BossY)
+    void Load()
     {
-        Vector3 StaticGunPos = GameObject.FindGameObjectWithTag("StaticGun").transform.position;
-        float GunX = StaticGunPos.x - BossX;
-        float GunY = StaticGunPos.y - BossY;
+        Vector3 StaticGunPos = GameObject.Find("Turret").transform.position;
+        float GunX = StaticGunPos.x - transform.position.x;
+        float GunY = StaticGunPos.y - transform.position.y;
         Vector2 TowardsGun = new Vector2(GunX, GunY);
 
         transform.rotation = Quaternion.LookRotation(Vector3.forward, StaticGunPos - new Vector3(BossRigid2D.position.x, BossRigid2D.position.y, 0));
@@ -27,21 +29,30 @@ public class Boss4Script : MonoBehaviour {
         BossRigid2D.velocity = TowardsGun * 1;
     }
 
-    void PickUpAmmo(float BossX, float BossY)
+    void PickUpAmmo()
     {
-        Vector3 Ammocrate = GameObject.FindGameObjectWithTag("Ammocrate").transform.position;
-        float playerx =  Ammocrate.x - BossX;
-        float playery =  Ammocrate.y - BossY;
+        Vector3 Ammocrate = GameObject.FindGameObjectWithTag("AmmoBoxes").transform.position;
+        float playerx =  Ammocrate.x - transform.position.x;
+        float playery =  Ammocrate.y - transform.position.y;
         Vector2 towardsammo = new Vector2(playerx, playery);
 
         BossRigid2D.velocity = towardsammo * 1;
     }
 
-    void RandomSpot(float x, float y)
+    void RandomSpot(float x)
     {
+        Vector3 Waypoint1 = GameObject.Find("BossPoint1").transform.position;
+        Vector3 Waypoint2 = GameObject.Find("BossPoint2").transform.position;
 
-        Vector2 TowardsStandardSpot = new Vector2(x,y);
-        BossRigid2D.velocity = TowardsStandardSpot * 5 * Time.deltaTime;
+        if (x == 1)
+        {
+            Vector2 TowardsPoint1 = new Vector2(Waypoint1.x, Waypoint1.y);
+            BossRigid2D.velocity = TowardsPoint1 * 5 * Time.deltaTime;
+        }
+        else if(x == 0){
+            Vector2 TowardsPoint2 = new Vector2(Waypoint2.x, Waypoint2.y);
+            BossRigid2D.velocity = TowardsPoint2 * 5 * Time.deltaTime;
+        }
     }
 
     void Shot(bool Spotted, bool Hide)
@@ -67,9 +78,8 @@ public class Boss4Script : MonoBehaviour {
 
             if (Spotted && !Hide && timer < 5)
             {
-                float x = Random.Range(-5, 5) - BossRigid2D.position.x;
-                float y = Random.Range(10, 15) - BossRigid2D.position.y;
-                RandomSpot(x, y);
+                float x = Random.Range(0, 1) - BossRigid2D.position.x;
+                RandomSpot(x);
                 Shot(Spotted, Hide);
             }
 
@@ -78,19 +88,18 @@ public class Boss4Script : MonoBehaviour {
                 float BossX = BossRigid2D.position.x;
                 float BossY = BossRigid2D.position.y;
                 Shot(Spotted, Hide);
-                PickUpAmmo(BossX, BossY);
+                PickUpAmmo();
             }
             if (timer > 15 && timer < 22)
             {
                 float BossX = BossRigid2D.position.x;
                 float BossY = BossRigid2D.position.y;
-                Load(BossX, BossY);
+                Load();
             }
             if (timer > 22)
             {
-                float x = Random.Range(-5, 5) - BossRigid2D.position.x;
-                float y = Random.Range(-5, 5) - BossRigid2D.position.y;
-                RandomSpot(x, y);
+                float x = Random.Range(0, 1) - BossRigid2D.position.y;
+                RandomSpot(x);
                 Shot(Spotted, Hide);
             }
             if (timer > 27)
@@ -98,12 +107,14 @@ public class Boss4Script : MonoBehaviour {
         
     }
 
+    protected bool InsideBossRoom() { return GameObject.Find("Boss4Zone").GetComponent<Boss4Zone>().InsideBossRoom; }
 	// Update is called once per frame
 	void Update () 
     {
         Debug.DrawLine(BossSight.position, PlayerSight.position, Color.blue);
         timer += Time.deltaTime;
         ShotTimer += Time.deltaTime;
-        Fight();
+        if(InsideBossRoom())
+            Fight();
 	}
 }

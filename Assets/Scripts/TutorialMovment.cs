@@ -147,18 +147,19 @@ public class TutorialMovment : MonoBehaviour
         if (PlayerInsideRoom4())
         {
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                Shooting4++;
-            }
-            if (Shooting4 >= 5)
-            {
-                RoomFourCompleted = true;
-            }
-            else
-            {
-                RoomFourCompleted = false;
-            }
+            //if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+            //{
+            //    Shooting4++;
+            //}
+            //if (Shooting4 > 5)
+            //{
+            //    RoomFourCompleted = true;
+            //}
+            //else
+            //{
+            //    RoomFourCompleted = false;
+            //}
+            RoomFourCompleted = false;
         }
 
         if (Jumped) // Har man tryckt hoppa

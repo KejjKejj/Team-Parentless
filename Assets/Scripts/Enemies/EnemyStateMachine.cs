@@ -20,10 +20,13 @@ public class EnemyStateMachine : MonoBehaviour
     private GameObject _player;
     private Rigidbody2D _rigid;
     private Movement _pAlive;
+    private Animator _animator;
+    private AudioSource _audio;
 
     public GameObject[] PatrolPath;
     public GameObject Shot;
     public Transform EnemySightStart, EnemySightEnd;
+    public AudioClip ShotSound;
 
     private Vector3 _goal;
     private Vector3 _target;
@@ -32,10 +35,11 @@ public class EnemyStateMachine : MonoBehaviour
 
     private bool _chasing;
     private float _attackTimer;
-    private float _walkSpeed = 5f;
+    public float _walkSpeed = 5f;
 
     public float TimeBetweenAttacks = 1f;
     public bool StaticEnemy;
+    public bool IsAlive = true;
 
 	// Use this for initialization
 	void Start ()
@@ -43,6 +47,8 @@ public class EnemyStateMachine : MonoBehaviour
 	    _waypoints  = GameObject.FindGameObjectsWithTag("Waypoint");
 	    _player     = GameObject.FindGameObjectWithTag("Player");
 	    _pAlive     = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
+	    _animator   = gameObject.GetComponent<Animator>();
+	    _audio      = gameObject.GetComponent<AudioSource>();      
 	    _rigid      = GetComponent<Rigidbody2D>();
         _goal       = new Vector3(0, 0, 0);
 	    _target     = PatrolPath[0].transform.position;
@@ -53,6 +59,7 @@ public class EnemyStateMachine : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+	    if (!IsAlive) return;
         if (!StaticEnemy)
         {
             DecideAction();
@@ -66,8 +73,9 @@ public class EnemyStateMachine : MonoBehaviour
             }
         }
 
-	    _attackTimer += Time.deltaTime;
+        _attackTimer += Time.deltaTime;
         Debug.DrawLine(EnemySightStart.position, EnemySightEnd.position, Color.red);
+	    
 	}
 
     #region Line of Sight
@@ -85,7 +93,9 @@ public class EnemyStateMachine : MonoBehaviour
             !(Physics2D.Linecast(EnemySightStart.position, target,
                 1 << LayerMask.NameToLayer("FirmWall")) ||
               Physics2D.Linecast(EnemySightStart.position, target,
-                  1 << LayerMask.NameToLayer("SoftWall")));
+                  1 << LayerMask.NameToLayer("SoftWall")) ||
+              Physics2D.Linecast(EnemySightStart.position, target,
+                  1 << LayerMask.NameToLayer("Furniture")));
     }
     #endregion
 
@@ -104,6 +114,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Action()
     {
+        Debug.Log(_state);
         switch (_state)
         {
             case State.STATE_PATROLLING:
@@ -142,6 +153,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (_attackTimer >= TimeBetweenAttacks && _pAlive.Alive)
         {
             Instantiate(Shot, transform.position, transform.rotation);
+            _audio.PlayOneShot(ShotSound);
             _attackTimer = 0;
         }
     }
@@ -150,6 +162,7 @@ public class EnemyStateMachine : MonoBehaviour
     #region Moving Functions
     void StandStill()
     {
+        _animator.SetBool("Walking", false);
         _rigid.velocity = new Vector2(0, 0);
     }
 
@@ -160,6 +173,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void MoveTowards(Vector3 target)
     {
+        _animator.SetBool("Walking", true);
         LookDirection(target);
         Vector3 moveDirection = target - transform.position;
         Vector3 velocity = moveDirection.normalized * _walkSpeed;
@@ -170,12 +184,13 @@ public class EnemyStateMachine : MonoBehaviour
     #region Patrolling Functions
     void Patrol()
     {
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             _target = SelectRandomPatrolNode();
         }
         else
         {
+            if (_rigid.velocity.x == 0) { _target = SelectRandomPatrolNode(); }
             MoveTowards(_target);
         }
     }
@@ -185,7 +200,7 @@ public class EnemyStateMachine : MonoBehaviour
         for (int i = 0; i < PatrolPath.Length; ++i)
         {
             Vector3 node = PatrolPath[Random.Range(0, PatrolPath.Length)].transform.position;
-            if (LineOfSightToTarget(node))
+            if (LineOfSightToTarget(node) && node != _target)
             {
                 return node;
             }
@@ -196,7 +211,7 @@ public class EnemyStateMachine : MonoBehaviour
     void ReturnToPatrolling()
     {
         _goal = PatrolPath[0].transform.position;
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             if (_target == _goal)
             {
@@ -220,11 +235,13 @@ public class EnemyStateMachine : MonoBehaviour
         {
             SetGoalNode(_player.transform.position);
             _chasing = true;
+            Debug.Log(_goal + " GoAL");
         }
-        if (Vector3.Distance(transform.position, _target) < 0.5f)
+        if (Vector3.Distance(transform.position, _target) < 0.8f)
         {
             if (_target == _goal && !LineOfSightToPlayer())
             {
+                Debug.Log(_goal + "Reached");
                 _state = State.STATE_CHASE_ENDED;
                 _chasing = false;
             }
@@ -232,6 +249,7 @@ public class EnemyStateMachine : MonoBehaviour
         }
         else
         {
+            Debug.Log(_target);
             MoveTowards(_target);
         }
     }
@@ -257,8 +275,7 @@ public class EnemyStateMachine : MonoBehaviour
         for (int i = 0; i < _waypoints.Length; ++i)
         {
             Vector3 node = _waypoints[i].transform.position;
-            if (Physics2D.Linecast(transform.position, node, 1 << LayerMask.NameToLayer("FirmWall")) ||
-                Physics2D.Linecast(transform.position, node, 1 << LayerMask.NameToLayer("SoftWall")))
+            if (!LineOfSightToTarget(node))
             {
 
             }
@@ -267,7 +284,6 @@ public class EnemyStateMachine : MonoBehaviour
                 closest = _waypoints[i].transform.position;
             }
         }
-        
         return closest;
     }
     #endregion

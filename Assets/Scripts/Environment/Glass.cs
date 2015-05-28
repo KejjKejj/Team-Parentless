@@ -4,8 +4,10 @@ using System.Collections;
 public class Glass : MonoBehaviour
 {
     public AudioClip Shatter;
-    public Sprite Broken;
-
+    //public Sprite Broken;
+    public GameObject GlassShard1;
+    public GameObject GlassShard2;
+    public GameObject GlassShard3;
     private BoxCollider2D GlassCollider;
     private AudioSource Audio;
     
@@ -26,7 +28,13 @@ public class Glass : MonoBehaviour
         if (collisionobject.gameObject.tag == "Shot1")
         {
             Audio.PlayOneShot(Shatter);
-            GetComponent<SpriteRenderer>().sprite = Broken;
+            GetComponent<SpriteRenderer>().enabled = false;
+            for (int i = 0; i < 30; i++)
+            {
+                Instantiate(GlassShard1, transform.position, transform.rotation);
+                Instantiate(GlassShard2, transform.position, transform.rotation);
+                Instantiate(GlassShard3, transform.position, transform.rotation);
+            }
             GlassCollider.enabled = false;
         }
     }
