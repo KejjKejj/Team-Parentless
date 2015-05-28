@@ -6,14 +6,14 @@ public class Boss3Script : MainBossScript {
 
     private Rigidbody2D BossRigidbody2D;
     private Vector3 BossPos;
-    public float Distance;
+    private float Distance;
     public Transform Target;
     private float lookAtDistance = 10.0f;
-    private float attackRange = 5.0f;
-    private float moveSpeed_ = 5.0f;
+    //private float attackRange = 5.0f;
+    //private float moveSpeed_ = 5.0f;
     private float Damping = 6.0f;
 
-    private float patrolSpeed;
+    public float patrolSpeed;
     private int CurWayPoint;
     public bool doPatrol = true;
     public Transform[] patrolWayPoints;
@@ -21,40 +21,31 @@ public class Boss3Script : MainBossScript {
     private Vector3 MoveDirection;
     private Vector3 Velocity;
 
-    public int state = 2;
-    
-
-    //public Transform Enemy;
-    //private bool IsAttacking = false;
-    //public Rigidbody2D bullet;
-    //private Vector3 Distances;
-    //private float DistanceFrom;
-    //public float fireRate = 0.5f;
-    //public float nextFire = 0.0f;
-
+    private int state = 2;
     // Shooting
-    public GameObject bullets;
-    public Rigidbody2D bullet = new Rigidbody2D();
-    public float fireRate = 0.5f;
-    public float DistanceFrom;
+    //public GameObject bullets;
+    //public Rigidbody2D bullet = new Rigidbody2D();
+    private float fireRate = 0.5f;
+    private float DistanceFrom;
     private float timer = 1f;
 
-    private float curTime;
-    public float pauseDuration = 0;
+    //private float curTime;
+    //public float pauseDuration = 0;
 
 
     void Start()
     {
         Health = 100;
         EnemyRigid2D = GetComponent<Rigidbody2D>();
-        bullet = GetComponent<Rigidbody2D>();
+        //bullet = GetComponent<Rigidbody2D>();
         patrolSpeed = 5;
-        //EnemyRigid2D = GetComponent<Rigidbody2D>();Health = 30;
-        //BossRigidbody2D = GetComponent<Rigidbody2D>();
-        //BossPos = new Vector3(BossRigidbody2D.position.y, BossRigidbody2D.position.x, 0);
+        //EnemyRigid2D = GetComponent<Rigidbody2D>();
+        //Health = 30;
+        BossRigidbody2D = GetComponent<Rigidbody2D>();
+        BossPos = new Vector3(BossRigidbody2D.position.y, BossRigidbody2D.position.x, 0);
     }
 
-    void lookAt()
+    void LookAt()
     {
         var rotation = Quaternion.LookRotation(Vector3.forward, Target.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * Damping);
@@ -63,15 +54,15 @@ public class Boss3Script : MainBossScript {
 
 
 
-    void attack()
-    {
-        //transform.Translate(Vector3.forward * moveSpeed_ * Time.deltaTime);
-        if (timer <= 0)
-        {
-            Instantiate(bullet, transform.position, transform.rotation);
-            timer = 1f;
-        }
-    }
+    //void attack()
+    //{
+    //    //transform.Translate(Vector3.forward * moveSpeed_ * Time.deltaTime);
+    //    if (timer <= 0)
+    //    {
+    //        Instantiate(bullet, transform.position, transform.rotation);
+    //        timer = 1f;
+    //    }
+    //}
 
 
 
@@ -146,7 +137,7 @@ public class Boss3Script : MainBossScript {
         if (Distance < lookAtDistance)
         {
             BossRigidbody2D.velocity = new Vector2(Velocity.x, Velocity.y);
-            lookAt();
+            LookAt();
         }
     }
 
@@ -154,7 +145,7 @@ public class Boss3Script : MainBossScript {
     {
         timer -= Time.deltaTime;
         BossMovement();
-        if (Health <= 30)
+        if (Health == 30)
         {
             patrolSpeed = 10;
             //CurWayPoint = 3;
@@ -162,46 +153,4 @@ public class Boss3Script : MainBossScript {
             state = 2;
         }
     }
-
-
-
-
-
-
-
-
-    //public Transform target; // The enemy's target
-    //public Transform myTransform; // Current transform of this enemy
-    //public float moveSpeed = 3; // Move speed
-    //public float rotationSpeed = 3; // Speed of turning
-    //private Vector3 EnemyPos;
-
-    //void awake()
-    //{
-    //    myTransform = transform;
-    //}
-
-    //Rigidbody2D Player = new Rigidbody2D();
-    //Rigidbody2D Boss = new Rigidbody2D();
-    //// Use this for initialization
-    //void Start () 
-    //{
-    //    target = GameObject.FindGameObjectWithTag("Player").transform; // Target the player
-    //}
-
-    //void Direction()
-    //{
-    //    // Rotate to look at the player
-    //    Vector3 PlayerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-    //    Vector3 EnemyPos = GameObject.FindGameObjectWithTag("Boss").transform.position;
-    //    //transform.rotation = Quaternion.LookRotation(Vector3.forward, PlayerPos - EnemyPos);
-    //    //transform.rotation = Quaternion.Slerp(target.rotation, myTransform.rotation, rotationSpeed * Time.deltaTime);
-    //    //transform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(PlayerPos - myTransform.position), 0); //rotationSpeed * Time.deltaTime);
-    //    myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
-    //    myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-    //}
-    //// Update is called once per frame
-    //void Update () {
-    //    Direction();
-    //}
 }
