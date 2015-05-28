@@ -30,13 +30,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     private Vector3 _goal;
     private Vector3 _target;
-    private Vector3 _spawn;
     private State _state;
 
     private bool _chasing;
     private float _attackTimer;
-    public float _walkSpeed = 5f;
 
+    public float WalkSpeed = 5f;
     public float TimeBetweenAttacks = 1f;
     public bool StaticEnemy;
     public bool IsAlive = true;
@@ -52,7 +51,6 @@ public class EnemyStateMachine : MonoBehaviour
 	    _rigid      = GetComponent<Rigidbody2D>();
         _goal       = new Vector3(0, 0, 0);
 	    _target     = PatrolPath[0].transform.position;
-	    _spawn      = transform.position;
         _state      = State.STATE_PATROLLING;
 	}
 	
@@ -114,7 +112,6 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Action()
     {
-        Debug.Log(_state);
         switch (_state)
         {
             case State.STATE_PATROLLING:
@@ -176,7 +173,7 @@ public class EnemyStateMachine : MonoBehaviour
         _animator.SetBool("Walking", true);
         LookDirection(target);
         Vector3 moveDirection = target - transform.position;
-        Vector3 velocity = moveDirection.normalized * _walkSpeed;
+        Vector3 velocity = moveDirection.normalized * WalkSpeed;
         _rigid.velocity = new Vector2(velocity.x, velocity.y);
     }
     #endregion
@@ -215,7 +212,7 @@ public class EnemyStateMachine : MonoBehaviour
         {
             if (_target == _goal)
             {
-                _walkSpeed = 5;
+                WalkSpeed = 5;
                 _state = State.STATE_PATROLLING;
             }
             _target = BestFirstSearchToGoalNode();
@@ -230,7 +227,7 @@ public class EnemyStateMachine : MonoBehaviour
     #region Chasing Functions
     void ChasePlayerToLastSeenPoint()
     {
-        _walkSpeed = 10;
+        WalkSpeed = 10;
         if (!_chasing)
         {
             SetGoalNode(_player.transform.position);

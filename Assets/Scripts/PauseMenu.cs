@@ -41,6 +41,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ToMenuClick()
     {
+        Logger.loggerInstance.ExitSendMessage();
         Time.timeScale = 1;
         Application.LoadLevel(0);
     }

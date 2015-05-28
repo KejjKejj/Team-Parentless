@@ -131,6 +131,7 @@ public class Flamethrower: Weapon
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithFlamethrower += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

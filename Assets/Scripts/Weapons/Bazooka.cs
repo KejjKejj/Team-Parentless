@@ -134,6 +134,7 @@ public class Bazooka : Weapon
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithBazooka += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

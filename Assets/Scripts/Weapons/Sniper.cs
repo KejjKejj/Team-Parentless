@@ -128,6 +128,7 @@ public class Sniper : Weapon {
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithSniper += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
             _collider2D.enabled = false;
             SpawnCrate();
             SprayBlood();
+            Logger.loggerInstance.Kills += 1;
         }
     }
 

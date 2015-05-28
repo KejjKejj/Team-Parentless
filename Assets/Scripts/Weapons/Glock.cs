@@ -137,6 +137,7 @@ public class Glock : Weapon
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithGlock += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

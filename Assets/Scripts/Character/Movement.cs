@@ -167,6 +167,26 @@ public class Movement : CharacterMain
             WeaponInstance.GetComponent<Shotgun>().Player = gameObject.GetComponent<Movement>();
             WeaponInstance.GetComponent<Shotgun>().PickUpWeapon();
         }
+        if (WeaponInstance.GetComponent<Sniper>() != null)
+        {
+            WeaponInstance.GetComponent<Sniper>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<Sniper>().PickUpWeapon();
+        }
+        if (WeaponInstance.GetComponent<SMG>() != null)
+        {
+            WeaponInstance.GetComponent<SMG>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<SMG>().PickUpWeapon();
+        }
+        if (WeaponInstance.GetComponent<Flamethrower>() != null)
+        {
+            WeaponInstance.GetComponent<Flamethrower>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<Flamethrower>().PickUpWeapon();
+        }
+        if (WeaponInstance.GetComponent<Bazooka>() != null)
+        {
+            WeaponInstance.GetComponent<Bazooka>().Player = gameObject.GetComponent<Movement>();
+            WeaponInstance.GetComponent<Bazooka>().PickUpWeapon();
+        }
         PickUpFirstWeapon = false;
     }
 

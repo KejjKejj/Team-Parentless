@@ -129,6 +129,7 @@ public class SMG : Weapon {
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithSMG += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

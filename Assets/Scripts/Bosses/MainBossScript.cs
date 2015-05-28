@@ -109,6 +109,5 @@ public class MainBossScript : MonoBehaviour {
 	void Update () {
         
        
-        Debug.Log(Health);
 	}
 }

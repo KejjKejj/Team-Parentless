@@ -133,6 +133,7 @@ public class Shotgun : Weapon
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithShotgun += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 

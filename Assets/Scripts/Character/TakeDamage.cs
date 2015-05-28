@@ -17,17 +17,14 @@ public class TakeDamage : CharacterMain {
 
      public void CheckIfDead()
     {
-
         if (Health <= 0)
         {
-
-            
-           
             Anim.Play("Death");
             GetComponent<CharacterMain>().Alive = false;
             charRigid2D.velocity = new Vector2(0, 0);
             if (Input.GetKeyDown(KeyCode.R))
             {
+                Logger.loggerInstance.Deaths += 1;
                 Application.LoadLevel(Application.loadedLevel);
             }
             GameObject w = gameObject.GetComponentInChildren<Weapon>().gameObject;

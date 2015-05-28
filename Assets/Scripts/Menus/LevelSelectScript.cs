@@ -7,9 +7,13 @@ public class LevelSelectScript : MonoBehaviour
     private int SaveSlot;
     private int UnlockedLevels;
 
+    public AudioClip Blip;
+    private AudioSource _source;
+
 	// Use this for initialization
 	void Start ()
 	{
+	    _source = gameObject.GetComponent<AudioSource>();
 	    SaveSlot = PlayerPrefs.GetInt("CurrentSaveSlot");
 	    UnlockedLevels = PlayerPrefs.GetInt("Slot" + SaveSlot.ToString() + "UnlockedLevels");
 
@@ -22,17 +26,20 @@ public class LevelSelectScript : MonoBehaviour
 
     public void SelectLevel(int level)
     {
+        _source.PlayOneShot(Blip);
         PlayerPrefs.SetInt("SelectedLevel", level);
         Application.LoadLevel(5);
     }
 
     public void WeaponShopButton()
     {
+        _source.PlayOneShot(Blip);
         Application.LoadLevel(4);
     }
 
     public void ToMainMenu()
     {
+        _source.PlayOneShot(Blip);
         Application.LoadLevel(0);
     }
 }

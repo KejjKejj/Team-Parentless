@@ -131,6 +131,7 @@ public class M4 : Weapon
 
         if (IsPickedUp)
         {
+            Logger.loggerInstance.TimeWithM4 += Time.deltaTime;
             DropDelayTimer += Time.deltaTime;
         }
 
