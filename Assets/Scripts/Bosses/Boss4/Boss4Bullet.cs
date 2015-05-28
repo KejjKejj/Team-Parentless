@@ -40,6 +40,7 @@ public class Boss4Bullet : MonoBehaviour {
 		}
 		if (coll.gameObject.tag == "Player")
 		{
+            GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyDamage", 10);
 			AudioSource.PlayClipAtPoint(Body, transform.position, 0.1f);
 		}
 		Destroy(gameObject); 

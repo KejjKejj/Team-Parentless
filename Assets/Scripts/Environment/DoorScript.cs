@@ -37,6 +37,7 @@ public class DoorScript : MonoBehaviour
     {
         if (collissionobject.gameObject.tag == "Player")
         {
+            
 
             if (Input.GetButton("Interact"))
             {

@@ -1,0 +1,113 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class TutorialDoorTwo : MonoBehaviour
+{
+
+    private bool DoorOpen; // Är dörren öppen?
+    private bool DoorSwinging; // Svänger dörren fortfarande?
+
+    private float ClickDelay; // Timer för att kunna öppna och stänga dörren
+
+    private const float DoorOpenDelay = 0.5f; // Konstanten för att bestämma hur ofta/sällan man kan öppna och stänga dörren
+
+    private const int DoorSwingAngle = 10; // Hur många grader per frame som ska öppnas
+    private const int DoorOpenAngle = 90; // Vinkeln på dörren när den är öppen
+    private const int DoorClosedAngle = 0; // Vinkel på dörren när den är stängd
+
+    private int DoorSwingTimer = 0; // Timer så dörren stannar där den ska
+
+    private BoxCollider2D DoorCollider;
+
+    public GUIStyle gui;
+    public bool ReadyToOpen;
+
+    // Use this for initialization
+    void Start()
+    {
+        DoorCollider = gameObject.GetComponent<BoxCollider2D>();
+    }
+
+    void OnTriggerEnter2D(Collider2D collissionobject)
+    {
+        if (collissionobject.gameObject.tag == "Player")
+        {
+            ReadyToOpen = true;
+        }
+    }
+
+
+
+    protected bool PlayerInsideRoom2() { return GameObject.Find("RoomTwoZone").GetComponent<RoomTwoZone>().InsideRoom2; }
+    protected bool RoomTwoCompleted() { return GameObject.Find("Character").GetComponent<TutorialMovment>().Knifed; }
+
+
+
+    void OnTriggerStay2D(Collider2D collissionobject)
+    {
+
+        if (collissionobject.gameObject.tag == "Player")
+        {
+
+
+            if (Input.GetButton("Interact") && RoomTwoCompleted())
+            {
+
+                if (ClickDelay >= DoorOpenDelay)
+                {
+                    if (DoorOpen)
+                    {
+                        DoorSwinging = true;
+                        DoorOpen = false;
+
+                    }
+                    else
+                    {
+                        DoorSwinging = true;
+                        DoorOpen = true;
+
+                    }
+                    ClickDelay = 0;
+                }
+            }
+        }
+
+    }
+
+    void OnTriggerExit2D(Collider2D collissionobject)
+    {
+        if (collissionobject.gameObject.tag == "Player")
+        {
+            ReadyToOpen = false;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ClickDelay += Time.deltaTime;
+        if (DoorSwinging && DoorOpen)
+        {
+            DoorCollider.enabled = false;
+            DoorSwingTimer += 10;
+            transform.Rotate(new Vector3(0, 0, DoorSwingAngle));
+            if (DoorSwingTimer == DoorOpenAngle)
+            {
+                DoorCollider.enabled = true;
+                DoorSwinging = false;
+            }
+        }
+        if (DoorSwinging && !DoorOpen)
+        {
+            DoorCollider.enabled = false;
+            DoorSwingTimer -= 10;
+            transform.Rotate(new Vector3(0, 0, -DoorSwingAngle));
+            if (DoorSwingTimer == DoorClosedAngle)
+            {
+                DoorCollider.enabled = true;
+                DoorSwinging = false;
+            }
+        }
+
+    }
+}

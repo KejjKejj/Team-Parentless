@@ -23,7 +23,7 @@ public class WeaponSelectScript : MonoBehaviour
     {
         _source.PlayOneShot(Blip);
         PlayerPrefs.SetInt("WeaponSelected", weaponId);
-        Application.LoadLevel(PlayerPrefs.GetInt("SelectedLevel") + 5);
+        Application.LoadLevel(PlayerPrefs.GetInt("SelectedLevel") + 6);
     }
 
     public void LevelSelectClick()

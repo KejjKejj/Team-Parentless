@@ -164,6 +164,7 @@ public class Boss5Script : MonoBehaviour {
 	            PhaseTwo();
 	        }
 	    }
+        gameObject.GetComponent<MainBossScript>().CheckIfDead();
         Timer += Time.deltaTime;
         FireTimer += Time.deltaTime;
     }

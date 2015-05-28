@@ -32,7 +32,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Vector3 _target;
     private State _state;
 
-    private bool _chasing;
+    public bool _chasing;
     private float _attackTimer;
 
     public float WalkSpeed = 5f;
@@ -40,6 +40,9 @@ public class EnemyStateMachine : MonoBehaviour
     public bool StaticEnemy;
     public bool IsAlive = true;
 
+
+
+    public float angle;
 	// Use this for initialization
 	void Start ()
 	{
@@ -84,6 +87,26 @@ public class EnemyStateMachine : MonoBehaviour
             !Physics2D.Linecast(EnemySightStart.position, EnemySightEnd.position, 1 << LayerMask.NameToLayer("FirmWall")) &&
             !Physics2D.Linecast(EnemySightStart.position, EnemySightEnd.position, 1 << LayerMask.NameToLayer("SoftWall"));
     }
+
+    //bool LineOfSightToPlayer()
+    //{
+
+    //    if (Physics2D.Linecast(EnemySightStart.position, EnemySightEnd.position, 1 << LayerMask.NameToLayer("Player")) &&
+    //    !Physics2D.Linecast(EnemySightStart.position, EnemySightEnd.position, 1 << LayerMask.NameToLayer("FirmWall")) &&
+    //    !Physics2D.Linecast(EnemySightStart.position, EnemySightEnd.position, 1 << LayerMask.NameToLayer("SoftWall")))
+    //    {
+            
+    //        angle=Vector2.Angle((EnemySightStart.position-(transform.position+transform.forward)),(EnemySightStart.position - EnemySightEnd.position));
+    //        Debug.DrawLine(EnemySightStart.position, (transform.position + transform.forward), Color.magenta);
+    //        Debug.Log(angle);
+    //        if (angle >= 75)
+    //        {
+                
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
 
     bool LineOfSightToTarget(Vector3 target)
     {

@@ -64,16 +64,18 @@ public class MainBossScript : MonoBehaviour {
         if (Health <= 0)
         {
             Debug.Log("Död!");
-            Destroy(gameObject);
             SprayBlood();
             GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 1000);
-            if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < 2)
+            Debug.Log(PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels"));
+            if (PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels") < (Application.loadedLevel - 5))
             {
-                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", 2);
+                PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "UnlockedLevels", (Application.loadedLevel - 5));
             }
             PlayerPrefs.SetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney",
                                 PlayerPrefs.GetInt("Slot" + PlayerPrefs.GetInt("CurrentSaveSlot").ToString() + "TotalMoney") +
                                 GameObject.FindGameObjectWithTag("Player").GetComponent<ScoreScript>().CurrentScore);
+            Debug.Log("Upplåst");
+            Cursor.visible = true;
             Application.LoadLevel(2);
         }
     }
@@ -87,6 +89,7 @@ public class MainBossScript : MonoBehaviour {
         if (GetPlayerInRange() && Health >= 0)
         {
             GameObject.Find("Progressbar").GetComponent<Renderer>().enabled = true;
+            
             GUI.DrawTexture(new Rect(0, 0, Health * (Screen.width / HealthNumber), 50), Healthbar);
         }
         Debug.Log(Health);

@@ -6,14 +6,18 @@ public class Enemy : MonoBehaviour
     public GameObject Blood;
     public GameObject AmmoCrate;
     public GameObject[] Bloodspatter;
+    public GameObject SmokeCloud;
 
     private Animator _animator;
     private PolygonCollider2D _collider2D;
 
+    public bool Smoke = false;
     private int RandAmmo;
     public float Health = 10;
     public bool Onfire = false;
 
+    public float SmokeTimer = 0;
+    private GameObject Smoke1;
     // Use this for initialization
     void Start()
     {
@@ -40,10 +44,12 @@ public class Enemy : MonoBehaviour
             _animator.SetBool("Dead", true);
             GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyScore", 100);
             gameObject.GetComponent<EnemyStateMachine>().IsAlive = false;
+            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             _collider2D.enabled = false;
             SpawnCrate();
             SprayBlood();
             Logger.loggerInstance.Kills += 1;
+            Smoke = false;
         }
     }
 
@@ -56,7 +62,25 @@ public class Enemy : MonoBehaviour
             Bloodspatter[i] = clone;
         }
     }
+    public void SmokeClouds()
+    {
+        SmokeTimer += Time.deltaTime;
+        if(Smoke)
+        {
+            if (SmokeTimer >= 2)
+            {
+                for (int i = 5000; i <= 10000; i += 1000)
+                {
+                    Smoke1 = (GameObject)Instantiate(SmokeCloud, transform.position, transform.rotation);
+                    Smoke1.GetComponent<Transform>().Rotate(-1, 0, 0);
+                    Smoke1.GetComponent<Rigidbody2D>().AddForce(Smoke1.transform.forward * i);
+                }
+                SmokeTimer = 0;
+            }
+            
+        }
 
+    }
     void SpawnCrate()
     {
         RandAmmo = Random.Range(1, 101);
@@ -72,6 +96,12 @@ public class Enemy : MonoBehaviour
         {
             Health -= 4 * Time.deltaTime;
         }
-
+        if (gameObject.GetComponent<EnemyStateMachine>()._chasing && Application.loadedLevel != 6)
+        {
+            Smoke = false;
+        }
+        
+        
+        SmokeClouds();
     }
 }

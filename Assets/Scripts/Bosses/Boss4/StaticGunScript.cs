@@ -10,9 +10,9 @@ public class StaticGunScript : MonoBehaviour {
     private bool Loaded = false;
     public GameObject Boss4Shot;
 
-    public Sprite Ready;
-    public Sprite Shooting;
-    public Sprite Empty;
+    //public Sprite Ready;
+    //public Sprite Shooting;
+    //public Sprite Empty;
 
 	// Use this for initialization
 	void Start () {
@@ -26,14 +26,14 @@ public class StaticGunScript : MonoBehaviour {
         {
             Loaded = true;
             AmmoTimer = 0;
-            SR.sprite = Ready;
+            //SR.sprite = Ready;
         }
     }
 
 
     void Shot()
     {
-        SR.sprite = Shooting;
+        //SR.sprite = Shooting;
         if (ShotTimer > 0.05)
         {
             Vector3 PlayerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
@@ -45,10 +45,10 @@ public class StaticGunScript : MonoBehaviour {
 
     void Attack()
     {
-        SR.sprite = Empty;
-        if (Loaded && AmmoTimer > 5)
+        //SR.sprite = Empty;
+        if (Loaded && AmmoTimer > 2)
             Shot();
-        if (AmmoTimer > 10)
+        if (AmmoTimer > 7)
             Loaded = false;
 
     }

@@ -142,7 +142,7 @@ public class Boss2Script : MainBossScript {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-       
+        CheckIfDead();
         Rotate();
         if (Onfire)
         {
